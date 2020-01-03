@@ -121,7 +121,7 @@ public class DaoManager {
     }
 
     public SlotDtoDao getSlotDtoDao() throws SQLException {
-        return new SlotDtoDaoImpl(getConnection(), this);
+        return new SlotDtoDaoImpl(getConnection());
     }
 
     /**

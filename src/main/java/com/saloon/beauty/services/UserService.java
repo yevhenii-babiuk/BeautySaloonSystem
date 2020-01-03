@@ -18,9 +18,9 @@ import java.util.Optional;
  * Service class which has methods bound with user operations
  * and DAO
  */
-public class UserService extends Service{
+public class UserService extends Service {
 
-    private static final Logger log = LogManager.getLogger(UserService.class);
+    private static final Logger LOG = LogManager.getLogger(UserService.class);
 
     private DaoManagerFactory daoManagerFactory;
 
@@ -30,11 +30,12 @@ public class UserService extends Service{
 
     /**
      * Creates(saves) a new user.
+     *
      * @param firstName - the user's first name
-     * @param lastName - the user's last name
-     * @param email - the user's e-mail
-     * @param phone - the user's phone number
-     * @param password - the user's password
+     * @param lastName  - the user's last name
+     * @param email     - the user's e-mail
+     * @param phone     - the user's phone number
+     * @param password  - the user's password
      * @return an {@code Optional} with created user if saving
      * was successful or an empty {@code Optional} if it wasn't
      */
@@ -42,16 +43,17 @@ public class UserService extends Service{
                                         String lastName,
                                         String email,
                                         String phone,
-                                        String password) {
+                                        String password,
+                                        String role) {
 
         User user = User.builder()
                 .firstName(firstName)
                 .lastName(lastName)
                 .email(email)
                 .phone(phone)
-                .role(Role.USER)
                 .build();
 
+        user.setRole(Role.valueOf(role));
         user.setPassword(hashPassword(password));
 
         DaoManager daoManager = daoManagerFactory.createDaoManager();
@@ -67,13 +69,15 @@ public class UserService extends Service{
         }
     }
 
+
     /**
      * Gives an {@code Optional} of user with given combination of email & password
-     * @param email - an user's email
+     *
+     * @param email    - an user's email
      * @param password - a user's password
      * @return an {@code Optional} of target user or an empty {@code Optional}
-     *          if there is no user with given combination of email & password
-     *          of if there are exceptions during user getting process
+     * if there is no user with given combination of email & password
+     * of if there are exceptions during user getting process
      */
     public Optional<User> getUserByLoginInfo(String email, String password) {
         //The passwords stored in their hashed version so we need
@@ -90,6 +94,7 @@ public class UserService extends Service{
 
     /**
      * Gives an {@code Optional} of user with given id
+     *
      * @param userId - ID of target user
      * @return an {@code Optional} of target user or an empty {@code Optional}
      * if there are exceptions during user getting process
@@ -102,7 +107,54 @@ public class UserService extends Service{
         return checkAndCastObjectToOptional(executingResult);
     }
 
+    public boolean updateUserData(long userId,
+                                  String email,
+                                  String oldPassword,
+                                  String newPassword,
+                                  String phone,
+                                  String firstName,
+                                  String lastName
+    ) {
+
+
+        User user = User.builder()
+                .firstName(firstName)
+                .lastName(lastName)
+                .email(email)
+                .phone(phone)
+                .build();
+
+        String hashOldPassword = hashPassword(oldPassword);
+        String hashNewPassword = hashPassword(newPassword);
+
+        DaoManager daoManager = daoManagerFactory.createDaoManager();
+
+        Object executionResult = daoManager.executeAndClose(manager -> updateUserDataCommand(manager, user, hashNewPassword, hashOldPassword));
+
+        return checkAndCastExecutingResult(executionResult);
+    }
+
+
     //Commands which is needed to be executed in corresponding public service methods
+    synchronized boolean updateUserDataCommand(DaoManager manager, User user, String newPass, String oldPass) throws SQLException {
+
+        UserDao userDao = manager.getUserDao();
+        Optional<User> findingUser = userDao.getUserByEmailAndPassword(user.getEmail(), oldPass);
+        User updateUser = null;
+        if (findingUser.isPresent()) {
+            updateUser = findingUser.get();
+        } else {
+            return  EXECUTING_FAILED;
+        }
+        user.setId(updateUser.getId());
+        user.setPassword(newPass);
+        user.setRole(updateUser.getRole());
+
+        userDao.update(user);
+
+        return EXECUTING_SUCCESSFUL;
+    }
+
     boolean createNewUserCommand(DaoManager manager, User user) throws SQLException {
 
         UserDao userDao = manager.getUserDao();
@@ -114,9 +166,11 @@ public class UserService extends Service{
         }
     }
 
+
     /**
      * Makes the hashed password for storing hash of the password instead
      * of it's raw version
+     *
      * @param passwordToHash - password which is need to be hashed
      * @return - hashed version of password
      */
@@ -129,7 +183,7 @@ public class UserService extends Service{
             md = MessageDigest.getInstance("SHA-512");
             md.update(salt.getBytes());
         } catch (NoSuchAlgorithmException | NullPointerException e) {
-            log.error("Password hasher can't find hash algorithm", e);
+            LOG.error("Password hasher can't find hash algorithm", e);
         }
 
 

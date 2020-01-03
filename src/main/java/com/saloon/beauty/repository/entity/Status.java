@@ -4,11 +4,6 @@ public enum Status {
 
     FREE,
 
-    IN_PROCESS,
+    BOOKED
 
-    BUSY,
-
-    BOOKED,
-
-    FINISHED
 }

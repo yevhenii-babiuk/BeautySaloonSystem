@@ -20,9 +20,9 @@ public class Slot {
 
     private LocalDate date;
 
-    private LocalTime startDate;
+    private LocalTime startTime;
 
-    private LocalTime endDate;
+    private LocalTime endTime;
 
     private long procedure;
 }

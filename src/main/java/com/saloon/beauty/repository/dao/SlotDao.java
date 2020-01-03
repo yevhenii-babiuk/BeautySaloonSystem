@@ -9,11 +9,15 @@ import java.util.List;
 
 public interface SlotDao extends Dao<Slot>{
 
-    List<Slot> getSlotByDataTime(LocalDate minDate, LocalDate maxDate, LocalTime minTime, LocalTime maxTime);
 
-    List<Slot> getSlotByMaster(String master);
+    long getBooSearchResultCount(long masterId, Status status,
+                                 LocalDate minDate, LocalDate maxDate,
+                                 LocalTime minTime, LocalTime maxTime);
 
-    List<Slot> getSlotByStatus(String status);
+    List<Slot> getAllSlotParameterized(long masterId, Status status,
+                                       LocalDate minDate, LocalDate maxDate,
+                                       LocalTime minTime, LocalTime maxTime,
+                                       int limit, int offset);
 
     void updateSlotStatus(long id, Status status);
 }

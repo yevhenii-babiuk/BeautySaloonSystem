@@ -137,18 +137,18 @@ public class UserDaoImpl implements UserDao {
     public long save(User user) {
 
         try {
-            PreparedStatement preparedStatement = connection
+            PreparedStatement insertStatement = connection
                     .prepareStatement(DBQueries.SAVE_USER_QUERY, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, user.getEmail());
-            preparedStatement.setString(2, user.getPassword());
-            preparedStatement.setString(3, user.getPhone());
-            preparedStatement.setString(4, user.getFirstName());
-            preparedStatement.setString(5, user.getLastName());
-            preparedStatement.setString(6, user.getRole().name());
+            insertStatement.setString(1, user.getEmail());
+            insertStatement.setString(2, user.getPassword());
+            insertStatement.setString(3, user.getPhone());
+            insertStatement.setString(4, user.getFirstName());
+            insertStatement.setString(5, user.getLastName());
+            insertStatement.setString(6, user.getRole().name());
 
-            preparedStatement.executeUpdate();
+            insertStatement.executeUpdate();
 
-            return DBUtils.getIdFromStatement(preparedStatement);
+            return DBUtils.getIdFromStatement(insertStatement);
 
         } catch (SQLException e) {
             if (DBUtils.isTryingToInsertDuplicate(e)) {
@@ -170,10 +170,11 @@ public class UserDaoImpl implements UserDao {
             PreparedStatement updateStatement = connection
                     .prepareStatement(DBQueries.UPDATE_USER_INFO_QUERY);
             updateStatement.setString(1, user.getEmail());
-            updateStatement.setString(2, user.getPhone());
-            updateStatement.setString(3, user.getFirstName());
-            updateStatement.setString(4, user.getLastName());
-            updateStatement.setLong(5, user.getId());
+            updateStatement.setString(2, user.getPassword());
+            updateStatement.setString(3, user.getPhone());
+            updateStatement.setString(4, user.getFirstName());
+            updateStatement.setString(5, user.getLastName());
+            updateStatement.setLong(6, user.getId());
 
             updateStatement.execute();
 
