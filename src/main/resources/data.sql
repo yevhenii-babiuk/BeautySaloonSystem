@@ -17,35 +17,3 @@ VALUES
 ('2020-01-20', '10:00', '11:30', 2, 5, 'BOOKED', 1),
 ('2020-01-20', '12:00', '13:30', 2, NULL, 'FREE', 1),
 ('2020-02-15', '15:00', '16:30', 2, null, 'FREE', 1);
-
-INSERT INTO `beauty_saloon_system`.`feedback` VALUE(NULL, 1, 'Perfect work and perfect master');
-
-SELECT `s`.`date` AS `slot_date`,
-`s`.`start_time` AS `start_time`,
-`s`.`end_time` AS `end_time`,
-`s`.`status` AS `status`,
-`u1`.`email` AS `master_email`,
-`u1`.`phone` AS `master_phone`,
-`u1`.`first_name` AS `master_first_name`,
-`u1`.`last_name` AS `master_last_name`,
-`u2`.`email` AS `user_email`,
-`u2`.`phone` AS `user_phone`,
-`u2`.`first_name` AS `user_first_name`,
-`u2`.`last_name` AS `user_last_name`,
-`pr`.`name` AS `procedure_name`,
-`pr`.`description` AS `procedure_description`,
-`pr`.`price` AS `procedure_price`,
-`f`.`text` AS `feedback_text`
-FROM `beauty_saloon_system`.`slot` AS `s`
-INNER JOIN `beauty_saloon_system`.`user` AS `u1` ON `u1`.`user_id`=`s`.`master`
-LEFT JOIN `beauty_saloon_system`.`user` AS `u2` ON `u2`.`user_id`=`s`.`user`
-INNER JOIN `beauty_saloon_system`.`procedure` AS pr ON `s`.`procedure`=`pr`.`procedure_id`
-LEFT JOIN `beauty_saloon_system`.`feedback` AS `f`  ON `s`.`slot_id`=`f`.`slot`
-WHERE `s`.`slot_id`=4;
-
-SELECT * FROM beauty_saloon_system.slot;
-
-SELECT `feedback_id`, `slot`, `text` FROM `beauty_saloon_system`.`feedback` AS f
-INNER JOIN `beauty_saloon_system`.`slot` AS `sl` ON `f`.`slot`=`sl`.`slot_id` AND `sl`.`master` = 2
-INNER JOIN `beauty_saloon_system`.`slot` AS `sl_pr` ON `f`.`slot`=`sl_pr`.`slot_id` AND `sl_pr`.`procedure` = 1
-INNER JOIN `beauty_saloon_system`.`slot` AS `sl_or` ON `f`.`slot`=`sl_or`.`slot_id` ORDER BY `sl_or`.`date`, `sl_or`.`start_time` DESC;
