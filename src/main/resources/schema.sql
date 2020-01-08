@@ -28,13 +28,14 @@ CREATE TABLE IF NOT EXISTS `slot`(
 `user`INT,
 `status` VARCHAR(20),
 `procedure` INT NOT NULL,
+`feedback_request` BOOL NOT NULL DEFAULT FALSE,
 PRIMARY KEY(`slot_id`));
 
 CREATE TABLE IF NOT EXISTS `procedure`(
 `procedure_id` INT NOT NULL AUTO_INCREMENT,
-`name` VARCHAR(150) NOT NULL,
+`name` VARCHAR(150) NOT NULL UNIQUE,
 `description` LONGTEXT,
-`price` INT,
+`price` INT NOT NULL,
 PRIMARY KEY (`procedure_id`));
 
 ALTER TABLE `beauty_saloon_system`.`slot` 
