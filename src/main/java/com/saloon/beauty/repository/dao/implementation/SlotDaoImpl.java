@@ -26,147 +26,12 @@ public class SlotDaoImpl implements SlotDao {
         this.connection = connection;
     }
 
-    /**
-     * Gives {@code PreparedStatement} depending on data
-     * existence in every of three methods argument
-     * @param masterId - the master'd ID
-     * @param status - the slot status
-     * @param minDate - minimum boundary of searching by date
-     * @param maxDate - maximum boundary of searching by date
-     * @param minTime - minimum boundary of searching by time
-     * @param maxTime - maximum boundary of searching by time
-     * @param limit        the number of loans returned
-     * @param offset       the number of loans returned
-     * @param rowsCounting defines type of result {@code Statement}.
-     *                     If {@code rowsCounting} is {true} statement
-     *                     will return count of all target books.
-     *                     It will return only limited count of books otherwise.
-     * @return - statement for getting books information from DB
-     */
-    private PreparedStatement getPreparedAllSlotStatement(long masterId, Status status,
-                                                          LocalDate minDate, LocalDate maxDate,
-                                                          LocalTime minTime, LocalTime maxTime,
-                                                          int limit, int offset, boolean rowsCounting) throws SQLException {
-
-        StringBuilder queryBuilder = new StringBuilder();
-        boolean anotherParameter = false;
-
-        if (rowsCounting) {
-            queryBuilder.append(DBQueries.ALL_SLOTS_COUNT_QUERY_HEAD_PART);
-        } else {
-            queryBuilder.append(DBQueries.ALL_SLOTS_QUERY_HEAD_PART);
-        }
-
-        if (masterId > 0 || status.equals(Status.FREE) || minDate != null ||
-                maxDate != null || minTime != null || maxTime != null) {
-            queryBuilder.append(" WHERE");
-        }
-
-        if (masterId > 0) {
-            if (anotherParameter) {
-                queryBuilder.append(" AND ");
-            } else {
-                queryBuilder.append(" ");
-            }
-            anotherParameter = true;
-            queryBuilder.append(DBQueries.ALL_SLOTS_QUERY_MASTER_PART);
-
-        }
-
-        if (status.equals(Status.FREE)) {
-            if (anotherParameter) {
-                queryBuilder.append(" AND ");
-            } else {
-                queryBuilder.append(" ");
-            }
-            anotherParameter = true;
-            queryBuilder.append(DBQueries.ALL_SLOTS_QUERY_STATUS_PART);
-        }
-
-        if (minDate != null) {
-            if (anotherParameter) {
-                queryBuilder.append(" AND ");
-            } else {
-                queryBuilder.append(" ");
-            }
-            anotherParameter = true;
-            queryBuilder.append(DBQueries.ALL_SLOTS_QUERY_MIN_DATE_PART);
-        }
-        if (maxDate != null) {
-            if (anotherParameter) {
-                queryBuilder.append(" AND ");
-            } else {
-                queryBuilder.append(" ");
-            }
-            anotherParameter = true;
-            queryBuilder.append(DBQueries.ALL_SLOTS_QUERY_MAX_DATE_PART);
-        }
-
-        if (minTime != null) {
-            if (anotherParameter) {
-                queryBuilder.append(" AND ");
-            } else {
-                queryBuilder.append(" ");
-            }
-            anotherParameter = true;
-            queryBuilder.append(DBQueries.ALL_SLOTS_QUERY_MIN_TIME_PART);
-        }
-        if (maxTime != null) {
-            if (anotherParameter) {
-                queryBuilder.append(" AND ");
-            } else {
-                queryBuilder.append(" ");
-            }
-            queryBuilder.append(DBQueries.ALL_SLOTS_QUERY_MAX_TIME_PART);
-        }
-
-        if (rowsCounting) {
-            queryBuilder.append(" ").append(DBQueries.ALL_SLOTS_COUNT_QUERY_TAIL_PART);
-        } else {
-            queryBuilder.append(" ").append(DBQueries.ALL_SLOTS_QUERY_TAIL_PART);
-        }
-
-        PreparedStatement statement = connection.prepareStatement(queryBuilder.toString());
-
-        int parameterIndex = 1;
-        if (masterId > 0) {
-            statement.setLong(parameterIndex++, masterId);
-        }
-
-        if (status.equals(Status.FREE)) {
-            statement.setString(parameterIndex++, status.name());
-        }
-
-        if (minDate != null) {
-            statement.setDate(parameterIndex++, Date.valueOf(minDate));
-        }
-        if (maxDate != null) {
-            statement.setDate(parameterIndex++, Date.valueOf(maxDate));
-        }
-
-        if (minTime != null) {
-            statement.setTime(parameterIndex++, Time.valueOf(minTime));
-        }
-        if (maxTime != null) {
-            statement.setTime(parameterIndex++, Time.valueOf(maxTime));
-        }
-
-        if (!rowsCounting) {
-            statement.setInt(parameterIndex++, limit);
-            statement.setInt(parameterIndex, offset);
-        }
-
-
-        return statement;
-    }
-
-
     @Override
-    public long getBooSearchResultCount(long masterId, Status status,
-                                        LocalDate minDate, LocalDate maxDate,
-                                        LocalTime minTime, LocalTime maxTime) {
-        try{
-            PreparedStatement statement = getPreparedAllSlotStatement(masterId, status, minDate, maxDate,
+    public long getSlotSearchResultCount(long masterId, Status status, long procedureId,
+                                         LocalDate minDate, LocalDate maxDate,
+                                         LocalTime minTime, LocalTime maxTime) {
+        try {
+            PreparedStatement statement = getPreparedAllSlotStatement(masterId, status, procedureId, minDate, maxDate,
                     minTime, maxTime, Integer.MAX_VALUE, 0, true);
 
             ResultSet rs = statement.executeQuery();
@@ -184,45 +49,93 @@ public class SlotDaoImpl implements SlotDao {
     }
 
     @Override
-    public List<Slot> getAllSlotParameterized(long masterId, Status status,
+    public List<Slot> getAllSlotParameterized(long masterId, Status status, long procedureId,
                                               LocalDate minDate, LocalDate maxDate,
                                               LocalTime minTime, LocalTime maxTime,
                                               int limit, int offset) {
 
-        List<Slot> books = new ArrayList<>();
+        List<Slot> slots = new ArrayList<>();
 
-        try{
-            PreparedStatement statement = getPreparedAllSlotStatement(masterId, status, minDate, maxDate,
+        try {
+            PreparedStatement statement = getPreparedAllSlotStatement(masterId, status, procedureId, minDate, maxDate,
                     minTime, maxTime, limit, offset, false);
 
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
-                books.add(getSlotFromResultRow(rs));
+                slots.add(getSlotFromResultRow(rs));
             }
 
             rs.close();
 
         } catch (SQLException e) {
-            String errorText = "Can't get books list from DB. Cause: " + e.getMessage();
+            String errorText = "Can't get slots list from DB. Cause: " + e.getMessage();
             LOG.error(errorText, e);
             throw new DaoException(errorText, e);
         }
 
-        return books;
+        return slots;
     }
 
     @Override
-    public void updateSlotStatus(long id, Status status) {
+    public List<Slot> getSlotByStatusFeedbackRequest(boolean status) {
+
+        List<Slot> slots = new ArrayList<>();
+
+        try {
+            PreparedStatement statement = connection
+                    .prepareStatement(DBQueries.GET_SLOT_BY_FEEDBACK_REQUEST_STATUS_QUERY);
+            statement.setBoolean(1, status);
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                slots.add(getSlotFromResultRow(rs));
+            }
+
+            rs.close();
+
+        } catch (SQLException e) {
+            String errorText = "Can't get slots list from DB by feedback request status . Cause: " + e.getMessage();
+            LOG.error(errorText, e);
+            throw new DaoException(errorText, e);
+        }
+        return slots;
+    }
+
+    @Override
+    public void updateSlotStatus(long id, Status status, long userId) {
         try {
             PreparedStatement updateStatement = connection.prepareStatement(DBQueries.UPDATE_SLOT_STATUS_QUERY);
             updateStatement.setString(1, status.name());
-            updateStatement.setLong(2, id);
+            if (userId == 0) {
+                updateStatement.setNull(2, Types.INTEGER);
+            } else {
+                updateStatement.setLong(2, userId);
+            }
+            updateStatement.setLong(3, id);
 
             updateStatement.execute();
 
         } catch (SQLException e) {
             String errorText = String.format("Can't update slot status. User id: %s. Cause: %s", id, e.getMessage());
+            LOG.error(errorText, e);
+            throw new DaoException(errorText, e);
+        }
+    }
+
+    @Override
+    public void updateFeedbackRequestStatus(long slotId, boolean status) {
+        try {
+            PreparedStatement updateStatement = connection
+                    .prepareStatement(DBQueries.UPDATE_SLOT_FEEDBACK_REQUEST_STATUS_QUERY);
+            updateStatement.setBoolean(1, status);
+            updateStatement.setLong(2, slotId);
+
+            updateStatement.execute();
+
+        } catch (SQLException e) {
+            String errorText = String.format("Can't update slot feedback request status: %s. Slot id: %s Cause: %s", status, slotId, e.getMessage());
             LOG.error(errorText, e);
             throw new DaoException(errorText, e);
         }
@@ -285,7 +198,11 @@ public class SlotDaoImpl implements SlotDao {
             insertStatement.setTime(2, Time.valueOf(slot.getStartTime()));
             insertStatement.setTime(3, Time.valueOf(slot.getEndTime()));
             insertStatement.setLong(4, slot.getMaster());
-            insertStatement.setLong(5, slot.getUser());
+            if (slot.getUser() == 0) {
+                insertStatement.setNull(5, Types.INTEGER);
+            } else {
+                insertStatement.setLong(5, slot.getUser());
+            }
             insertStatement.setString(6, slot.getStatus().name());
             insertStatement.setLong(7, slot.getProcedure());
 
@@ -317,6 +234,7 @@ public class SlotDaoImpl implements SlotDao {
             updateStatement.setString(6, slot.getStatus().name());
             updateStatement.setLong(7, slot.getProcedure());
             updateStatement.setLong(8, slot.getId());
+            updateStatement.setBoolean(9, slot.isFeedbackRequest());
 
             updateStatement.execute();
 
@@ -344,6 +262,156 @@ public class SlotDaoImpl implements SlotDao {
     }
 
     /**
+     * Gives {@code PreparedStatement} depending on data
+     * existence in every of three methods argument
+     *
+     * @param masterId     - the master'd ID
+     * @param status       - the slot status
+     * @param minDate      - minimum boundary of searching by date
+     * @param maxDate      - maximum boundary of searching by date
+     * @param minTime      - minimum boundary of searching by time
+     * @param maxTime      - maximum boundary of searching by time
+     * @param limit        the number of loans returned
+     * @param offset       the number of loans returned
+     * @param rowsCounting defines type of result {@code Statement}.
+     *                     If {@code rowsCounting} is {true} statement
+     *                     will return count of all target slots.
+     *                     It will return only limited count of slots otherwise.
+     * @return - statement for getting slots information from DB
+     */
+    private PreparedStatement getPreparedAllSlotStatement(long masterId, Status status, long procedureId,
+                                                          LocalDate minDate, LocalDate maxDate,
+                                                          LocalTime minTime, LocalTime maxTime,
+                                                          int limit, int offset, boolean rowsCounting) throws SQLException {
+
+        StringBuilder queryBuilder = new StringBuilder();
+        boolean anotherParameter = false;
+
+        if (rowsCounting) {
+            queryBuilder.append(DBQueries.ALL_SLOTS_COUNT_QUERY_HEAD_PART);
+        } else {
+            queryBuilder.append(DBQueries.ALL_SLOTS_QUERY_HEAD_PART);
+        }
+
+        if (masterId > 0 || status != null  || procedureId > 0 || minDate != null ||
+                maxDate != null || minTime != null || maxTime != null) {
+            queryBuilder.append(" WHERE");
+        }
+
+        if (masterId > 0) {
+            if (anotherParameter) {
+                queryBuilder.append(" AND ");
+            } else {
+                queryBuilder.append(" ");
+            }
+            anotherParameter = true;
+            queryBuilder.append(DBQueries.ALL_SLOTS_QUERY_MASTER_PART);
+
+        }
+
+        if (status != null && status.equals(Status.BOOKED)) {
+            if (anotherParameter) {
+                queryBuilder.append(" AND ");
+            } else {
+                queryBuilder.append(" ");
+            }
+            anotherParameter = true;
+            queryBuilder.append(DBQueries.ALL_SLOTS_QUERY_STATUS_PART);
+        }
+
+        if(procedureId>0){
+            if (anotherParameter) {
+                queryBuilder.append(" AND ");
+            } else {
+                queryBuilder.append(" ");
+            }
+            queryBuilder.append(DBQueries.ALL_SLOTS_QUERY_PROCEDURE_PART);
+        }
+
+        if (minDate != null) {
+            if (anotherParameter) {
+                queryBuilder.append(" AND ");
+            } else {
+                queryBuilder.append(" ");
+            }
+            anotherParameter = true;
+            queryBuilder.append(DBQueries.ALL_SLOTS_QUERY_MIN_DATE_PART);
+        }
+        if (maxDate != null) {
+            if (anotherParameter) {
+                queryBuilder.append(" AND ");
+            } else {
+                queryBuilder.append(" ");
+            }
+            anotherParameter = true;
+            queryBuilder.append(DBQueries.ALL_SLOTS_QUERY_MAX_DATE_PART);
+        }
+
+        if (minTime != null) {
+            if (anotherParameter) {
+                queryBuilder.append(" AND ");
+            } else {
+                queryBuilder.append(" ");
+            }
+            anotherParameter = true;
+            queryBuilder.append(DBQueries.ALL_SLOTS_QUERY_MIN_TIME_PART);
+        }
+        if (maxTime != null) {
+            if (anotherParameter) {
+                queryBuilder.append(" AND ");
+            } else {
+                queryBuilder.append(" ");
+            }
+            queryBuilder.append(DBQueries.ALL_SLOTS_QUERY_MAX_TIME_PART);
+        }
+
+        if (rowsCounting) {
+            queryBuilder.append(" ").append(DBQueries.ALL_SLOTS_COUNT_QUERY_TAIL_PART);
+        } else {
+            queryBuilder.append(" ").append(DBQueries.ALL_SLOTS_QUERY_TAIL_PART);
+        }
+
+        PreparedStatement statement = connection.prepareStatement(queryBuilder.toString());
+
+        int parameterIndex = 1;
+        if (masterId > 0) {
+            statement.setLong(parameterIndex++, masterId);
+        }
+
+        if (status != null && status.equals(Status.BOOKED)) {
+            statement.setString(parameterIndex++, status.name());
+        }
+
+        if(procedureId>0){
+            statement.setLong(parameterIndex++, procedureId);
+        }
+
+        if (minDate != null) {
+            statement.setDate(parameterIndex++, Date.valueOf(minDate));
+        }
+        if (maxDate != null) {
+            statement.setDate(parameterIndex++, Date.valueOf(maxDate));
+        }
+
+        if (minTime != null) {
+            statement.setTime(parameterIndex++, Time.valueOf(minTime));
+        }
+        if (maxTime != null) {
+            statement.setTime(parameterIndex++, Time.valueOf(maxTime));
+        }
+
+        if (!rowsCounting) {
+            statement.setInt(parameterIndex++, limit);
+            statement.setInt(parameterIndex, offset);
+        }
+
+
+        return statement;
+    }
+
+
+
+    /**
      * Creates an slot from given {@code ResultSet}
      *
      * @param resultSet - {@code ResultSet} with slot data
@@ -361,6 +429,7 @@ public class SlotDaoImpl implements SlotDao {
                 .user(resultSet.getLong("user"))
                 .status(Status.valueOf(resultSet.getString("status")))
                 .procedure(resultSet.getLong("procedure"))
+                .feedbackRequest(resultSet.getBoolean("feedback_request"))
                 .build();
     }
 }

@@ -25,4 +25,6 @@ public class Slot {
     private LocalTime endTime;
 
     private long procedure;
+
+    private boolean feedbackRequest;
 }

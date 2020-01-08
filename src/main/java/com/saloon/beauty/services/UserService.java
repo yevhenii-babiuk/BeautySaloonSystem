@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -36,6 +37,7 @@ public class UserService extends Service {
      * @param email     - the user's e-mail
      * @param phone     - the user's phone number
      * @param password  - the user's password
+     * @param role - the user's role
      * @return an {@code Optional} with created user if saving
      * was successful or an empty {@code Optional} if it wasn't
      */
@@ -107,8 +109,19 @@ public class UserService extends Service {
         return checkAndCastObjectToOptional(executingResult);
     }
 
-    public boolean updateUserData(long userId,
-                                  String email,
+    /**
+     * Creates(saves) a new user.
+     *
+     * @param firstName   - the user's first name
+     * @param lastName    - the user's last name
+     * @param email       - the user's e-mail
+     * @param phone       - the user's phone number
+     * @param oldPassword - the user's old password
+     * @param newPassword - the user's new password
+     * @return an {@code Optional} with created user if saving
+     * was successful or an empty {@code Optional} if it wasn't
+     */
+    public boolean updateUserData(String email,
                                   String oldPassword,
                                   String newPassword,
                                   String phone,
@@ -133,6 +146,15 @@ public class UserService extends Service {
 
         return checkAndCastExecutingResult(executionResult);
     }
+
+    public List<User> getAllMasters(){
+        DaoManager daoManager = daoManagerFactory.createDaoManager();
+
+        Object executionResult = daoManager.executeAndClose(this::getAllMastersCommand);
+
+        return checkAndCastObjectToList(executionResult);
+    }
+
 
 
     //Commands which is needed to be executed in corresponding public service methods
@@ -164,6 +186,10 @@ public class UserService extends Service {
         } else {
             return EXECUTING_FAILED;
         }
+    }
+
+    List<User> getAllMastersCommand(DaoManager manager) throws SQLException {
+        return manager.getUserDao().getUserByRole(Role.MASTER);
     }
 
 

@@ -50,6 +50,9 @@ public class ServiceFactory {
 
 
         services.put("com.library.services.UserService", new UserService(managerFactory));
+        services.put("com.library.services.SlotService", new SlotService(managerFactory));
+        services.put("com.library.services.FeedbackService", new FeedbackService(managerFactory));
+        services.put("com.library.services.ProcedureService", new ProcedureService(managerFactory));
 
         return services;
     }

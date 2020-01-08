@@ -63,10 +63,11 @@ public class SlotDtoDaoImpl implements SlotDtoDao {
                 .startTime(resultSet.getObject("start_time", LocalTime.class))
                 .endTime(resultSet.getObject("end_time", LocalTime.class))
                 .status(Status.valueOf(resultSet.getString("status")))
+                .feedbackRequest(resultSet.getBoolean("feedback_request"))
                 .build();
 
         Feedback feedback = Feedback.builder()
-                .text(resultSet.getString("text"))
+                .text(resultSet.getString("feedback_text"))
                 .build();
 
         User master = User.builder()

@@ -7,7 +7,10 @@ import java.util.Optional;
 
 public interface FeedbackDao extends Dao<Feedback>{
 
-    List<Feedback> getFeedbackByMaster(String master, int limit, int offset);
-
     Optional<Feedback> getFeedbackBySlot(long id);
+
+    List<Feedback> getAllFeedbackParameterized(long masterId, long procedureId,
+                                               int limit, int offset);
+
+    long getFeedbackSearchResultCount(long masterId, long procedureId);
 }

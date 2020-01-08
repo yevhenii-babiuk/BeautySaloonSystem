@@ -50,6 +50,32 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+    @Override
+    public List<User> getUserByRole(Role role) {
+        List<User> users = new ArrayList<>();
+
+        try {
+            PreparedStatement selectStatement = connection
+                    .prepareStatement(DBQueries.GET_USERS_BY_ROLE_QUERY);
+            selectStatement.setString(1, role.name());
+
+            ResultSet resultSet = selectStatement.executeQuery();
+
+            while (resultSet.next()) {
+                users.add(getUserFromResultRow(resultSet));
+            }
+
+            resultSet.close();
+
+        } catch (SQLException e) {
+            String errorText = "Can't get users list from DB by role. Cause: " + e.getMessage();
+            LOG.error(errorText, e);
+            throw new DaoException(errorText, e);
+        }
+
+        return users;
+    }
+
     /**
      * {@inheritDoc}
      */
