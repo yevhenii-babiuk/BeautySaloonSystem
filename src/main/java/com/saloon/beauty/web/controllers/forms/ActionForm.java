@@ -4,6 +4,10 @@ import com.saloon.beauty.web.controllers.ActionErrors;
 import lombok.NoArgsConstructor;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -56,6 +60,8 @@ public abstract class ActionForm {
         }
     }
 
+
+
     /**
      * Gives an converted to {@coed Long} parameter or attribute from
      * request by property name. It seeks property firstly in request's
@@ -83,6 +89,29 @@ public abstract class ActionForm {
             } else {
                 return 0L;
             }
+        }
+    }
+
+
+    LocalDate getDatePropertyFromRequest(HttpServletRequest request, String propertyName) {
+        String parameter = request.getParameter(propertyName);
+        if (parameter == null){
+            return null;
+        }
+        else {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            return LocalDate.parse(parameter.trim(), formatter);
+        }
+    }
+
+    LocalTime getTimePropertyFromRequest(HttpServletRequest request, String propertyName) {
+        String parameter = request.getParameter(propertyName);
+        if (parameter == null){
+            return null;
+        }
+        else {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+            return LocalTime.parse(parameter.trim(), formatter);
         }
     }
 }
