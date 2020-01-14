@@ -4,7 +4,6 @@ import com.saloon.beauty.web.controllers.ActionErrors;
 import lombok.NoArgsConstructor;
 
 import javax.servlet.http.HttpServletRequest;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -95,7 +94,7 @@ public abstract class ActionForm {
 
     LocalDate getDatePropertyFromRequest(HttpServletRequest request, String propertyName) {
         String parameter = request.getParameter(propertyName);
-        if (parameter == null){
+        if (parameter == ""){
             return null;
         }
         else {
@@ -106,7 +105,7 @@ public abstract class ActionForm {
 
     LocalTime getTimePropertyFromRequest(HttpServletRequest request, String propertyName) {
         String parameter = request.getParameter(propertyName);
-        if (parameter == null){
+        if (parameter == ""){
             return null;
         }
         else {

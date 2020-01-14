@@ -46,31 +46,48 @@ public class DBQueries {
     static final String ALL_FEEDBACK_QUERY_TAIL_PART = "INNER JOIN `beauty_saloon_system`.`slot` AS `sl_or` ON `f`.`slot`=`sl_or`.`slot_id` \n" +
             "ORDER BY `sl_or`.`date`, `sl_or`.`start_time` DESC LIMIT ? OFFSET ?;";
 
-    static final String GET_PROCEDURE_BY_NAME_QUERY = "SELECT * FROM beauty_saloon_system.procedure WHERE name = ?;";
-    static final String GET_PROCEDURE_PRICE_BY_NAME_QUERY = "SELECT price FROM beauty_saloon_system.procedure WHERE name = ?;";
-    static final String GET_PROCEDURE_DESCRIPTION_BY_NAME_QUERY = "SELECT description FROM beauty_saloon_system.procedure WHERE name = ?;";
-    static final String GET_PROCEDURE_QUERY = "SELECT * FROM beauty_saloon_system.procedure WHERE procedure_id = ?;";
-    static final String GET_ALL_PROCEDURES_QUERY = "SELECT * FROM beauty_saloon_system.procedure;";
-    static final String SAVE_PROCEDURE_QUERY = "INSERT INTO beauty_saloon_system.procedure (name, description, price) VALUES (?, ?, ?);";
-    static final String UPDATE_PROCEDURE_INFO_QUERY = "UPDATE beauty_saloon_system.procedure SET " +
-            "name = ?," +
-            "description = ?" +
+    static final String GET_PROCEDURE_BY_NAME_QUERY = "SELECT * FROM `beauty_saloon_system`.`procedure` \n" +
+            "WHERE name_ukr = ?" +
+            "OR name_en = ?" +
+            "OR name_rus;";
+    static final String GET_PROCEDURE_PRICE_BY_NAME_QUERY = "SELECT price FROM `beauty_saloon_system`.`procedure` " +
+            "WHERE name_ukr = ?" +
+            "OR name_en = ?" +
+            "OR name_rus;";
+    static final String GET_PROCEDURE_DESCRIPTION_BY_NAME_QUERY = "SELECT description_ukr, description_en, description_rus \n " +
+            "FROM `beauty_saloon_system`.`procedure` \n" +
+            "WHERE name_ukr = ?" +
+            "OR name_en = ?" +
+            "OR name_rus;";
+    static final String GET_PROCEDURE_QUERY = "SELECT * FROM `beauty_saloon_system`.`procedure` WHERE procedure_id = ?;";
+    static final String GET_ALL_PROCEDURES_QUERY = "SELECT * FROM `beauty_saloon_system`.`procedure`;";
+    static final String SAVE_PROCEDURE_QUERY = "INSERT INTO `beauty_saloon_system`.`procedure` (name_ukr, description_ukr, name_en, description_en, name_rus, description_rus, price) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?);";
+    static final String UPDATE_PROCEDURE_INFO_QUERY = "UPDATE `beauty_saloon_system`.`procedure` SET " +
+            "name_ukr = ?," +
+            "description_ukr = ?" +
+            "name_en = ?," +
+            "description_en = ?" +
+            "name_rus = ?," +
+            "description_rus = ?" +
             "price = ?" +
             "WHERE procedure_id = ?;";
-    static final String  DELETE_PROCEDURE_QUERY = "DELETE FROM beauty_saloon_system.procedure WHERE procedure_id = ?;";
+    static final String  DELETE_PROCEDURE_QUERY = "DELETE FROM `beauty_saloon_system`.`procedure` WHERE procedure_id = ?;";
 
     static final String ALL_SLOTS_COUNT_QUERY_HEAD_PART = "SELECT COUNT(*) FROM `beauty_saloon_system`.`slot` ";
     static final String ALL_SLOTS_QUERY_HEAD_PART = "SELECT * FROM `beauty_saloon_system`.`slot` ";
     static final String ALL_SLOTS_QUERY_MASTER_PART = "`master` = ?";
-    static final String ALL_SLOTS_QUERY_STATUS_PART = "`status` = 'FREE'";
+    static final String ALL_SLOTS_QUERY_STATUS_PART = "`status` = ?";
     static final String ALL_SLOTS_QUERY_PROCEDURE_PART = "`procedure` = ?";
+    static final String ALL_SLOTS_QUERY_USER_PART = "`user` = ?";
     static final String ALL_SLOTS_QUERY_MIN_DATE_PART = "`date` >= ?";
     static final String ALL_SLOTS_QUERY_MAX_DATE_PART = "`date` <= ?";
-    static final String ALL_SLOTS_QUERY_MIN_TIME_PART = "`start_time` >=";
-    static final String ALL_SLOTS_QUERY_MAX_TIME_PART = "`start_time` <=";
-    static final String ALL_SLOTS_QUERY_TAIL_PART = "ORDER BY `date`, `start_time` DESC LIMIT ? OFFSET ?;";
-    static final String ALL_SLOTS_COUNT_QUERY_TAIL_PART = "ORDER BY `date`, `start_time` DESC;";
+    static final String ALL_SLOTS_QUERY_MIN_TIME_PART = "`start_time` >= ?";
+    static final String ALL_SLOTS_QUERY_MAX_TIME_PART = "`start_time` <= ?";
+    static final String ALL_SLOTS_QUERY_TAIL_PART = "ORDER BY `date` DESC, `start_time` ASC LIMIT ? OFFSET ?;";
+    static final String ALL_SLOTS_COUNT_QUERY_TAIL_PART = "ORDER BY `date` DESC, `start_time` ASC;";
 
+    static final String GET_SLOT_BY_USER_ID_QUERY = "SELECT * FROM `beauty_saloon_system`.`slot` WHERE `user` = ?;";
     static final String UPDATE_SLOT_STATUS_QUERY = "UPDATE `beauty_saloon_system`.`slot` SET " +
             "`status` = ?, " +
             "`user` = ? " +
@@ -93,7 +110,8 @@ public class DBQueries {
     static final String UPDATE_SLOT_FEEDBACK_REQUEST_STATUS_QUERY = "UPDATE beauty_saloon_system.slot SET feedback_request = ? WHERE slot_id = ?;";
     static final String GET_SLOT_BY_FEEDBACK_REQUEST_STATUS_QUERY = "SELECT * FROM beauty_saloon_system.slot WHERE feedback_request = ?;";
 
-    static final String GET_FULL_INFORMATION_ABOUT_SLOT_QUERY = "SELECT `s`.`date` AS `slot_date`,\n" +
+    static final String GET_FULL_INFORMATION_ABOUT_SLOT_QUERY = "SELECT `s`.`slot_id` AS `slot_id`, \n" +
+            "`s`.`date` AS `slot_date`,\n" +
             "`s`.`start_time` AS `start_time`,\n" +
             "`s`.`end_time` AS `end_time`,\n" +
             "`s`.`status` AS `status`,\n" +
@@ -106,8 +124,12 @@ public class DBQueries {
             "`u2`.`phone` AS `user_phone`,\n" +
             "`u2`.`first_name` AS `user_first_name`,\n" +
             "`u2`.`last_name` AS `user_last_name`,\n" +
-            "`pr`.`name` AS `procedure_name`,\n" +
-            "`pr`.`description` AS `procedure_description`,\n" +
+            "`pr`.`name_ukr` AS `name_ukr`,\n" +
+            "`pr`.`description_ukr` AS `description_ukr`,\n" +
+            "`pr`.`name_rus` AS `name_rus`,\n" +
+            "`pr`.`description_rus` AS `description_rus`,\n" +
+            "`pr`.`name_en` AS `name_en`,\n" +
+            "`pr`.`description_en` AS `description_en`,\n" +
             "`pr`.`price` AS `procedure_price`,\n" +
             "`f`.`text` AS `feedback_text`\n" +
             "FROM `beauty_saloon_system`.`slot` AS `s`\n" +

@@ -3,15 +3,13 @@ package com.saloon.beauty.repository.dao.implementation;
 import com.saloon.beauty.repository.DBUtils;
 import com.saloon.beauty.repository.DaoException;
 import com.saloon.beauty.repository.dao.ProcedureDao;
-import com.saloon.beauty.repository.entity.Feedback;
+
 import com.saloon.beauty.repository.entity.Procedure;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class ProcedureDaoImpl implements ProcedureDao {
 
@@ -28,6 +26,8 @@ public class ProcedureDaoImpl implements ProcedureDao {
         try {
             PreparedStatement statement = connection.prepareStatement(DBQueries.GET_PROCEDURE_BY_NAME_QUERY);
             statement.setString(1, name);
+            statement.setString(2, name);
+            statement.setString(3, name);
 
             ResultSet rs = statement.executeQuery();
 
@@ -50,6 +50,8 @@ public class ProcedureDaoImpl implements ProcedureDao {
         try {
             PreparedStatement statement = connection.prepareStatement(DBQueries.GET_PROCEDURE_PRICE_BY_NAME_QUERY);
             statement.setString(1, name);
+            statement.setString(2, name);
+            statement.setString(3, name);
 
             ResultSet rs = statement.executeQuery();
 
@@ -68,18 +70,24 @@ public class ProcedureDaoImpl implements ProcedureDao {
     }
 
     @Override
-    public String getDescriptionByName(String name) {
+    public Map<String, String> getDescriptionByName(String name) {
+        Map<String, String> descriptions = new HashMap<>();
         try {
             PreparedStatement statement = connection.prepareStatement(DBQueries.GET_PROCEDURE_DESCRIPTION_BY_NAME_QUERY);
             statement.setString(1, name);
+            statement.setString(2, name);
+            statement.setString(3, name);
 
-            ResultSet rs = statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery();
 
-            if (rs.next()) {
-                return rs.getString(1);
-            } else {
-                return null;
+            while (resultSet.next()) {
+
+                descriptions.put("UKR", resultSet.getString("description_ukr"));
+                descriptions.put("RUS", resultSet.getString("description_rus"));
+                descriptions.put("EN", resultSet.getString("description_en"));
             }
+
+            resultSet.close();
 
 
         } catch (SQLException e) {
@@ -87,6 +95,7 @@ public class ProcedureDaoImpl implements ProcedureDao {
             LOG.error(errorText, e);
             throw new DaoException(errorText, e);
         }
+        return descriptions;
     }
 
     @Override
@@ -141,9 +150,13 @@ public class ProcedureDaoImpl implements ProcedureDao {
         try {
             PreparedStatement saveStatement = connection
                     .prepareStatement(DBQueries.SAVE_PROCEDURE_QUERY, Statement.RETURN_GENERATED_KEYS);
-            saveStatement.setString(1, procedure.getName());
-            saveStatement.setString(2, procedure.getDescription());
-            saveStatement.setInt(3,procedure.getPrice());
+            saveStatement.setString(1, procedure.getNameUkr());
+            saveStatement.setString(2, procedure.getDescriptionUkr());
+            saveStatement.setString(3, procedure.getNameEn());
+            saveStatement.setString(4, procedure.getDescriptionEn());
+            saveStatement.setString(5, procedure.getNameRus());
+            saveStatement.setString(6, procedure.getDescriptionRus());
+            saveStatement.setInt(7,procedure.getPrice());
 
             saveStatement.executeUpdate();
 
@@ -165,10 +178,14 @@ public class ProcedureDaoImpl implements ProcedureDao {
         try {
             PreparedStatement updateStatement = connection
                     .prepareStatement(DBQueries.UPDATE_PROCEDURE_INFO_QUERY);
-            updateStatement.setString(1, procedure.getName());
-            updateStatement.setString(2, procedure.getDescription());
-            updateStatement.setInt(3,procedure.getPrice());
-            updateStatement.setLong(4, procedure.getId());
+            updateStatement.setString(1, procedure.getNameUkr());
+            updateStatement.setString(2, procedure.getDescriptionUkr());
+            updateStatement.setString(3, procedure.getNameEn());
+            updateStatement.setString(4, procedure.getDescriptionEn());
+            updateStatement.setString(5, procedure.getNameRus());
+            updateStatement.setString(6, procedure.getDescriptionRus());
+            updateStatement.setInt(7,procedure.getPrice());
+            updateStatement.setLong(8, procedure.getId());
 
             updateStatement.execute();
 
@@ -207,8 +224,12 @@ public class ProcedureDaoImpl implements ProcedureDao {
     Procedure getProcedureFromResultRow(ResultSet resultSet) throws SQLException {
         return Procedure.builder()
                 .id(resultSet.getLong("procedure_id"))
-                .name(resultSet.getString("name"))
-                .description(resultSet.getString("description"))
+                .nameUkr(resultSet.getString("name_ukr"))
+                .descriptionUkr(resultSet.getString("description_ukr"))
+                .nameEn(resultSet.getString("name_en"))
+                .descriptionEn(resultSet.getString("description_en"))
+                .nameRus(resultSet.getString("name_rus"))
+                .descriptionRus(resultSet.getString("description_rus"))
                 .price(resultSet.getInt("price"))
                 .build();
     }

@@ -9,9 +9,17 @@ public class Procedure {
 
     private  long id;
 
-    private String name;
+    private String nameUkr;
 
-    private String description;
+    private String descriptionUkr;
+
+    private String nameEn;
+
+    private String descriptionEn;
+
+    private String nameRus;
+
+    private String descriptionRus;
 
     private int price;
 

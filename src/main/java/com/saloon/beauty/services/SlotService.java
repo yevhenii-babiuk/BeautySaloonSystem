@@ -73,13 +73,13 @@ public class SlotService extends Service {
         return checkAndCastExecutingResult(executionResult);
     }
 
-    public List<SlotDto> findSlots(long masterId, Status status, long procedureId,
+    public List<SlotDto> findSlots(long masterId, Status status, long userId, long procedureId,
                                    LocalDate minDate, LocalDate maxDate,
                                    LocalTime minTime, LocalTime maxTime,
                                    int recordsQuantity, int previousRecordNumber) {
         DaoManager daoManager = daoManagerFactory.createDaoManager();
 
-        Object executionResult = daoManager.executeAndClose(manager -> findSlotsCommand(manager, masterId, status, procedureId, minDate, maxDate,
+        Object executionResult = daoManager.executeAndClose(manager -> findSlotsCommand(manager, masterId, status, userId, procedureId, minDate, maxDate,
                 minTime, maxTime, recordsQuantity, previousRecordNumber));
 
         return checkAndCastObjectToList(executionResult);
@@ -98,6 +98,7 @@ public class SlotService extends Service {
      * Counts all slots in search result
      *
      * @param masterId
+     * @param userId
      * @param status
      * @param minDate
      * @param maxDate
@@ -105,13 +106,13 @@ public class SlotService extends Service {
      * @param maxTime
      * @return quantity of all slots in search result
      */
-    public long getSlotSearchResultCount(long masterId, Status status, long procedureId,
+    public long getSlotSearchResultCount(long masterId, Status status, long userId, long procedureId,
                                          LocalDate minDate, LocalDate maxDate,
                                          LocalTime minTime, LocalTime maxTime) {
         DaoManager daoManager = daoManagerFactory.createDaoManager();
 
         Object executionResult = daoManager.executeAndClose(manager ->
-                manager.getSlotDao().getSlotSearchResultCount(masterId, status, procedureId, minDate, maxDate,
+                manager.getSlotDao().getSlotSearchResultCount(masterId, status, userId, procedureId, minDate, maxDate,
                         minTime, maxTime));
 
         return checkAndCastObjectToLong(executionResult);
@@ -133,6 +134,8 @@ public class SlotService extends Service {
 
         return checkAndCastExecutingResult(executionResult);
     }
+
+
 
     //Commands which is needed to be executed in corresponding public service methods
     synchronized long addNewSlotCommand(DaoManager manager, Slot slot) throws SQLException {
@@ -170,12 +173,12 @@ public class SlotService extends Service {
         return EXECUTING_SUCCESSFUL;
     }
 
-    List<SlotDto> findSlotsCommand(DaoManager manager, long masterId, Status status, long procedureId, LocalDate minDate,
-                                   LocalDate maxDate, LocalTime minTime, LocalTime maxTime,
+    List<SlotDto> findSlotsCommand(DaoManager manager, long masterId, Status status, long userId, long procedureId,
+                                   LocalDate minDate, LocalDate maxDate, LocalTime minTime, LocalTime maxTime,
                                    int recordsQuantity, int previousRecordNumber) throws SQLException {
 
         SlotDao slotDao = manager.getSlotDao();
-        List<Slot> slotList = slotDao.getAllSlotParameterized(masterId, status, procedureId, minDate, maxDate,
+        List<Slot> slotList = slotDao.getAllSlotParameterized(masterId, status, userId, procedureId, minDate, maxDate,
                 minTime, maxTime, recordsQuantity, previousRecordNumber);
 
 

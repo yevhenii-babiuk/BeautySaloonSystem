@@ -2,6 +2,7 @@ package com.saloon.beauty.repository.dao;
 
 import com.saloon.beauty.repository.entity.Procedure;
 
+import java.util.Map;
 import java.util.Optional;
 
 public interface ProcedureDao extends Dao<Procedure>{
@@ -10,6 +11,6 @@ public interface ProcedureDao extends Dao<Procedure>{
 
     int getPriceByName(String name);
 
-    String getDescriptionByName(String name);
+    Map<String, String> getDescriptionByName(String name);
 
 }

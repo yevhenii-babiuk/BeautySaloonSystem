@@ -10,11 +10,11 @@ import java.util.List;
 public interface SlotDao extends Dao<Slot>{
 
 
-    long getSlotSearchResultCount(long masterId, Status status, long procedureId,
+    long getSlotSearchResultCount(long masterId, Status status, long userId, long procedureId,
                                   LocalDate minDate, LocalDate maxDate,
                                   LocalTime minTime, LocalTime maxTime);
 
-    List<Slot> getAllSlotParameterized(long masterId, Status status, long procedureId,
+    List<Slot> getAllSlotParameterized(long masterId, Status status, long userId, long procedureId,
                                        LocalDate minDate, LocalDate maxDate,
                                        LocalTime minTime, LocalTime maxTime,
                                        int limit, int offset);
@@ -24,4 +24,5 @@ public interface SlotDao extends Dao<Slot>{
     void updateSlotStatus(long id, Status status, long userId);
 
     void updateFeedbackRequestStatus(long slotId, boolean status);
+
 }

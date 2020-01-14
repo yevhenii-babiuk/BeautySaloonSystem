@@ -27,11 +27,11 @@ public class SlotDaoImpl implements SlotDao {
     }
 
     @Override
-    public long getSlotSearchResultCount(long masterId, Status status, long procedureId,
+    public long getSlotSearchResultCount(long masterId, Status status, long userId, long procedureId,
                                          LocalDate minDate, LocalDate maxDate,
                                          LocalTime minTime, LocalTime maxTime) {
         try {
-            PreparedStatement statement = getPreparedAllSlotStatement(masterId, status, procedureId, minDate, maxDate,
+            PreparedStatement statement = getPreparedAllSlotStatement(masterId, status, userId, procedureId, minDate, maxDate,
                     minTime, maxTime, Integer.MAX_VALUE, 0, true);
 
             ResultSet rs = statement.executeQuery();
@@ -49,7 +49,7 @@ public class SlotDaoImpl implements SlotDao {
     }
 
     @Override
-    public List<Slot> getAllSlotParameterized(long masterId, Status status, long procedureId,
+    public List<Slot> getAllSlotParameterized(long masterId, Status status, long userId, long procedureId,
                                               LocalDate minDate, LocalDate maxDate,
                                               LocalTime minTime, LocalTime maxTime,
                                               int limit, int offset) {
@@ -57,7 +57,7 @@ public class SlotDaoImpl implements SlotDao {
         List<Slot> slots = new ArrayList<>();
 
         try {
-            PreparedStatement statement = getPreparedAllSlotStatement(masterId, status, procedureId, minDate, maxDate,
+            PreparedStatement statement = getPreparedAllSlotStatement(masterId, status, userId, procedureId, minDate, maxDate,
                     minTime, maxTime, limit, offset, false);
 
             ResultSet rs = statement.executeQuery();
@@ -140,6 +140,8 @@ public class SlotDaoImpl implements SlotDao {
             throw new DaoException(errorText, e);
         }
     }
+
+
 
     @Override
     public Optional<Slot> get(long id) {
@@ -279,7 +281,7 @@ public class SlotDaoImpl implements SlotDao {
      *                     It will return only limited count of slots otherwise.
      * @return - statement for getting slots information from DB
      */
-    private PreparedStatement getPreparedAllSlotStatement(long masterId, Status status, long procedureId,
+    private PreparedStatement getPreparedAllSlotStatement(long masterId, Status status, long userId, long procedureId,
                                                           LocalDate minDate, LocalDate maxDate,
                                                           LocalTime minTime, LocalTime maxTime,
                                                           int limit, int offset, boolean rowsCounting) throws SQLException {
@@ -293,7 +295,7 @@ public class SlotDaoImpl implements SlotDao {
             queryBuilder.append(DBQueries.ALL_SLOTS_QUERY_HEAD_PART);
         }
 
-        if (masterId > 0 || status != null  || procedureId > 0 || minDate != null ||
+        if (masterId > 0 || status != null || userId > 0 || procedureId > 0 || minDate != null ||
                 maxDate != null || minTime != null || maxTime != null) {
             queryBuilder.append(" WHERE");
         }
@@ -309,7 +311,7 @@ public class SlotDaoImpl implements SlotDao {
 
         }
 
-        if (status != null && status.equals(Status.BOOKED)) {
+        if (status != null) {
             if (anotherParameter) {
                 queryBuilder.append(" AND ");
             } else {
@@ -317,6 +319,17 @@ public class SlotDaoImpl implements SlotDao {
             }
             anotherParameter = true;
             queryBuilder.append(DBQueries.ALL_SLOTS_QUERY_STATUS_PART);
+        }
+
+        if (userId > 0) {
+            if (anotherParameter) {
+                queryBuilder.append(" AND ");
+            } else {
+                queryBuilder.append(" ");
+            }
+            anotherParameter = true;
+            queryBuilder.append(DBQueries.ALL_SLOTS_QUERY_USER_PART);
+
         }
 
         if(procedureId>0){
@@ -378,8 +391,12 @@ public class SlotDaoImpl implements SlotDao {
             statement.setLong(parameterIndex++, masterId);
         }
 
-        if (status != null && status.equals(Status.BOOKED)) {
+        if (status != null) {
             statement.setString(parameterIndex++, status.name());
+        }
+
+        if(userId>0){
+            statement.setLong(parameterIndex++, procedureId);
         }
 
         if(procedureId>0){

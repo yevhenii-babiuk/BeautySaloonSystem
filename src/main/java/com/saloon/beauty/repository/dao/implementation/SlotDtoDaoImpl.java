@@ -59,6 +59,7 @@ public class SlotDtoDaoImpl implements SlotDtoDao {
      */
     SlotDto getSlotFromResultRow(ResultSet resultSet) throws SQLException {
         Slot slot = Slot.builder()
+                .id(resultSet.getLong("slot_id"))
                 .date(resultSet.getObject("slot_date", LocalDate.class))
                 .startTime(resultSet.getObject("start_time", LocalTime.class))
                 .endTime(resultSet.getObject("end_time", LocalTime.class))
@@ -85,8 +86,12 @@ public class SlotDtoDaoImpl implements SlotDtoDao {
                 .build();
 
         Procedure procedure = Procedure.builder()
-                .name(resultSet.getString("procedure_name"))
-                .description(resultSet.getString("procedure_description"))
+                .nameUkr(resultSet.getString("name_ukr"))
+                .descriptionUkr(resultSet.getString("description_ukr"))
+                .nameEn(resultSet.getString("name_en"))
+                .descriptionEn(resultSet.getString("description_en"))
+                .nameRus(resultSet.getString("name_rus"))
+                .descriptionRus(resultSet.getString("description_rus"))
                 .price(resultSet.getInt("procedure_price"))
                 .build();
 

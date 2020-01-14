@@ -17,13 +17,20 @@ public class ProcedureService extends Service {
         this.daoManagerFactory = daoManagerFactory;
     }
 
-    public long addNewProcedure(String name, String description, int price){
+    public long addNewProcedure(String nameUkr, String descriptionUkr,
+                                String nameEn, String descriptionEn,
+                                String nameRus, String descriptionRus,
+                                int price){
 
         DaoManager daoManager = daoManagerFactory.createDaoManager();
 
         Procedure procedure = Procedure.builder()
-                .name(name)
-                .description(description)
+                .nameUkr(nameUkr)
+                .nameEn(nameEn)
+                .nameRus(nameRus)
+                .descriptionUkr(descriptionUkr)
+                .descriptionEn(descriptionEn)
+                .descriptionRus(descriptionRus)
                 .price(price)
                 .build();
 
@@ -48,12 +55,20 @@ public class ProcedureService extends Service {
         return checkAndCastObjectToOptional(executingResult);
     }
 
-    public boolean updateProcedure(long procedureId, String name, String description, int price){
+    public boolean updateProcedure(long procedureId,
+                                   String nameUkr, String descriptionUkr,
+                                   String nameEn, String descriptionEn,
+                                   String nameRus, String descriptionRus,
+                                   int price){
 
         Procedure procedure = Procedure.builder()
                 .id(procedureId)
-                .name(name)
-                .description(description)
+                .nameUkr(nameUkr)
+                .nameEn(nameEn)
+                .nameRus(nameRus)
+                .descriptionUkr(descriptionUkr)
+                .descriptionEn(descriptionEn)
+                .descriptionRus(descriptionRus)
                 .price(price)
                 .build();
 
