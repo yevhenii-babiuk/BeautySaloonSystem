@@ -33,8 +33,12 @@ PRIMARY KEY(`slot_id`));
 
 CREATE TABLE IF NOT EXISTS `procedure`(
 `procedure_id` INT NOT NULL AUTO_INCREMENT,
-`name` VARCHAR(150) NOT NULL UNIQUE,
-`description` LONGTEXT,
+`name_en` VARCHAR(150) NOT NULL UNIQUE,
+`description_en` LONGTEXT,
+`name_ukr` VARCHAR(150) NOT NULL UNIQUE,
+`description_ukr` LONGTEXT,
+`name_rus` VARCHAR(150) NOT NULL UNIQUE,
+`description_rus` LONGTEXT,
 `price` INT NOT NULL,
 PRIMARY KEY (`procedure_id`));
 
