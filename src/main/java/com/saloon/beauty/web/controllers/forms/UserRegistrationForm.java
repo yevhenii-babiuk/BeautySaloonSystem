@@ -59,11 +59,11 @@ public class UserRegistrationForm extends ActionForm {
             errors.addError("lastName", "registration.error.lastName");
         }
 
-        if (!email.matches("^[A-z\\d]+@[A-z]+\\.[A-z]+$")) {
+        if (!email.matches("^[A-z\\d._]+@[A-z]+\\.[A-z]+$")) {
             errors.addError("email", "registration.error.email");
         }
 
-        if (!phone.matches("^\\d{10,15}$")) {
+        if (!phone.matches("^\\+\\d{10,15}$")) {
             errors.addError("phone", "registration.error.phone");
         }
 

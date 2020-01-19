@@ -273,12 +273,12 @@ public class SlotDaoImpl implements SlotDao {
      * @param maxDate      - maximum boundary of searching by date
      * @param minTime      - minimum boundary of searching by time
      * @param maxTime      - maximum boundary of searching by time
-     * @param limit        the number of loans returned
-     * @param offset       the number of loans returned
-     * @param rowsCounting defines type of result {@code Statement}.
-     *                     If {@code rowsCounting} is {true} statement
-     *                     will return count of all target slots.
-     *                     It will return only limited count of slots otherwise.
+     * @param limit        - the number of slots returned
+     * @param offset       - the number of slots returned
+     * @param rowsCounting - defines type of result {@code Statement}.
+     *                       If {@code rowsCounting} is {true} statement
+     *                       will return count of all target slots.
+     *                       It will return only limited count of slots otherwise.
      * @return - statement for getting slots information from DB
      */
     private PreparedStatement getPreparedAllSlotStatement(long masterId, Status status, long userId, long procedureId,
@@ -396,7 +396,7 @@ public class SlotDaoImpl implements SlotDao {
         }
 
         if(userId>0){
-            statement.setLong(parameterIndex++, procedureId);
+            statement.setLong(parameterIndex++, userId);
         }
 
         if(procedureId>0){

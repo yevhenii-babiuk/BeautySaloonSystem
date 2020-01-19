@@ -94,7 +94,7 @@ public abstract class ActionForm {
 
     LocalDate getDatePropertyFromRequest(HttpServletRequest request, String propertyName) {
         String parameter = request.getParameter(propertyName);
-        if (parameter == ""){
+        if (parameter == null || parameter == ""){
             return null;
         }
         else {
@@ -105,7 +105,7 @@ public abstract class ActionForm {
 
     LocalTime getTimePropertyFromRequest(HttpServletRequest request, String propertyName) {
         String parameter = request.getParameter(propertyName);
-        if (parameter == ""){
+        if (parameter == null || parameter == ""){
             return null;
         }
         else {

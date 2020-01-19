@@ -136,7 +136,6 @@ public class SlotService extends Service {
     }
 
 
-
     //Commands which is needed to be executed in corresponding public service methods
     synchronized long addNewSlotCommand(DaoManager manager, Slot slot) throws SQLException {
         long slotId = manager.getSlotDao().save(slot);
@@ -160,6 +159,15 @@ public class SlotService extends Service {
             }
         } else {
             return EXECUTING_FAILED;
+        }
+
+        if (slot.getDate().isBefore(LocalDate.now())) {
+            return EXECUTING_FAILED;
+        } else if(slot.getDate().equals(LocalDate.now())){
+            if (slot.getEndTime().isBefore(LocalTime.now()) ||
+                    slot.getStartTime().isBefore(LocalTime.now())) {
+                return EXECUTING_FAILED;
+            }
         }
 
         if (status.equals(Status.FREE) && slot.getUser() == userId) {

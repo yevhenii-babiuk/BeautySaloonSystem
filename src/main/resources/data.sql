@@ -4,6 +4,7 @@ INSERT INTO `beauty_saloon_system`.`user` VALUES
 (NULL, 'yevhen.shevchenko@gmail.com', 'MƗ�ʵ{�M�pӠ�Sŏ�VȢt{{�f�\"`-��<��!NK�p:��9�\"�P|B�ե', '+380981231234', 'Yevhen', 'Shevchenko', 'MASTER'),
 (NULL, 'makarenko.olga@ukr.net', 'Ԛ3ʉ3��+�\nz\'G�hjWa�tNF�i;��T�۝��t���!�3�k��J����������', '+380989874561', 'Olga', 'Makarenko', 'USER'), /*password "olichkaPrincess"*/
 (NULL, 'chudomargo@ukr.net', '��\rAٓ<}�]s|�N��˕MF\'��t;���}5�\'�>��8�u�[��)~�%z�9d�\r>�', '+380635026902', 'Margaryta', 'Chudniv', 'USER'); /*password "sweetpassword"*/
+/*yulichkaMaestro*/
 
 INSERT INTO `beauty_saloon_system`.`procedure` VALUE
 (NULL, 
