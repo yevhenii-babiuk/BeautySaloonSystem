@@ -21,14 +21,14 @@
 <div>
 
     <c:if test="${errors.hasErrors}">
-        <div class="d-flex justify-content-center invalid-feedback font-weight-bold">
+        <div class="d-flex justify-content-center invalid-form font-weight-bold">
             <h3><fmt:message key="login.error.noSuchUser"/></h3>
         </div>
     </c:if>
 
     <%--    Show message to user redirected to the login page--%>
     <c:if test="${not empty needAuthentication}">
-        <div class="d-flex justify-content-center invalid-feedback font-weight-bold">
+        <div class="d-flex justify-content-center invalid-form font-weight-bold">
             <h3><fmt:message key="login.needAuthentication"/></h3>
         </div>
     </c:if>
@@ -45,7 +45,7 @@
                     <c:when test="${errors.errorsMap['email'] != null}">
                         <input class="form-control is-invalid" id="userEmail" name="email" type="text"
                                value="${form.email}" required autofocus>
-                        <div class="d-flex justify-content-center invalid-feedback font-weight-bold">
+                        <div class="d-flex justify-content-center invalid-form font-weight-bold">
                             <fmt:message key="${errors.errorsMap['email']}"/>
                         </div>
                     </c:when>
@@ -63,7 +63,7 @@
                     <c:when test="${errors.errorsMap['password'] != null}">
                         <input class="form-control is-invalid" id="userPassword" name="password" type="password"
                                value="${form.password}" required>
-                        <div class="d-flex justify-content-center invalid-feedback font-weight-bold">
+                        <div class="d-flex justify-content-center invalid-form font-weight-bold">
                             <fmt:message key="${errors.errorsMap['password']}"/>
                         </div>
                     </c:when>

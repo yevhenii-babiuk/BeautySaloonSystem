@@ -2,6 +2,7 @@ package com.saloon.beauty.repository.dao;
 
 import com.saloon.beauty.repository.entity.Procedure;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -13,4 +14,7 @@ public interface ProcedureDao extends Dao<Procedure>{
 
     Map<String, String> getDescriptionByName(String name);
 
+    long getProcedureSearchResultCount();
+
+    List<Procedure> getAllProcedureParametrized(int limit, int offset);
 }

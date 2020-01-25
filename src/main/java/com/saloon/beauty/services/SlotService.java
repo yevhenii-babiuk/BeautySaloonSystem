@@ -45,8 +45,22 @@ public class SlotService extends Service {
         Object executionResult = daoManager.executeTransaction(manager -> addNewSlotCommand(manager, slot));
 
         return checkAndCastObjectToLong(executionResult);
-
     }
+
+    public boolean updateSlot(long slotId,
+                           long masterId,
+                           long procedureId,
+                           LocalDate date,
+                           LocalTime startTime,
+                           LocalTime endTime) {
+
+        DaoManager daoManager = daoManagerFactory.createDaoManager();
+
+        Object executionResult = daoManager.executeTransaction(manager -> updateSlotCommand(manager, slotId, masterId, procedureId,
+                date, startTime, endTime));
+        return checkAndCastExecutingResult(executionResult);
+    }
+
 
     public Optional<Slot> getSlotById(long slotId) {
         DaoManager daoManager = daoManagerFactory.createDaoManager();
@@ -140,9 +154,11 @@ public class SlotService extends Service {
     synchronized long addNewSlotCommand(DaoManager manager, Slot slot) throws SQLException {
         long slotId = manager.getSlotDao().save(slot);
 
-        slot.setId(slotId);
-
-        return slotId;
+        if (slotId > 0) {
+            return slotId;
+        } else {
+            return 0;
+        }
     }
 
     synchronized boolean updateSlotStatusCommand(DaoManager manager, long slotId, long userId, Status status) throws SQLException {
@@ -163,7 +179,7 @@ public class SlotService extends Service {
 
         if (slot.getDate().isBefore(LocalDate.now())) {
             return EXECUTING_FAILED;
-        } else if(slot.getDate().equals(LocalDate.now())){
+        } else if (slot.getDate().equals(LocalDate.now())) {
             if (slot.getEndTime().isBefore(LocalTime.now()) ||
                     slot.getStartTime().isBefore(LocalTime.now())) {
                 return EXECUTING_FAILED;
@@ -224,6 +240,35 @@ public class SlotService extends Service {
 
         manager.getSlotDao().updateFeedbackRequestStatus(slotId, status);
         return EXECUTING_SUCCESSFUL;
+    }
+
+    synchronized boolean updateSlotCommand(DaoManager manager, long slotId, long masterId, long procedureId,
+                                           LocalDate date, LocalTime startTime, LocalTime endTime) throws SQLException {
+        SlotDao slotDao = manager.getSlotDao();
+
+        Optional<Slot> slotOptional = slotDao.get(slotId);
+        Slot slot;
+
+        if (slotOptional.isPresent()) {
+            slot = slotOptional.get();
+        } else {
+            return EXECUTING_FAILED;
+        }
+
+        slot.setMaster(masterId);
+        slot.setProcedure(procedureId);
+        slot.setDate(date);
+        slot.setStartTime(startTime);
+        slot.setEndTime(endTime);
+
+        slotDao.update(slot);
+
+        if (slot.equals(slotDao.get(slotId).get())) {
+            return EXECUTING_SUCCESSFUL;
+        } else {
+            return EXECUTING_FAILED;
+        }
+
     }
 
     SlotDto createSlotDtoFromSlot(DaoManager manager, Slot slot) throws SQLException {

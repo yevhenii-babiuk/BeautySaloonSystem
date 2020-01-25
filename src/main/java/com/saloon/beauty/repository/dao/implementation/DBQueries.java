@@ -21,6 +21,14 @@ public class DBQueries {
     static final String GET_USER_BY_EMAIL_AND_PASSWORD_QUERY = "SELECT * FROM beauty_saloon_system.user WHERE email = ? AND password = ?;";
     static final String GET_USER_ROLE_BY_USER_ID_QUERY = "SELECT role FROM beauty_saloon_system.user WHERE user_id = ?;";
     static final String GET_USERS_BY_ROLE_QUERY = "SELECT * FROM  beauty_saloon_system.user WHERE role = ?;";
+    static final String ALL_USERS_QUERY_HEAD_PART = "SELECT DISTINCT * FROM beauty_saloon_system.user ";
+    static final String ALL_USERS_COUNT_QUERY_HEAD_PART = "SELECT DISTINCT COUNT(*) FROM beauty_saloon_system.user ";
+    static final String ALL_USERS_NAME_AND_SURNAME_PART = "(LOWER(CONCAT(first_name, ' ', last_name)) LIKE LOWER(?) \n" +
+            "OR LOWER(CONCAT(last_name, ' ', first_name)) LIKE LOWER(?)) ";
+    static final String ALL_USERS_QUERY_EMAIL_PART = "email LIKE ? ";
+    static final String ALL_USERS_QUERY_PHONE_PART = "phone LIKE ? ";
+    static final String ALL_USERS_QUERY_ROLE_PART = "role LIKE ? ";
+    static final String ALL_USERS_PAGINATION_PART = "LIMIT ? OFFSET ?";
 
     static final String GET_ALL_FEEDBACK_QUERY = "SELECT * FROM  beauty_saloon_system.user;";
     static final String GET_FEEDBACK_BY_MASTER_QUERY = "SELECT * FROM beauty_saloon_system.feedback AS fb \n" +
@@ -64,15 +72,17 @@ public class DBQueries {
     static final String SAVE_PROCEDURE_QUERY = "INSERT INTO `beauty_saloon_system`.`procedure` (name_ukr, description_ukr, name_en, description_en, name_rus, description_rus, price) " +
             "VALUES (?, ?, ?, ?, ?, ?, ?);";
     static final String UPDATE_PROCEDURE_INFO_QUERY = "UPDATE `beauty_saloon_system`.`procedure` SET " +
-            "name_ukr = ?," +
-            "description_ukr = ?" +
+            "name_ukr = ?, " +
+            "description_ukr = ?, " +
             "name_en = ?," +
-            "description_en = ?" +
-            "name_rus = ?," +
-            "description_rus = ?" +
-            "price = ?" +
+            "description_en = ?, " +
+            "name_rus = ?, " +
+            "description_rus = ?, " +
+            "price = ? " +
             "WHERE procedure_id = ?;";
-    static final String  DELETE_PROCEDURE_QUERY = "DELETE FROM `beauty_saloon_system`.`procedure` WHERE procedure_id = ?;";
+    static final String DELETE_PROCEDURE_QUERY = "DELETE FROM `beauty_saloon_system`.`procedure` WHERE procedure_id = ?;";
+    static final String COUNT_ALL_PROCEDURE_QUERY = "SELECT COUNT(*) FROM `beauty_saloon_system`.`procedure`;";
+    static final String GET_PROCEDURE_PARAMETRIZED_QUERY = "SELECT * FROM `beauty_saloon_system`.`procedure` LIMIT ? OFFSET ?;";
 
     static final String ALL_SLOTS_COUNT_QUERY_HEAD_PART = "SELECT COUNT(*) FROM `beauty_saloon_system`.`slot` ";
     static final String ALL_SLOTS_QUERY_HEAD_PART = "SELECT * FROM `beauty_saloon_system`.`slot` ";
@@ -111,6 +121,8 @@ public class DBQueries {
     static final String GET_SLOT_BY_FEEDBACK_REQUEST_STATUS_QUERY = "SELECT * FROM beauty_saloon_system.slot WHERE feedback_request = ?;";
 
     static final String GET_FULL_INFORMATION_ABOUT_SLOT_QUERY = "SELECT `s`.`slot_id` AS `slot_id`, \n" +
+            "`s`.`master` AS `slot_master`,\n" +
+            "`s`.`procedure` AS `slot_procedure`,\n" +
             "`s`.`date` AS `slot_date`,\n" +
             "`s`.`start_time` AS `start_time`,\n" +
             "`s`.`end_time` AS `end_time`,\n" +

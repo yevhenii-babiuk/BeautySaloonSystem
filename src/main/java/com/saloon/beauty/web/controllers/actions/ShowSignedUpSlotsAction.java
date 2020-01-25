@@ -36,6 +36,7 @@ public class ShowSignedUpSlotsAction extends Action {
         request.setAttribute("slots", slots);
 
         addPaginationToRequest(userId, request, paginationHelper);
+        paginationHelper.addParameterToPagination(request);
 
         return resources.getForward("ShowSignedUpSlotsPage");
     }

@@ -28,7 +28,7 @@
     </c:if>
 
     <div class="d-flex justify-content-center my-md-5">
-        <h1><fmt:message key="userCabinet.signedUpSlots"/></h1>
+        <h1><fmt:message key="masterCabinet.slots"/></h1>
     </div>
 
     <c:choose>
@@ -43,26 +43,26 @@
                     </tr>
 
 
-                    <c:forEach var="slotDTO" items="${slots}">
+                    <c:forEach var="user" items="${slots}">
                         <tr>
                             <td>
-                                    ${slotDTO.slot.date}
+                                    ${user.slot.date}
                             </td>
                             <td>
-                                    ${slotDTO.slot.startTime} - ${slotDTO.slot.endTime}
+                                    ${user.slot.startTime} - ${user.slot.endTime}
                             </td>
                             <td>
-                                    ${slotDTO.client.firstName} ${slotDTO.client.lastName}
+                                    ${user.client.firstName} ${user.client.lastName}
                             </td>
                             <td>
                                 <c:if test="${language eq 'en'}">
-                                    ${slotDTO.procedure.nameEn}
+                                    ${user.procedure.nameEn}
                                 </c:if>
                                 <c:if test="${language eq 'ru'}">
-                                    ${slotDTO.procedure.nameRus}
+                                    ${user.procedure.nameRus}
                                 </c:if>
                                 <c:if test="${language eq 'ua'}">
-                                    ${slotDTO.procedure.nameUkr}
+                                    ${user.procedure.nameUkr}
                                 </c:if>
                             </td>
                         </tr>
@@ -79,14 +79,14 @@
                         <c:when test="${currentPage != 1}">
                             <li class="page-item">
                                 <a class="page-link text-dark"
-                                   href="${contextPath}/master/masterSlots?page=${currentPage - 1} "><fmt:message
+                                   href="${contextPath}/master/masterSlots?${queryStr}page=${currentPage - 1} "><fmt:message
                                         key="pagination.previous"/> </a>
                             </li>
                         </c:when>
                         <c:otherwise>
                             <li class="page-item disabled">
                                 <a class="page-link text-dark"
-                                   href="${contextPath}/master/masterSlots?page=${currentPage - 1}"><fmt:message
+                                   href="${contextPath}/master/masterSlots?${queryStr}page=${currentPage - 1}"><fmt:message
                                         key="pagination.previous"/> </a>
                             </li>
                         </c:otherwise>
@@ -104,7 +104,7 @@
                             </c:when>
                             <c:otherwise>
                                 <li class="page-item"><a class="page-link text-dark"
-                                                         href="${contextPath}/master/masterSlots?page=${i}">${i}</a>
+                                                         href="${contextPath}/master/masterSlots?${queryStr}page=${i}">${i}</a>
                                 </li>
                             </c:otherwise>
                         </c:choose>

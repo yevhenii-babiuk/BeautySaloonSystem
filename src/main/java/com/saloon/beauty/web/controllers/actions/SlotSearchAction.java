@@ -54,7 +54,7 @@ public class SlotSearchAction extends Action {
                 minTime, maxTime, slotService, paginationHelper);
 
         setRequestAttributes(request,masterId, status, procedureId, minDate, maxDate,
-                minTime, maxTime, slotDtoList);
+                minTime, maxTime, slotDtoList, paginationHelper);
         addPaginationToRequest(request, slotService, masterId, status, procedureId, minDate, maxDate,
                 minTime, maxTime, paginationHelper);
 
@@ -63,7 +63,8 @@ public class SlotSearchAction extends Action {
 
     void setRequestAttributes(HttpServletRequest request, long masterId, Status status, long procedureId,
                               LocalDate minDate, LocalDate maxDate, LocalTime minTime, LocalTime maxTime,
-                              List<SlotDto> slotDtoList) {
+                              List<SlotDto> slotDtoList, PaginationHelper paginationHelper) {
+
         request.getSession().setAttribute("masters", userService.getAllMasters());
         request.getSession().setAttribute("procedures", procedureService.getAllProcedure());
         request.setAttribute("masterId", masterId);
@@ -74,6 +75,7 @@ public class SlotSearchAction extends Action {
         request.setAttribute("minTime", minTime);
         request.setAttribute("maxTime", maxTime);
         request.setAttribute("slots", slotDtoList);
+        paginationHelper.addParameterToPagination(request);
     }
 
 

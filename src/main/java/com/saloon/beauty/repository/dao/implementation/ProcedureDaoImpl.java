@@ -5,6 +5,7 @@ import com.saloon.beauty.repository.DaoException;
 import com.saloon.beauty.repository.dao.ProcedureDao;
 
 import com.saloon.beauty.repository.entity.Procedure;
+import com.saloon.beauty.repository.entity.Slot;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -96,6 +97,52 @@ public class ProcedureDaoImpl implements ProcedureDao {
             throw new DaoException(errorText, e);
         }
         return descriptions;
+    }
+
+    @Override
+    public long getProcedureSearchResultCount() {
+        try {
+            PreparedStatement statement = connection.prepareStatement(DBQueries.COUNT_ALL_PROCEDURE_QUERY);
+
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return rs.getLong(1);
+            } else {
+                return 0;
+            }
+
+        } catch (SQLException e) {
+            String errorText = "Can't get procedures count in search result. Cause: " + e.getMessage();
+            LOG.error(errorText, e);
+            throw new DaoException(errorText, e);
+        }
+    }
+
+    @Override
+    public List<Procedure> getAllProcedureParametrized(int limit, int offset) {
+        List<Procedure> procedures = new ArrayList<>();
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(DBQueries.GET_PROCEDURE_PARAMETRIZED_QUERY);
+
+            statement.setLong(1, limit);
+            statement.setLong(2, offset);
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                procedures.add(getProcedureFromResultRow(rs));
+            }
+
+            rs.close();
+
+        } catch (SQLException e) {
+            String errorText = "Can't get procedures list from DB. Cause: " + e.getMessage();
+            LOG.error(errorText, e);
+            throw new DaoException(errorText, e);
+        }
+
+        return procedures;
     }
 
     @Override

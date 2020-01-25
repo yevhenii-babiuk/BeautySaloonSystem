@@ -13,7 +13,7 @@ import java.util.HashMap;
  */
 public class ServiceFactory {
 
-    private static final Logger log = LogManager.getLogger(ServiceFactory.class);
+    private static final Logger LOG = LogManager.getLogger(ServiceFactory.class);
 
     /**
      * Holds each type of {@code Service}
@@ -34,7 +34,7 @@ public class ServiceFactory {
         Service service = services.get(serviceClass);
         if (service == null) {
             String errorText = "Can't find service class: " + serviceClass;
-            log.fatal(errorText);
+            LOG.fatal(errorText);
             throw new ServletConfigException(errorText);
         }
         return service;

@@ -141,8 +141,6 @@ public class SlotDaoImpl implements SlotDao {
         }
     }
 
-
-
     @Override
     public Optional<Slot> get(long id) {
         Optional<Slot> resultOptional = Optional.empty();
@@ -232,11 +230,15 @@ public class SlotDaoImpl implements SlotDao {
             updateStatement.setTime(2, Time.valueOf(slot.getStartTime()));
             updateStatement.setTime(3, Time.valueOf(slot.getEndTime()));
             updateStatement.setLong(4, slot.getMaster());
-            updateStatement.setLong(5, slot.getUser());
+            if(slot.getUser()!=0) {
+                updateStatement.setLong(5, slot.getUser());
+            }else{
+                updateStatement.setNull(5, Types.INTEGER);
+            }
             updateStatement.setString(6, slot.getStatus().name());
             updateStatement.setLong(7, slot.getProcedure());
-            updateStatement.setLong(8, slot.getId());
-            updateStatement.setBoolean(9, slot.isFeedbackRequest());
+            updateStatement.setBoolean(8, slot.isFeedbackRequest());
+            updateStatement.setLong(9, slot.getId());
 
             updateStatement.execute();
 

@@ -60,6 +60,8 @@ public class SlotDtoDaoImpl implements SlotDtoDao {
     SlotDto getSlotFromResultRow(ResultSet resultSet) throws SQLException {
         Slot slot = Slot.builder()
                 .id(resultSet.getLong("slot_id"))
+                .master(resultSet.getLong("slot_master"))
+                .procedure(resultSet.getLong("slot_procedure"))
                 .date(resultSet.getObject("slot_date", LocalDate.class))
                 .startTime(resultSet.getObject("start_time", LocalTime.class))
                 .endTime(resultSet.getObject("end_time", LocalTime.class))

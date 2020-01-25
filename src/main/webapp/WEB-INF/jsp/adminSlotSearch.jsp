@@ -18,12 +18,19 @@
 
 <div><c:import url="header.jsp"/></div>
 
+<%--Printing slot sign up result--%>
+<c:if test="${not empty actionResult}">
+    <div class="d-flex justify-content-center">
+        <h4><fmt:message key="${actionResult}"/></h4>
+    </div>
+</c:if>
+
 <div class="d-flex justify-content-center">
     <h2><fmt:message key="slotSearch.title"/></h2>
 </div>
 <br>
 <div class="d-flex justify-content-center">
-    <form class="col-5" action="${contextPath}/slotSearch.do">
+    <form class="col-5" action="${contextPath}/admin/slotManagement/searchSlots.do">
 
         <div class="row" style="margin:3%">
             <div class="col">
@@ -142,41 +149,24 @@
         <table class="table table-hover table-sm">
 
             <tr>
-                <c:if test="${loggedInUser.role != 'MASTER'}">
-                    <th class="text-center"><fmt:message key="slotSearch.result.action"/></th>
-                </c:if>
+                <th class="text-center"><fmt:message key="slotSearch.result.action"/></th>
                 <th class="text-center"><fmt:message key="slotSearch.result.status"/></th>
                 <th class="text-center"><fmt:message key="slotSearch.result.master"/></th>
+                <th class="text-center"><fmt:message key="slotSearch.result.user"/></th>
                 <th class="text-center"><fmt:message key="slotSearch.result.date"/></th>
                 <th class="text-center"><fmt:message key="slotSearch.result.time"/></th>
                 <th class="text-center"><fmt:message key="slotSearch.result.procedure"/></th>
-                <th class="text-center"><fmt:message key="slotSearch.result.description"/></th>
             </tr>
 
             <c:forEach var="user" items="${slots}">
                 <tr>
-                    <c:if test="${loggedInUser.role != 'MASTER'}">
-                        <td>
-                            <c:choose>
-                                <%--Get full information if user in Admin's or Master's role--%>
-                                <c:when test="${loggedInUser.role == 'ADMINISTRATOR'}">
-                                    <form action="${contextPath}/admin/slotFullInformation" method="post">
-                                        <input type="text" name="slotId" value="${user.slot.id}" hidden>
-                                        <button class="btn brown-button"><fmt:message
-                                                key="slotSearch.result.fullInformation"/></button>
-                                    </form>
-                                </c:when>
-                                <c:otherwise>
-                                    <%--Sign up to slot for ordinary user--%>
-                                    <form action="${contextPath}/user/signUpSlot.do" method="post">
-                                        <input type="text" name="slotId" value="${user.slot.id}" hidden>
-                                        <button class="btn brown-button"><fmt:message
-                                                key="slotSearch.result.signUp"/></button>
-                                    </form>
-                                </c:otherwise>
-                            </c:choose>
-                        </td>
-                    </c:if>
+                    <td>
+                        <form action="${contextPath}/admin/slotManagement/updateSlot" method="post">
+                            <input type="text" name="slotId" value="${user.slot.id}" hidden>
+                            <button class="btn brown-button"><fmt:message
+                                    key="slotSearch.result.update"/></button>
+                        </form>
+                    </td>
                     <td>
                         <c:if test="${user.slot.status eq 'BOOKED'}">
                             <fmt:message key="slotSearch.statusBooked"/>
@@ -187,6 +177,9 @@
                     </td>
                     <td>
                             ${user.master.firstName} ${user.master.lastName}
+                    </td>
+                    <td>
+                            ${user.client.firstName} ${user.client.lastName}
                     </td>
                     <td>
                             ${user.slot.date}
@@ -205,17 +198,6 @@
                             ${user.procedure.nameUkr}
                         </c:if>
                     </td>
-                    <td>
-                        <c:if test="${language eq 'en'}">
-                            ${user.procedure.descriptionEn}
-                        </c:if>
-                        <c:if test="${language eq 'ru'}">
-                            ${user.procedure.descriptionRus}
-                        </c:if>
-                        <c:if test="${language eq 'ua'}">
-                            ${user.procedure.descriptionUkr}
-                        </c:if>
-                    </td>
                 </tr>
             </c:forEach>
         </table>
@@ -230,14 +212,14 @@
                 <c:when test="${currentPage != 1}">
                     <li class="page-item">
                         <a class="page-link text-dark"
-                           href="${contextPath}/slotSearch.do?${queryStr}page=${currentPage - 1} "><fmt:message
+                           href="${contextPath}/admin/slotManagement/searchSlots.do?${queryStr}page=${currentPage - 1} "><fmt:message
                                 key="pagination.previous"/> </a>
                     </li>
                 </c:when>
                 <c:otherwise>
                     <li class="page-item disabled">
                         <a class="page-link text-dark"
-                           href="${contextPath}/slotSearch.do?${queryStr}page=${currentPage - 1}"><fmt:message
+                           href="${contextPath}/admin/slotManagement/searchSlots.do?${queryStr}page=${currentPage - 1}"><fmt:message
                                 key="pagination.previous"/> </a>
                     </li>
                 </c:otherwise>
@@ -255,7 +237,7 @@
                     </c:when>
                     <c:otherwise>
                         <li class="page-item"><a class="page-link text-dark"
-                                                 href="${contextPath}/slotSearch.do?${queryStr}page=${i}">${i}</a></li>
+                                                 href="${contextPath}/admin/slotManagement/searchSlots.do?${queryStr}page=${i}">${i}</a></li>
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
@@ -266,14 +248,14 @@
                 <c:when test="${currentPage lt pagesQuantity}">
                     <li class="page-item">
                         <a class="page-link text-dark"
-                           href="${contextPath}/slotSearch.do?${queryStr}page=${currentPage + 1}"><fmt:message
+                           href="${contextPath}/admin/slotManagement/searchSlots.do?${queryStr}page=${currentPage + 1}"><fmt:message
                                 key="pagination.next"/> </a>
                     </li>
                 </c:when>
                 <c:otherwise>
                     <li class="page-item disabled">
                         <a class="page-link text-dark"
-                           href="${contextPath}/slotSearch.do?${queryStr}page=${currentPage + 1}"><fmt:message
+                           href="${contextPath}/admin/slotManagement/searchSlots.do?${queryStr}page=${currentPage + 1}"><fmt:message
                                 key="pagination.next"/> </a>
                     </li>
                 </c:otherwise>

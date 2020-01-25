@@ -51,15 +51,15 @@
             <div class="col">
                 <select class="custom-select" id="procedureSelect" name="procedureId">
                     <option disabled selected value><fmt:message key="slotSearch.chooseProcedure"/></option>
-                    <c:forEach var="procedure" items="${procedures}">
+                    <c:forEach var="user" items="${procedures}">
                         <c:if test="${language eq 'en'}">
-                            <option value="${procedure.id}">${procedure.nameEn}</option>
+                            <option value="${user.id}">${user.nameEn}</option>
                         </c:if>
                         <c:if test="${language eq 'ru'}">
-                            <option value="${procedure.id}">${procedure.nameRus}</option>
+                            <option value="${user.id}">${user.nameRus}</option>
                         </c:if>
                         <c:if test="${language eq 'ua'}">
-                            <option value="${procedure.id}">${procedure.nameUkr}</option>
+                            <option value="${user.id}">${user.nameUkr}</option>
                         </c:if>
                     </c:forEach>
                 </select>
@@ -134,33 +134,33 @@
                 <th class="text-center"><fmt:message key="slotSearch.result.feedback"/></th>
             </tr>
 
-            <c:forEach var="slotDTO" items="${slots}">
+            <c:forEach var="user" items="${slots}">
                 <tr>
                     <td>
-                            ${slotDTO.master.firstName} ${slotDTO.master.lastName}
+                            ${user.master.firstName} ${user.master.lastName}
                     </td>
                     <td>
-                            ${slotDTO.slot.date}
+                            ${user.slot.date}
                     </td>
                     <td>
-                            ${slotDTO.slot.startTime} - ${slotDTO.slot.endTime}
+                            ${user.slot.startTime} - ${user.slot.endTime}
                     </td>
                     <td>
-                            ${slotDTO.client.firstName} ${slotDTO.client.lastName}
+                            ${user.client.firstName} ${user.client.lastName}
                     </td>
                     <td>
                         <c:if test="${language eq 'en'}">
-                            ${slotDTO.procedure.nameEn}
+                            ${user.procedure.nameEn}
                         </c:if>
                         <c:if test="${language eq 'ru'}">
-                            ${slotDTO.procedure.nameRus}
+                            ${user.procedure.nameRus}
                         </c:if>
                         <c:if test="${language eq 'ua'}">
-                            ${slotDTO.procedure.nameUkr}
+                            ${user.procedure.nameUkr}
                         </c:if>
                     </td>
                     <td>
-                            ${slotDTO.feedback.text}
+                            ${user.feedback.text}
                     </td>
                 </tr>
             </c:forEach>
@@ -176,14 +176,14 @@
                 <c:when test="${currentPage != 1}">
                     <li class="page-item">
                         <a class="page-link text-dark"
-                           href="${contextPath}/slotSearch.do?page=${currentPage - 1} "><fmt:message
+                           href="${contextPath}/slotSearch.do?${queryStr}page=${currentPage - 1} "><fmt:message
                                 key="pagination.previous"/> </a>
                     </li>
                 </c:when>
                 <c:otherwise>
                     <li class="page-item disabled">
                         <a class="page-link text-dark"
-                           href="${contextPath}/slotSearch.do?page=${currentPage - 1}"><fmt:message
+                           href="${contextPath}/slotSearch.do?${queryStr}page=${currentPage - 1}"><fmt:message
                                 key="pagination.previous"/> </a>
                     </li>
                 </c:otherwise>
@@ -201,7 +201,7 @@
                     </c:when>
                     <c:otherwise>
                         <li class="page-item"><a class="page-link text-dark"
-                                                 href="${contextPath}/slotSearch.do?page=${i}">${i}</a></li>
+                                                 href="${contextPath}/slotSearch.do?${queryStr}page=${i}">${i}</a></li>
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
@@ -212,14 +212,14 @@
                 <c:when test="${currentPage lt pagesQuantity}">
                     <li class="page-item">
                         <a class="page-link text-dark"
-                           href="${contextPath}/slotSearch.do?page=${currentPage + 1}"><fmt:message
+                           href="${contextPath}/slotSearch.do?${queryStr}page=${currentPage + 1}"><fmt:message
                                 key="pagination.next"/> </a>
                     </li>
                 </c:when>
                 <c:otherwise>
                     <li class="page-item disabled">
                         <a class="page-link text-dark"
-                           href="${contextPath}/slotSearch.do?page=${currentPage + 1}"><fmt:message
+                           href="${contextPath}/slotSearch.do?${queryStr}page=${currentPage + 1}"><fmt:message
                                 key="pagination.next"/> </a>
                     </li>
                 </c:otherwise>

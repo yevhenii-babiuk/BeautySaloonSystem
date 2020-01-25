@@ -23,13 +23,13 @@
         <fmt:message key="adminCabinet.allFeedback"/>
     </a>
     <a class="btn btn-lg brown-button mx-md-5 my-auto" href="${contextPath}/admin/slotManagement">
-        <fmt:message key="adminCabinet.slotManagement"/>
+        <fmt:message key="adminCabinet.slotManagement.title"/>
     </a>
     <a class="btn btn-lg brown-button mx-md-5 my-auto" href="${contextPath}/admin/userManagement">
-        <fmt:message key="adminCabinet.userManagement"/>
+        <fmt:message key="adminCabinet.userManagement.title"/>
     </a>
     <a class="btn btn-lg brown-button mx-md-5 my-auto" href="${contextPath}/admin/procedureManagement">
-        <fmt:message key="adminCabinet.procedureManagement"/>
+        <fmt:message key="adminCabinet.procedureManagement.title"/>
     </a>
 </div>
 </body>

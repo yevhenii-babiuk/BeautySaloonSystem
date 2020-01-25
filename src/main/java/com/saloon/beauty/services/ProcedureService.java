@@ -4,8 +4,11 @@ import com.saloon.beauty.repository.DaoManager;
 import com.saloon.beauty.repository.DaoManagerFactory;
 import com.saloon.beauty.repository.dao.ProcedureDao;
 import com.saloon.beauty.repository.entity.Procedure;
+import com.saloon.beauty.repository.entity.Status;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,6 +81,24 @@ public class ProcedureService extends Service {
 
         return checkAndCastExecutingResult(executionResult);
     }
+
+    public long getProcedureSearchResultCount() {
+        DaoManager daoManager = daoManagerFactory.createDaoManager();
+
+        Object executionResult = daoManager.executeAndClose(manager ->
+                manager.getProcedureDao().getProcedureSearchResultCount());
+
+        return checkAndCastObjectToLong(executionResult);
+    }
+
+    public List<Procedure> getProcedureParametrized(int recordsQuantity, int previousRecordNumber){
+        DaoManager daoManager = daoManagerFactory.createDaoManager();
+
+        Object executionResult = daoManager.executeAndClose(manager -> manager.getProcedureDao()
+                .getAllProcedureParametrized(recordsQuantity, previousRecordNumber));
+        return checkAndCastObjectToList(executionResult);
+    }
+
 
     //Commands which is needed to be executed in corresponding public service methods
     List<Procedure> getAllProcedureCommand(DaoManager manager) throws SQLException {

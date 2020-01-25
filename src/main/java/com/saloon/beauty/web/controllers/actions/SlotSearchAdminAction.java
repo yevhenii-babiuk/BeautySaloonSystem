@@ -9,20 +9,18 @@ import com.saloon.beauty.services.UserService;
 import com.saloon.beauty.web.controllers.PaginationHelper;
 import com.saloon.beauty.web.controllers.ServletResources;
 import com.saloon.beauty.web.controllers.forms.ActionForm;
-import com.saloon.beauty.web.controllers.forms.FeedbackSearchForm;
-
+import com.saloon.beauty.web.controllers.forms.SlotSearchForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Action for searching slot for signing up
  */
-public class FeedbackSearchAction extends Action {
+public class SlotSearchAdminAction extends Action {
 
     private SlotService slotService;
 
@@ -44,31 +42,33 @@ public class FeedbackSearchAction extends Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, ActionForm form, ServletResources resources) {
 
-        long masterId = ((FeedbackSearchForm)form).getMasterId();
-        long procedureId = ((FeedbackSearchForm)form).getProcedure();
-        LocalDate minDate = ((FeedbackSearchForm)form).getMinDate();
-        LocalDate maxDate = ((FeedbackSearchForm)form).getMaxDate();
-        LocalTime minTime = ((FeedbackSearchForm)form).getMinStartTime();
-        LocalTime maxTime = ((FeedbackSearchForm)form).getMaxStartTime();
+        long masterId = ((SlotSearchForm)form).getMasterId();
+        Status status = ((SlotSearchForm)form).getStatus();
+        long procedureId = ((SlotSearchForm)form).getProcedure();
+        LocalDate minDate = ((SlotSearchForm)form).getMinDate();
+        LocalDate maxDate = ((SlotSearchForm)form).getMaxDate();
+        LocalTime minTime = ((SlotSearchForm)form).getMinStartTime();
+        LocalTime maxTime = ((SlotSearchForm)form).getMaxStartTime();
 
-        List<SlotDto> slotDtoList = getFeedbackList(request, masterId, Status.BOOKED, procedureId, minDate, maxDate,
+        List<SlotDto> slotDtoList = getSlotsList(request, masterId, status, procedureId, minDate, maxDate,
                 minTime, maxTime, slotService, paginationHelper);
 
-        setRequestAttributes(request,masterId, procedureId, minDate, maxDate,
-                minTime, maxTime, slotDtoList);
-        addPaginationToRequest(request, slotService, masterId, Status.BOOKED, procedureId, minDate, maxDate,
+        setRequestAttributes(request,masterId, status, procedureId, minDate, maxDate,
+                minTime, maxTime, slotDtoList, paginationHelper);
+        addPaginationToRequest(request, slotService, masterId, status, procedureId, minDate, maxDate,
                 minTime, maxTime, paginationHelper);
 
-        return resources.getForward("ShowFeedbackSearchPage");
+        return resources.getForward("ShowSlotSearchAdminPage");
     }
 
-    void setRequestAttributes(HttpServletRequest request, long masterId, long procedureId,
+    void setRequestAttributes(HttpServletRequest request, long masterId, Status status, long procedureId,
                               LocalDate minDate, LocalDate maxDate, LocalTime minTime, LocalTime maxTime,
-                              List<SlotDto> slotDtoList) {
+                              List<SlotDto> slotDtoList, PaginationHelper paginationHelper) {
 
         request.getSession().setAttribute("masters", userService.getAllMasters());
         request.getSession().setAttribute("procedures", procedureService.getAllProcedure());
         request.setAttribute("masterId", masterId);
+        request.setAttribute("status", status);
         request.setAttribute("procedureId", procedureId);
         request.setAttribute("minDate", minDate);
         request.setAttribute("maxDate", maxDate);
@@ -76,18 +76,19 @@ public class FeedbackSearchAction extends Action {
         request.setAttribute("maxTime", maxTime);
         request.setAttribute("slots", slotDtoList);
         paginationHelper.addParameterToPagination(request);
+
     }
 
 
     /**
      * Takes user's slot searching parameters and asks to
-     * {@code SlotService} to search for slots with feedback.
+     * {@code SlotService} to search for slots.
      * @return list with searching results
      */
-    List<SlotDto> getFeedbackList(HttpServletRequest request, long masterId, Status status, long procedureId,
-                                  LocalDate minDate, LocalDate maxDate,
-                                  LocalTime minTime, LocalTime maxTime,
-                                  SlotService slotService, PaginationHelper paginationHelper) {
+    List<SlotDto> getSlotsList(HttpServletRequest request, long masterId, Status status, long procedureId,
+                               LocalDate minDate, LocalDate maxDate,
+                               LocalTime minTime, LocalTime maxTime,
+                               SlotService slotService, PaginationHelper paginationHelper) {
 
         int recordsPerPage = paginationHelper.getRecordsPerPage();
         int previousRecordNumber = paginationHelper.getPreviousRecordNumber(request, recordsPerPage);
@@ -99,7 +100,7 @@ public class FeedbackSearchAction extends Action {
     /**
      * Adds pagination to request
      */
-    void addPaginationToRequest(HttpServletRequest request, SlotService slotService, long masterId, Status status, long procedureId,
+    void addPaginationToRequest(HttpServletRequest request, SlotService slotService,long masterId, Status status, long procedureId,
                                 LocalDate minDate, LocalDate maxDate,
                                 LocalTime minTime, LocalTime maxTime, PaginationHelper paginationHelper) {
         long recordsQuantity = slotService.getSlotSearchResultCount(masterId, status, 0L, procedureId, minDate, maxDate, minTime, maxTime);

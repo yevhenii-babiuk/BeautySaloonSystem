@@ -36,6 +36,7 @@ public class ShowMasterFeedbackAction extends Action {
         request.setAttribute("slots", slots);
 
         addPaginationToRequest(masterId, request, paginationHelper);
+        paginationHelper.addParameterToPagination(request);
 
         return resources.getForward("ShowMasterFeedbackPage");
     }

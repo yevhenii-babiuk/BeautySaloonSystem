@@ -14,7 +14,7 @@
             <type>com.saloon.beauty.web.controllers.forms.SlotSearchForm</type>
         </form>
         <form>
-            <name>SlotIdForm</name>
+            <name>slotIdForm</name>
             <type>com.saloon.beauty.web.controllers.forms.SlotIdForm</type>
         </form>
         <form>
@@ -34,12 +34,40 @@
             <type>com.saloon.beauty.web.controllers.forms.AddFeedbackForm</type>
         </form>
         <form>
-            <name>SignUpSlotForm</name>
+            <name>signUpSlotForm</name>
             <type>com.saloon.beauty.web.controllers.forms.SignUpSlotForm</type>
         </form>
         <form>
             <name>feedbackSearchForm</name>
             <type>com.saloon.beauty.web.controllers.forms.FeedbackSearchForm</type>
+        </form>
+        <form>
+            <name>slotForm</name>
+            <type>com.saloon.beauty.web.controllers.forms.SlotForm</type>
+        </form>
+        <form>
+            <name>slotUpdateForm</name>
+            <type>com.saloon.beauty.web.controllers.forms.SlotUpdateForm</type>
+        </form>
+        <form>
+            <name>addProcedureForm</name>
+            <type>com.saloon.beauty.web.controllers.forms.AddProcedureForm</type>
+        </form>
+        <form>
+            <name>procedureIdForm</name>
+            <type>com.saloon.beauty.web.controllers.forms.ProcedureIdForm</type>
+        </form>
+        <form>
+            <name>updateProcedureForm</name>
+            <type>com.saloon.beauty.web.controllers.forms.UpdateProcedureForm</type>
+        </form>
+        <form>
+            <name>userSearchForm</name>
+            <type>com.saloon.beauty.web.controllers.forms.UserSearchForm</type>
+        </form>
+        <form>
+            <name>addUserForm</name>
+            <type>com.saloon.beauty.web.controllers.forms.AddUserForm</type>
         </form>
     </forms>
 
@@ -186,7 +214,7 @@
         <action>
             <path>/user/signUpSlot.do</path>
             <type>com.saloon.beauty.web.controllers.actions.SignUpSlotAction</type>
-            <form-name>SignUpSlotForm</form-name>
+            <form-name>signUpSlotForm</form-name>
             <validate>true</validate>
             <input>/WEB-INF/jsp/slotSearch.jsp</input>
             <service-dependencies>
@@ -199,7 +227,7 @@
         <action>
             <path>/user/cancelSignedUpSlot.do</path>
             <type>com.saloon.beauty.web.controllers.actions.CancelSignUpSlotAction</type>
-            <form-name>SignUpSlotForm</form-name>
+            <form-name>signUpSlotForm</form-name>
             <validate>true</validate>
             <input>/WEB-INF/jsp/userSignedUpSlots.jsp</input>
             <service-dependencies>
@@ -258,6 +286,176 @@
                     <class>com.saloon.beauty.services.ProcedureService</class>
                     <name>procedureService</name>
                 </dependency>
+                <dependency>
+                    <class>com.saloon.beauty.services.UserService</class>
+                    <name>userService</name>
+                </dependency>
+            </service-dependencies>
+        </action>
+        <action>
+            <path>/admin/slotManagement/searchSlots</path>
+            <type>com.saloon.beauty.web.controllers.actions.ShowSlotSearchAdminPageAction</type>
+            <service-dependencies>
+                <dependency>
+                    <class>com.saloon.beauty.services.ProcedureService</class>
+                    <name>procedureService</name>
+                </dependency>
+                <dependency>
+                    <class>com.saloon.beauty.services.UserService</class>
+                    <name>userService</name>
+                </dependency>
+            </service-dependencies>
+        </action>
+        <action>
+            <path>/admin/slotManagement/searchSlots.do</path>
+            <type>com.saloon.beauty.web.controllers.actions.SlotSearchAdminAction</type>
+            <form-name>slotSearchForm</form-name>
+            <validate>true</validate>
+            <input>/WEB-INF/jsp/slotSearch.jsp</input>
+            <service-dependencies>
+                <dependency>
+                    <class>com.saloon.beauty.services.SlotService</class>
+                    <name>slotService</name>
+                </dependency>
+                <dependency>
+                    <class>com.saloon.beauty.services.ProcedureService</class>
+                    <name>procedureService</name>
+                </dependency>
+                <dependency>
+                    <class>com.saloon.beauty.services.UserService</class>
+                    <name>userService</name>
+                </dependency>
+            </service-dependencies>
+        </action>
+        <action>
+            <path>/admin/slotManagement/addSlot</path>
+            <type>com.saloon.beauty.web.controllers.actions.ShowAddSlotPageAction</type>
+            <service-dependencies>
+                <dependency>
+                    <class>com.saloon.beauty.services.ProcedureService</class>
+                    <name>procedureService</name>
+                </dependency>
+                <dependency>
+                    <class>com.saloon.beauty.services.UserService</class>
+                    <name>userService</name>
+                </dependency>
+            </service-dependencies>
+        </action>
+        <action>
+            <path>/admin/slotManagement/addSlot.do</path>
+            <type>com.saloon.beauty.web.controllers.actions.AddSlotAction</type>
+            <form-name>slotForm</form-name>
+            <validate>true</validate>
+            <input>/WEB-INF/jsp/addSlot.jsp</input>
+            <service-dependencies>
+                <dependency>
+                    <class>com.saloon.beauty.services.SlotService</class>
+                    <name>slotService</name>
+                </dependency>
+            </service-dependencies>
+        </action>
+        <action>
+            <path>/admin/slotManagement/updateSlot</path>
+            <type>com.saloon.beauty.web.controllers.actions.ShowUpdateSlotPageAction</type>
+            <form-name>slotIdForm</form-name>
+            <validate>true</validate>
+            <service-dependencies>
+                <dependency>
+                    <class>com.saloon.beauty.services.ProcedureService</class>
+                    <name>procedureService</name>
+                </dependency>
+                <dependency>
+                    <class>com.saloon.beauty.services.UserService</class>
+                    <name>userService</name>
+                </dependency>
+                <dependency>
+                    <class>com.saloon.beauty.services.SlotService</class>
+                    <name>slotService</name>
+                </dependency>
+            </service-dependencies>
+        </action>
+        <action>
+            <path>/admin/slotManagement/updateSlot.do</path>
+            <type>com.saloon.beauty.web.controllers.actions.UpdateSlotAction</type>
+            <form-name>slotUpdateForm</form-name>
+            <validate>true</validate>
+            <input>/WEB-INF/jsp/updateSlot.jsp</input>
+            <service-dependencies>
+                <dependency>
+                    <class>com.saloon.beauty.services.SlotService</class>
+                    <name>slotService</name>
+                </dependency>
+            </service-dependencies>
+        </action>
+        <action>
+            <path>/admin/procedureManagement/procedures</path>
+            <type>com.saloon.beauty.web.controllers.actions.ShowProcedurePageAction</type>
+            <service-dependencies>
+                <dependency>
+                    <class>com.saloon.beauty.services.ProcedureService</class>
+                    <name>procedureService</name>
+                </dependency>
+            </service-dependencies>
+        </action>
+        <action>
+            <path>/admin/procedureManagement/addProcedure.do</path>
+            <type>com.saloon.beauty.web.controllers.actions.AddProcedureAction</type>
+            <form-name>addProcedureForm</form-name>
+            <validate>true</validate>
+            <input>/WEB-INF/jsp/addProcedure.jsp</input>
+            <service-dependencies>
+                <dependency>
+                    <class>com.saloon.beauty.services.ProcedureService</class>
+                    <name>procedureService</name>
+                </dependency>
+            </service-dependencies>
+        </action>
+        <action>
+            <path>/admin/procedureManagement/updateProcedure</path>
+            <type>com.saloon.beauty.web.controllers.actions.ShowUpdateProcedurePageAction</type>
+            <form-name>procedureIdForm</form-name>
+            <validate>true</validate>
+            <input>/WEB-INF/jsp/proceduresPage.jsp</input>
+            <service-dependencies>
+                <dependency>
+                    <class>com.saloon.beauty.services.ProcedureService</class>
+                    <name>procedureService</name>
+                </dependency>
+            </service-dependencies>
+        </action>
+        <action>
+            <path>/admin/procedureManagement/updateProcedure.do</path>
+            <type>com.saloon.beauty.web.controllers.actions.UpdateProcedureAction</type>
+            <form-name>updateProcedureForm</form-name>
+            <validate>true</validate>
+            <input>/WEB-INF/jsp/updateProcedure.jsp</input>
+            <service-dependencies>
+                <dependency>
+                    <class>com.saloon.beauty.services.ProcedureService</class>
+                    <name>procedureService</name>
+                </dependency>
+            </service-dependencies>
+        </action>
+        <action>
+            <path>/admin/userManagement/searchUser.do</path>
+            <type>com.saloon.beauty.web.controllers.actions.UserSearchAction</type>
+            <form-name>userSearchForm</form-name>
+            <validate>true</validate>
+            <input>/WEB-INF/jsp/userSearch.jsp</input>
+            <service-dependencies>
+                <dependency>
+                    <class>com.saloon.beauty.services.UserService</class>
+                    <name>userService</name>
+                </dependency>
+            </service-dependencies>
+        </action>
+        <action>
+            <path>/admin/userManagement/addUser.do</path>
+            <type>com.saloon.beauty.web.controllers.actions.AddUserAction</type>
+            <form-name>addUserForm</form-name>
+            <validate>true</validate>
+            <input>/WEB-INF/jsp/addUser.jsp</input>
+            <service-dependencies>
                 <dependency>
                     <class>com.saloon.beauty.services.UserService</class>
                     <name>userService</name>
@@ -369,6 +567,58 @@
         <entry>
             <key>ShowFeedbackSearchPage</key>
             <value>/WEB-INF/jsp/feedbackSearch.jsp</value>
+        </entry>
+        <entry>
+            <key>/admin/slotManagement</key>
+            <value>/WEB-INF/jsp/slotsManagement.jsp</value>
+        </entry>
+        <entry>
+            <key>ShowSlotSearchAdminPage</key>
+            <value>/WEB-INF/jsp/adminSlotSearch.jsp</value>
+        </entry>
+        <entry>
+            <key>ShowSlotAddPage</key>
+            <value>/WEB-INF/jsp/addSlot.jsp</value>
+        </entry>
+        <entry>
+            <key>ShowSlotUpdatePage</key>
+            <value>/WEB-INF/jsp/updateSlot.jsp</value>
+        </entry>
+        <entry>
+            <key>ShowProceduresPage</key>
+            <value>/WEB-INF/jsp/proceduresPage.jsp</value>
+        </entry>
+        <entry>
+            <key>ShowProceduresAction</key>
+            <value>/admin/procedureManagement/procedures</value>
+        </entry>
+        <entry>
+            <key>/admin/procedureManagement</key>
+            <value>/WEB-INF/jsp/proceduresManagement.jsp</value>
+        </entry>
+        <entry>
+            <key>/admin/procedureManagement/addProcedure</key>
+            <value>/WEB-INF/jsp/addProcedure.jsp</value>
+        </entry>
+        <entry>
+            <key>ShowProcedureUpdatePage</key>
+            <value>/WEB-INF/jsp/updateProcedure.jsp</value>
+        </entry>
+        <entry>
+            <key>/admin/userManagement/userSearch</key>
+            <value>/WEB-INF/jsp/userSearch.jsp</value>
+        </entry>
+        <entry>
+            <key>ShowUserSearchPage</key>
+            <value>/WEB-INF/jsp/userSearch.jsp</value>
+        </entry>
+        <entry>
+            <key>/admin/userManagement</key>
+            <value>/WEB-INF/jsp/usersManagement.jsp</value>
+        </entry>
+        <entry>
+            <key>/admin/userManagement/addUser</key>
+            <value>/WEB-INF/jsp/addUser.jsp</value>
         </entry>
     </forwards>
 

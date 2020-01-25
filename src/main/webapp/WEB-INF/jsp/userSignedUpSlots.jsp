@@ -45,38 +45,38 @@
                     </tr>
 
 
-                    <c:forEach var="slotDTO" items="${slots}">
+                    <c:forEach var="user" items="${slots}">
                         <tr>
                             <th>
                                 <form action="${contextPath}/user/cancelSignedUpSlot.do" method="post">
-                                    <input type="text" name="slotId" value="${slotDTO.slot.id}" hidden>
+                                    <input type="text" name="slotId" value="${user.slot.id}" hidden>
                                     <button class="btn brown-button"><fmt:message key="slotSearch.result.canceling"/></button>
                                 </form>
                             </th>
                             <td>
-                                    ${slotDTO.slot.date}
+                                    ${user.slot.date}
                             </td>
                             <td>
-                                    ${slotDTO.slot.startTime} - ${slotDTO.slot.endTime}
+                                    ${user.slot.startTime} - ${user.slot.endTime}
                             </td>
                             <td>
-                                    ${slotDTO.master.firstName} ${slotDTO.master.lastName}
+                                    ${user.master.firstName} ${user.master.lastName}
                             </td>
                             <td>
                                 <c:if test="${language eq 'en'}">
-                                    ${slotDTO.procedure.nameEn}
+                                    ${user.procedure.nameEn}
                                 </c:if>
                                 <c:if test="${language eq 'ru'}">
-                                    ${slotDTO.procedure.nameRus}
+                                    ${user.procedure.nameRus}
                                 </c:if>
                                 <c:if test="${language eq 'ua'}">
-                                    ${slotDTO.procedure.nameUkr}
+                                    ${user.procedure.nameUkr}
                                 </c:if>
                             </td>
                             <td>
-                                    <c:if test="${empty slotDTO.feedback.text}">
+                                    <c:if test="${empty user.feedback.text}">
                                         <form action="${contextPath}/user/addFeedback" method="post">
-                                            <input type="text" name="slotId" value="${slotDTO.slot.id}" hidden>
+                                            <input type="text" name="slotId" value="${user.slot.id}" hidden>
                                             <button class="btn brown-button"><fmt:message key="slotSearch.result.addFeedback"/></button>
                                         </form>
                                     </c:if>

@@ -39,15 +39,15 @@
             </a>
             <span class="navbar-text">|</span>
             <a class="nav-item nav-link" href="${contextPath}/admin/slotManagement">
-                <fmt:message key="adminCabinet.slotManagement"/>
+                <fmt:message key="adminCabinet.slotManagement.title"/>
             </a>
             <span class="navbar-text">|</span>
             <a class="nav-item nav-link" href="${contextPath}/admin/userManagement">
-                <fmt:message key="adminCabinet.userManagement"/>
+                <fmt:message key="adminCabinet.userManagement.title"/>
             </a>
             <span class="navbar-text">|</span>
             <a class="nav-item nav-link" href="${contextPath}/admin/procedureManagement">
-                <fmt:message key="adminCabinet.procedureManagement"/>
+                <fmt:message key="adminCabinet.procedureManagement.title"/>
             </a>
             <span class="navbar-text">|</span>
             <a class="nav-item nav-link" href="${contextPath}/logout"

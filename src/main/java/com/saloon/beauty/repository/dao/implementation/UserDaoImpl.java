@@ -76,6 +76,49 @@ public class UserDaoImpl implements UserDao {
         return users;
     }
 
+    @Override
+    public List<User> getUserParameterized(String searchString, Role role, String email, String phone, int limit, int offset) {
+        List<User> users = new ArrayList<>();
+
+        try {
+            PreparedStatement selectStatement = getPreparedAllUserStatement(searchString, role, email, phone, limit, offset, true);
+
+            ResultSet resultSet = selectStatement.executeQuery();
+
+            while (resultSet.next()) {
+                users.add(getUserFromResultRow(resultSet));
+            }
+
+            resultSet.close();
+
+        } catch (SQLException e) {
+            String errorText = "Can't get users list from DB by name and surname. Cause: " + e.getMessage();
+            LOG.error(errorText, e);
+            throw new DaoException(errorText, e);
+        }
+
+        return users;
+    }
+
+    @Override
+    public long getUserSearchResultCount(String searchString, Role role, String email, String phone) {
+        try {
+            PreparedStatement statement = getPreparedAllUserStatement(searchString, role, email, phone, 0, 0, false);
+
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return rs.getLong(1);
+            } else {
+                return 0;
+            }
+
+        } catch (SQLException e) {
+            String errorText = "Can't get users count in search result. Cause: " + e.getMessage();
+            LOG.error(errorText, e);
+            throw new DaoException(errorText, e);
+        }
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -95,7 +138,7 @@ public class UserDaoImpl implements UserDao {
 
 
         } catch (SQLException e) {
-            String errorText = String.format("Can't get user role by id: %s. Cause: %s", id, e.getMessage() );
+            String errorText = String.format("Can't get user role by id: %s. Cause: %s", id, e.getMessage());
             LOG.error(errorText, e);
             throw new DaoException(errorText, e);
         }
@@ -229,6 +272,92 @@ public class UserDaoImpl implements UserDao {
             throw new DaoException(errorText, e);
         }
     }
+
+    private PreparedStatement getPreparedAllUserStatement(String searchString, Role role, String email, String phone,
+                                                          int limit, int offset, boolean needPagination) throws SQLException {
+        StringBuilder queryBuilder = new StringBuilder();
+        boolean isNeedOperator = false;
+
+        if (needPagination) {
+            queryBuilder.append(DBQueries.ALL_USERS_QUERY_HEAD_PART);
+        } else {
+            queryBuilder.append(DBQueries.ALL_USERS_COUNT_QUERY_HEAD_PART);
+        }
+
+        if ((searchString != null && !searchString.isEmpty()) || role != null ||
+                (email != null && !email.isEmpty()) || (phone != null && !phone.isEmpty())) {
+            queryBuilder.append(" WHERE ");
+        }
+
+        if (searchString != null && !searchString.isEmpty()) {
+            queryBuilder.append(DBQueries.ALL_USERS_NAME_AND_SURNAME_PART);
+            isNeedOperator = true;
+        }
+
+        if (email != null && !email.isEmpty()) {
+            if (isNeedOperator) {
+                queryBuilder.append(" OR ");
+            } else {
+                queryBuilder.append(" ");
+            }
+            isNeedOperator = true;
+            queryBuilder.append(DBQueries.ALL_USERS_QUERY_EMAIL_PART);
+        }
+
+        if (phone != null && !phone.isEmpty()) {
+            if (isNeedOperator) {
+                queryBuilder.append(" OR ");
+            } else {
+                queryBuilder.append(" ");
+            }
+            isNeedOperator = true;
+            queryBuilder.append(DBQueries.ALL_USERS_QUERY_PHONE_PART);
+        }
+
+        if (role != null) {
+            if (isNeedOperator) {
+                queryBuilder.append(" AND ");
+            } else {
+                queryBuilder.append(" ");
+            }
+            queryBuilder.append(DBQueries.ALL_USERS_QUERY_ROLE_PART);
+        }
+
+        if (needPagination) {
+            queryBuilder.append(DBQueries.ALL_USERS_PAGINATION_PART);
+        }
+
+        queryBuilder.append(";");
+
+        PreparedStatement statement = connection.prepareStatement(queryBuilder.toString());
+
+        int parameterIndex = 1;
+
+        if (searchString != null && !searchString.isEmpty()) {
+            statement.setString(parameterIndex++, "%"+searchString+"%");
+            statement.setString(parameterIndex++, "%"+searchString+"%");
+        }
+
+        if (email != null && !email.isEmpty()){
+            statement.setString(parameterIndex++, "%"+email+"%");
+        }
+
+        if (phone != null && !phone.isEmpty()){
+            statement.setString(parameterIndex++, "%"+phone+"%");
+        }
+
+        if (role != null){
+            statement.setString(parameterIndex++, role.name());
+        }
+
+        if (needPagination){
+            statement.setInt(parameterIndex++, limit);
+            statement.setInt(parameterIndex, offset);
+        }
+
+        return statement;
+    }
+
 
     /**
      * Creates an user(without password field) from given {@code ResultSet}

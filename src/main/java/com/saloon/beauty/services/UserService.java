@@ -155,6 +155,25 @@ public class UserService extends Service {
         return checkAndCastObjectToList(executionResult);
     }
 
+    public List<User> getUsersByNameAndSurname(String searchString, Role role, String email, String phone,
+                                               int recordsQuantity, int previousRecordNumber){
+        DaoManager daoManager = daoManagerFactory.createDaoManager();
+
+        Object executionResult=daoManager.executeAndClose(manager -> getUsersByNameAndSurnameCommand(manager, searchString, role, email, phone,
+                recordsQuantity, previousRecordNumber));
+
+        return checkAndCastObjectToList(executionResult);
+    }
+
+    public long getUserSearchResultCount(String searchString, Role role, String email, String phone){
+        DaoManager daoManager = daoManagerFactory.createDaoManager();
+
+        Object executionResult = daoManager.executeAndClose(manager -> manager.getUserDao().
+                getUserSearchResultCount(searchString,role, email, phone));
+
+        return checkAndCastObjectToLong(executionResult);
+    }
+
 
 
     //Commands which is needed to be executed in corresponding public service methods
@@ -216,6 +235,11 @@ public class UserService extends Service {
         byte[] hashedPassword = md.digest(passwordToHash.getBytes(StandardCharsets.UTF_8));
 
         return new String(hashedPassword, StandardCharsets.UTF_8);
+    }
+
+    List<User> getUsersByNameAndSurnameCommand(DaoManager manager, String searchString, Role role, String email, String phone,
+    int recordsQuantity, int previousRecordNumber) throws SQLException {
+        return manager.getUserDao().getUserParameterized(searchString, role, email, phone, recordsQuantity, previousRecordNumber);
     }
 
 }

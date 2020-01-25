@@ -56,6 +56,19 @@ public class PaginationHelper {
         return (int) Math.ceil(recordsQuantity * 1.0 / recordsPerPage);
     }
 
+    public void addParameterToPagination(HttpServletRequest request) {
+        String queryStr = request.getQueryString().isEmpty() ? "" : request.getQueryString()+"&";
+
+        if (!queryStr.equals("")) {
+            int indexOfPagePart = queryStr.lastIndexOf("page");
+            if (indexOfPagePart != -1) {
+                request.setAttribute("queryStr", queryStr.substring(0, indexOfPagePart));
+            } else {
+                request.setAttribute("queryStr", queryStr);
+            }
+        }
+    }
+
     public int getRecordsPerPage() {
         return RECORDS_PER_PAGE;
     }

@@ -7,26 +7,26 @@ import lombok.*;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Contains html-form data with slot ID
+ * Contains html-form data with procedure ID
  */
 @EqualsAndHashCode(callSuper = false)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SlotIdForm extends ActionForm {
+public class ProcedureIdForm extends ActionForm {
 
     /**
-     * ID of slot
+     * ID of procedure
      */
-    private long slotId;
+    private long procedureId;
 
     /**
      * {@inheritDoc}
      */
     @Override
     public void fill(HttpServletRequest request) {
-        slotId = getLongPropertyFromRequest(request, "slotId");
+        procedureId = getLongPropertyFromRequest(request, "procedureId");
     }
 
     /**
@@ -35,8 +35,8 @@ public class SlotIdForm extends ActionForm {
     @Override
     public ActionErrors validate() {
         ActionErrors errors = new ActionErrors();
-        if (slotId == 0) {
-            errors.addError("slotId", "no slot id");
+        if (procedureId == 0) {
+            errors.addError("procedureId", "no procedure id");
         }
         return errors;
     }
