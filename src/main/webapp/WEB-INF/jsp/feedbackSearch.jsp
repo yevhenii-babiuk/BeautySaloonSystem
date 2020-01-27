@@ -227,5 +227,10 @@
         </ul>
     </nav>
 </c:if>
+<c:if test="${not empty slots}">
+    <div class="d-flex justify-content-center">
+        <h3><fmt:message key="noData"/></h3>
+    </div>
+</c:if>
 </body>
 </html>

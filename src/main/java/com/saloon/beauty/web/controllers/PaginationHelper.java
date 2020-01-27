@@ -57,7 +57,12 @@ public class PaginationHelper {
     }
 
     public void addParameterToPagination(HttpServletRequest request) {
-        String queryStr = request.getQueryString().isEmpty() ? "" : request.getQueryString()+"&";
+
+        String queryStr = "";
+
+        if (request.getQueryString() != null && !request.getQueryString().isEmpty()) {
+            queryStr = request.getQueryString() + "&";
+        }
 
         if (!queryStr.equals("")) {
             int indexOfPagePart = queryStr.lastIndexOf("page");

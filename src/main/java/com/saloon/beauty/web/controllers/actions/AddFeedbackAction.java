@@ -36,7 +36,7 @@ public class AddFeedbackAction extends Action {
 
         setUpdatingResultInRequest(request, updatingResult);
 
-        return resources.getForward("ShowSignedUpSlotsAction");
+        return resources.createRedirectPath(resources.getForward("ShowSignedUpSlotsAction"));
 
     }
 

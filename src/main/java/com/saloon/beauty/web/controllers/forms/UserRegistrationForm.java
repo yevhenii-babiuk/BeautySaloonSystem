@@ -63,7 +63,7 @@ public class UserRegistrationForm extends ActionForm {
             errors.addError("email", "registration.error.email");
         }
 
-        if (!phone.matches("^\\+\\d{10,15}$")) {
+        if (!phone.matches("^[-+\\d]{10,15}$")) {
             errors.addError("phone", "registration.error.phone");
         }
 

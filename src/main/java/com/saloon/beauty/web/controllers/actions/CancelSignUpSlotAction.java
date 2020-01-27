@@ -37,7 +37,7 @@ public class CancelSignUpSlotAction extends Action {
             request.setAttribute("actionResult", "slotSearch.result.failedCancelSignUp");
         }
 
-        return resources.getForward("ShowSignedUpSlotsAction");
+        return resources.createRedirectPath(resources.getForward("ShowSignedUpSlotsAction"));
     }
 
     /**

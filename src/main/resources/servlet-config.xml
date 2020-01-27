@@ -553,10 +553,6 @@
             <value>/WEB-INF/jsp/addFeedback.jsp</value>
         </entry>
         <entry>
-            <key>showUserProfilePage</key>
-            <value>/WEB-INF/jsp/userProfile.jsp</value>
-        </entry>
-        <entry>
             <key>ShowMasterFeedbackPage</key>
             <value>/WEB-INF/jsp/masterFeedback.jsp</value>
         </entry>

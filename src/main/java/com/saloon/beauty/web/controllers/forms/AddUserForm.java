@@ -71,7 +71,7 @@ public class AddUserForm extends ActionForm {
             errors.addError("email", "registration.error.email");
         }
 
-        if (!phone.matches("^\\+\\d{10,15}$")) {
+        if (!phone.matches("^[-+\\d]{10,15}$")) {
             errors.addError("phone", "registration.error.phone");
         }
 
@@ -86,7 +86,7 @@ public class AddUserForm extends ActionForm {
         }
 
         if(role == null || Stream.of("ADMINISTRATOR", "MASTER", "USER").
-                noneMatch(role->role.equals(this.role))){
+                noneMatch(r->r.equals(this.role.name()))){
             errors.addError("role", "registration.error.role");
         }
 

@@ -12,6 +12,7 @@ import com.saloon.beauty.web.controllers.forms.ActionForm;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Action for showing master`s slot
@@ -33,7 +34,10 @@ public class ShowMasterFeedbackAction extends Action {
 
         long masterId = ((User) request.getSession().getAttribute("loggedInUser")).getId();
         List<SlotDto> slots = getMasterSlots(masterId, request, slotService, paginationHelper);
-        request.setAttribute("slots", slots);
+        request.setAttribute("slots", slots.stream()
+                .filter(slotDto -> slotDto.getFeedback().equals(""))
+                .collect(Collectors.toList()));
+        paginationHelper.addParameterToPagination(request);
 
         addPaginationToRequest(masterId, request, paginationHelper);
         paginationHelper.addParameterToPagination(request);

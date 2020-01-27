@@ -142,7 +142,7 @@
         <table class="table table-hover table-sm">
 
             <tr>
-                <c:if test="${loggedInUser.role != 'MASTER'}">
+                <c:if test="${loggedInUser.role != 'MASTER' && loggedInUser.role != 'ADMINISTRATOR'}">
                     <th class="text-center"><fmt:message key="slotSearch.result.action"/></th>
                 </c:if>
                 <th class="text-center"><fmt:message key="slotSearch.result.status"/></th>
@@ -155,26 +155,14 @@
 
             <c:forEach var="user" items="${slots}">
                 <tr>
-                    <c:if test="${loggedInUser.role != 'MASTER'}">
+                    <c:if test="${loggedInUser.role != 'MASTER' && loggedInUser.role != 'ADMINISTRATOR'}">
                         <td>
-                            <c:choose>
-                                <%--Get full information if user in Admin's or Master's role--%>
-                                <c:when test="${loggedInUser.role == 'ADMINISTRATOR'}">
-                                    <form action="${contextPath}/admin/slotFullInformation" method="post">
-                                        <input type="text" name="slotId" value="${user.slot.id}" hidden>
-                                        <button class="btn brown-button"><fmt:message
-                                                key="slotSearch.result.fullInformation"/></button>
-                                    </form>
-                                </c:when>
-                                <c:otherwise>
-                                    <%--Sign up to slot for ordinary user--%>
-                                    <form action="${contextPath}/user/signUpSlot.do" method="post">
-                                        <input type="text" name="slotId" value="${user.slot.id}" hidden>
-                                        <button class="btn brown-button"><fmt:message
-                                                key="slotSearch.result.signUp"/></button>
-                                    </form>
-                                </c:otherwise>
-                            </c:choose>
+                                <%--Sign up to slot for ordinary user--%>
+                            <form action="${contextPath}/user/signUpSlot.do" method="post">
+                                <input type="text" name="slotId" value="${user.slot.id}" hidden>
+                                <button class="btn brown-button"><fmt:message
+                                        key="slotSearch.result.signUp"/></button>
+                            </form>
                         </td>
                     </c:if>
                     <td>
@@ -280,6 +268,11 @@
             </c:choose>
         </ul>
     </nav>
+</c:if>
+<c:if test="${not empty slots}">
+    <div class="d-flex justify-content-center">
+        <h3><fmt:message key="noData"/></h3>
+    </div>
 </c:if>
 </body>
 </html>

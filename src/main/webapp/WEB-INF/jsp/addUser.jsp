@@ -271,7 +271,7 @@
                 <div class="form-row">
                     <div class="col">
                         <label for="roleInput">
-                            <h3><fmt:message key="phone"/></h3>
+                            <h3><fmt:message key="role"/></h3>
                         </label>
                     </div>
                     <div class="col">

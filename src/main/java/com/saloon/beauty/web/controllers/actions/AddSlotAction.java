@@ -43,7 +43,7 @@ public class AddSlotAction extends Action {
 
         setUpdatingResultInRequest(request, updatingResult);
 
-        return resources.getForward("ShowSlotSearchAdminPage");
+        return resources.createRedirectPath(resources.getForward("ShowSlotSearchAdminPage"));
     }
 
 

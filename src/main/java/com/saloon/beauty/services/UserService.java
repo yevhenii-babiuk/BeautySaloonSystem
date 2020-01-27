@@ -201,6 +201,7 @@ public class UserService extends Service {
         UserDao userDao = manager.getUserDao();
         long id = userDao.save(user);
         if (id > 0) {
+            user.setId(id);
             return EXECUTING_SUCCESSFUL;
         } else {
             return EXECUTING_FAILED;

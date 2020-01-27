@@ -296,7 +296,7 @@ public class UserDaoImpl implements UserDao {
 
         if (email != null && !email.isEmpty()) {
             if (isNeedOperator) {
-                queryBuilder.append(" OR ");
+                queryBuilder.append(" AND ");
             } else {
                 queryBuilder.append(" ");
             }
@@ -306,7 +306,7 @@ public class UserDaoImpl implements UserDao {
 
         if (phone != null && !phone.isEmpty()) {
             if (isNeedOperator) {
-                queryBuilder.append(" OR ");
+                queryBuilder.append(" AND ");
             } else {
                 queryBuilder.append(" ");
             }

@@ -94,7 +94,6 @@
         <table class="table table-hover table-sm">
 
             <tr>
-                <th class="text-center"><fmt:message key="userManagement.findUser.result.showProfile"/></th>
                 <th class="text-center"><fmt:message key="userManagement.findUser.result.userId"/></th>
                 <th class="text-center"><fmt:message key="userManagement.findUser.result.role"/></th>
                 <th class="text-center"><fmt:message key="userManagement.findUser.result.nameAndSurname"/></th>
@@ -104,13 +103,6 @@
 
             <c:forEach var="user" items="${users}">
                 <tr>
-                    <td>
-                        <form action="${contextPath}/admin/userMAnagement/userProfile" method="post">
-                            <input type="text" name="slotId" value="${user.id}" hidden>
-                            <button class="btn brown-button">
-                                <fmt:message key="userManagement.findUser.result.showProfile"/></button>
-                        </form>
-                    </td>
                     <td>
                         ${user.id}
                     </td>
@@ -198,6 +190,11 @@
             </c:choose>
         </ul>
     </nav>
+</c:if>
+<c:if test="${not empty slots}">
+    <div class="d-flex justify-content-center">
+        <h3><fmt:message key="noData"/></h3>
+    </div>
 </c:if>
 </body>
 </html>

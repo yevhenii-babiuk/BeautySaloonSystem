@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -74,7 +75,9 @@ public class FeedbackSearchAction extends Action {
         request.setAttribute("maxDate", maxDate);
         request.setAttribute("minTime", minTime);
         request.setAttribute("maxTime", maxTime);
-        request.setAttribute("slots", slotDtoList);
+        request.setAttribute("slots", slotDtoList.stream()
+                .filter(slotDto -> slotDto.getFeedback().equals(""))
+                .collect(Collectors.toList()));
         paginationHelper.addParameterToPagination(request);
     }
 

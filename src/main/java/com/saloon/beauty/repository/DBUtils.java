@@ -1,18 +1,11 @@
 package com.saloon.beauty.repository;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.sql.*;
 
 /**
  * Contains util methods for DAOs
  */
 public class DBUtils {
-
-    private static final Logger log = LogManager.getLogger(DBUtils.class);
 
     /**
      * Returns id from executed insert statement

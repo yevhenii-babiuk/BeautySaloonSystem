@@ -49,7 +49,7 @@
                     <c:choose>
                         <c:when test="${errors.errorsMap['englishName'] != null}">
                             <div class="col-md-4">
-                                <input class="form-control is-invalid" type="text" name="nameEn" style="width: 100%" required>
+                                <input class="form-control is-invalid" type="text" name="nameEn" value="${form.nameEnglish}"  style="width: 100%" required>
                                 <div class="d-flex justify-content-center invalid-form font-weight-bold">
                                     <fmt:message key="${errors.errorsMap['englishName']}"/>
                                 </div>
@@ -57,14 +57,14 @@
                         </c:when>
                         <c:otherwise>
                             <div class="col-md-4">
-                                <input class="form-control is-valid" type="text" name="nameEn" style="width: 100%" required>
+                                <input class="form-control is-valid" type="text" name="nameEn" value="${form.nameEnglish}" style="width: 100%" required>
                             </div>
                         </c:otherwise>
                     </c:choose>
                     <c:choose>
                         <c:when test="${errors.errorsMap['ukrainianName'] != null}">
                             <div class="col-md-4">
-                                <input class="form-control is-invalid" type="text" name="nameUa" style="width: 100%" required>
+                                <input class="form-control is-invalid" type="text" name="nameUa" value="${form.nameUkrainian}" style="width: 100%" required>
                                 <div class="d-flex justify-content-center invalid-form font-weight-bold">
                                     <fmt:message key="${errors.errorsMap['ukrainianName']}"/>
                                 </div>
@@ -72,14 +72,14 @@
                         </c:when>
                         <c:otherwise>
                             <div class="col-md-4">
-                                <input class="form-control is-valid" type="text" name="nameUa" style="width: 100%" required>
+                                <input class="form-control is-valid" type="text" name="nameUa" value="${form.nameUkrainian}" style="width: 100%" required>
                             </div>
                         </c:otherwise>
                     </c:choose>
                     <c:choose>
                         <c:when test="${errors.errorsMap['russianName'] != null}">
                             <div class="col-md-4">
-                                <input class="form-control is-invalid" type="text" name="nameRu" style="width: 100%" required>
+                                <input class="form-control is-invalid" type="text" name="nameRu" value="${form.nameRussian}" style="width: 100%" required>
                                 <div class="d-flex justify-content-center invalid-form font-weight-bold">
                                     <fmt:message key="${errors.errorsMap['russianName']}"/>
                                 </div>
@@ -87,7 +87,7 @@
                         </c:when>
                         <c:otherwise>
                             <div class="col-md-4">
-                                <input class="form-control is-valid" type="text" name="nameRu" style="width: 100%" required>
+                                <input class="form-control is-valid" type="text" name="nameRu" value="${form.nameRussian}" style="width: 100%" required>
                             </div>
                         </c:otherwise>
                     </c:choose>
@@ -101,14 +101,14 @@
                         <c:choose>
                             <c:when test="${errors.errorsMap['englishDescription'] != null}">
                                 <textarea class="form-control is-invalid" rows="10" cols="50" name="descriptionEn"
-                                          required></textarea>
+                                          required>${form.descriptionEnglish}</textarea>
                                 <div class="d-flex justify-content-center invalid-form font-weight-bold">
                                     <fmt:message key="${errors.errorsMap['englishDescription']}"/>
                                 </div>
                             </c:when>
                             <c:otherwise>
                                 <textarea class="form-control is-valid" rows="10" cols="50" name="descriptionEn"
-                                          required></textarea>
+                                          required>${form.descriptionEnglish}</textarea>
                             </c:otherwise>
                         </c:choose>
                     </div>
@@ -119,14 +119,14 @@
                         <c:choose>
                             <c:when test="${errors.errorsMap['ukrainianDescription'] != null}">
                                 <textarea class="form-control is-invalid" rows="10" cols="50" name="descriptionUa"
-                                          required></textarea>
+                                          required>${form.descriptionUkrainian}</textarea>
                                 <div class="d-flex justify-content-center invalid-form font-weight-bold">
                                     <fmt:message key="${errors.errorsMap['ukrainianDescription']}"/>
                                 </div>
                             </c:when>
                             <c:otherwise>
                                 <textarea class="form-control is-valid" rows="10" cols="50" name="descriptionUa"
-                                          required></textarea>
+                                          required>${form.descriptionUkrainian}</textarea>
                             </c:otherwise>
                         </c:choose>
                     </div>
@@ -137,14 +137,14 @@
                         <c:choose>
                             <c:when test="${errors.errorsMap['russianDescription'] != null}">
                                 <textarea class="form-control is-invalid" rows="10" cols="50" name="descriptionRu"
-                                          required></textarea>
+                                          required>${form.descriptionRussian}</textarea>
                                 <div class="d-flex justify-content-center invalid-form font-weight-bold">
                                     <fmt:message key="${errors.errorsMap['russianDescription']}"/>
                                 </div>
                             </c:when>
                             <c:otherwise>
                                 <textarea class="form-control is-valid" rows="10" cols="50" name="descriptionRu"
-                                          required></textarea>
+                                          required>${form.descriptionRussian}</textarea>
                             </c:otherwise>
                         </c:choose>
                     </div>
@@ -157,7 +157,7 @@
                 <c:choose>
                     <c:when test="${errors.errorsMap['price'] != null}">
                         <div class="d-flex justify-content-center">
-                            <input class="is-invalid" type="text" name="procedurePrice" required>
+                            <input class="is-invalid" type="text" name="procedurePrice" value="${form.price}"required>
                         </div>
                         <div class="d-flex justify-content-center invalid-form font-weight-bold">
                             <fmt:message key="${errors.errorsMap['price']}"/>
@@ -165,12 +165,12 @@
                     </c:when>
                     <c:otherwise>
                         <div class="d-flex justify-content-center">
-                            <input class="is-valid" type="text" name="procedurePrice" required>
+                            <input class="is-valid" type="text" name="procedurePrice" value="${form.price}" required>
                         </div>
                     </c:otherwise>
                 </c:choose>
                 <div class="d-flex justify-content-center">
-                    <input type="text" value="${procedure.id}" name="procedureId" hidden>
+                    <input type="text" value="${form.procedureId}" name="procedureId" hidden>
                     <button class="btn btn-lg brown-button mt-3"><fmt:message
                             key="procedureManagement.updateProcedure.title"/></button>
                 </div>

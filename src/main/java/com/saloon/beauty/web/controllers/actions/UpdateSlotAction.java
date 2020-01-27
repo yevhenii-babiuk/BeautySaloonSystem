@@ -47,7 +47,7 @@ public class UpdateSlotAction extends Action {
             request.setAttribute("actionResult", "slotManagement.updateSlot.updatingFailed");
         }
 
-        return resources.getForward("ShowSlotSearchAdminPage");
+        return resources.createRedirectPath(resources.getForward("ShowSlotSearchAdminPage"));
 
     }
 
