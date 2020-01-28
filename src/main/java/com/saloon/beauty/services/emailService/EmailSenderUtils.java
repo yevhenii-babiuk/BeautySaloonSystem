@@ -1,9 +1,12 @@
 package com.saloon.beauty.services.emailService;
 
+import com.saloon.beauty.repository.DaoException;
 import com.saloon.beauty.repository.entity.Slot;
 import com.saloon.beauty.services.ServiceFactory;
 import com.saloon.beauty.services.SlotService;
 import com.saloon.beauty.services.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -21,11 +24,16 @@ import java.util.Properties;
 
 public class EmailSenderUtils {
 
+    private static final Logger LOG = LogManager.getLogger(EmailSenderUtils.class);
+
     private static EmailSenderUtils instance = new EmailSenderUtils();
 
-    private UserService userService;
-    private SlotService slotService;
+    private static UserService userService;
+    private static SlotService slotService;
 
+    static {
+        setServices();
+    }
 
     public synchronized void sendEmail() {
         Properties properties = getEmailSetting();
@@ -45,12 +53,15 @@ public class EmailSenderUtils {
                 Transport.send(prepareMessage(session, properties, email));
             }
         } catch (MessagingException e) {
-            e.printStackTrace();
+            String errorText = String.format("Can't send letter by combination email: %s and password: %s." +
+                    "\nCause: %s.", properties.get("username"), properties.get("password"), e.getMessage());
+            LOG.error(errorText, e);
+            throw new EmailSenderException(errorText, e);
         }
 
     }
 
-    private synchronized Message prepareMessage(Session session, Properties properties, String email) {
+    private static synchronized Message prepareMessage(Session session, Properties properties, String email) {
 
         Message message = new MimeMessage(session);
         try {
@@ -69,12 +80,14 @@ public class EmailSenderUtils {
 
             message.setContent(multipart);
         } catch (MessagingException e) {
-            e.printStackTrace();
+            String errorText = String.format("Can't prepare message. Cause: %s.", e.getMessage());
+            LOG.error(errorText, e);
+            throw new EmailSenderException(errorText, e);
         }
         return message;
     }
 
-    private Properties getEmailSetting() {
+    private static Properties getEmailSetting() {
 
         Properties properties = new Properties();
 
@@ -87,7 +100,8 @@ public class EmailSenderUtils {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Can't read emailConfig.properties file.", e);
+
         }
         return properties;
     }
@@ -99,13 +113,12 @@ public class EmailSenderUtils {
     private EmailSenderUtils() {
     }
 
-    private void setServices() {
+    private static void setServices() {
         userService = (UserService) new ServiceFactory().getService("com.saloon.beauty.services.UserService");
         slotService = (SlotService) new ServiceFactory().getService("com.saloon.beauty.services.SlotService");
     }
 
-    private List<String> getUsersEmail() {
-        setServices();
+    private static List<String> getUsersEmail() {
 
         List<String> emailList = new ArrayList<>();
 
