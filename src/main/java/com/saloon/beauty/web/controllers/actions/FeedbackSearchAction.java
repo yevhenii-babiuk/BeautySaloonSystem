@@ -76,7 +76,7 @@ public class FeedbackSearchAction extends Action {
         request.setAttribute("minTime", minTime);
         request.setAttribute("maxTime", maxTime);
         request.setAttribute("slots", slotDtoList.stream()
-                .filter(slotDto -> slotDto.getFeedback().equals(""))
+                .filter(slotDto -> slotDto.getFeedback().getText()!=null)
                 .collect(Collectors.toList()));
         paginationHelper.addParameterToPagination(request);
     }

@@ -42,7 +42,7 @@ public class AddUserAction extends Action {
             request.setAttribute("actionResult", "registration.userNotCreate");
         }
 
-        return resources.createRedirectPath(resources.getForward("ShowUserSearchPage"));
+        return resources.getForward("ShowUserSearchPage");
     }
 
      /**

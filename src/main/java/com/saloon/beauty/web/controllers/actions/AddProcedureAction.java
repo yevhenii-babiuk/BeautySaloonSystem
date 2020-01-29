@@ -45,7 +45,7 @@ public class AddProcedureAction extends Action {
 
         setUpdatingResultInRequest(request, updatingResult);
 
-        return resources.createRedirectPath(resources.getForward("ShowProceduresAction"));
+        return resources.getForward("ShowProceduresAction");
 
     }
 

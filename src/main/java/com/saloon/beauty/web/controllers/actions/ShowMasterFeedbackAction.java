@@ -35,7 +35,7 @@ public class ShowMasterFeedbackAction extends Action {
         long masterId = ((User) request.getSession().getAttribute("loggedInUser")).getId();
         List<SlotDto> slots = getMasterSlots(masterId, request, slotService, paginationHelper);
         request.setAttribute("slots", slots.stream()
-                .filter(slotDto -> slotDto.getFeedback().equals(""))
+                .filter(slotDto -> slotDto.getFeedback().getText()!=null)
                 .collect(Collectors.toList()));
         paginationHelper.addParameterToPagination(request);
 

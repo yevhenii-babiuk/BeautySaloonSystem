@@ -47,7 +47,7 @@ public class UpdateProcedureAction extends Action {
             request.setAttribute("actionResult", "procedureManagement.updateProcedure.updatingFailed");
         }
 
-        return resources.createRedirectPath(resources.getForward("ShowProceduresAction"));
+        return resources.getForward("ShowProceduresAction");
 
     }
 

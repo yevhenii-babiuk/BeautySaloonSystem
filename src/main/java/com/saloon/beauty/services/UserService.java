@@ -212,6 +212,11 @@ public class UserService extends Service {
         return manager.getUserDao().getUserByRole(Role.MASTER);
     }
 
+    List<User> getUsersByNameAndSurnameCommand(DaoManager manager, String searchString, Role role, String email, String phone,
+                                               int recordsQuantity, int previousRecordNumber) throws SQLException {
+        return manager.getUserDao().getUserParameterized(searchString, role, email, phone, recordsQuantity, previousRecordNumber);
+    }
+
 
     /**
      * Makes the hashed password for storing hash of the password instead
@@ -236,11 +241,6 @@ public class UserService extends Service {
         byte[] hashedPassword = md.digest(passwordToHash.getBytes(StandardCharsets.UTF_8));
 
         return new String(hashedPassword, StandardCharsets.UTF_8);
-    }
-
-    List<User> getUsersByNameAndSurnameCommand(DaoManager manager, String searchString, Role role, String email, String phone,
-    int recordsQuantity, int previousRecordNumber) throws SQLException {
-        return manager.getUserDao().getUserParameterized(searchString, role, email, phone, recordsQuantity, previousRecordNumber);
     }
 
 }

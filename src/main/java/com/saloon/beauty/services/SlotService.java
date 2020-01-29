@@ -61,15 +61,6 @@ public class SlotService extends Service {
         return checkAndCastExecutingResult(executionResult);
     }
 
-
-    public Optional<Slot> getSlotById(long slotId) {
-        DaoManager daoManager = daoManagerFactory.createDaoManager();
-
-        Object executingResult = daoManager.executeAndClose(manager -> manager.getSlotDao().get(slotId));
-
-        return checkAndCastObjectToOptional(executingResult);
-    }
-
     public boolean updateSlotStatus(long slotId, long userId, boolean isBooked) {
 
         Status status;

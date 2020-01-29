@@ -16,7 +16,7 @@
 </head>
 <body>
 
-<div><c:import url="header.jsp"/></div>
+<div><c:import url="adminControl.jsp"/></div>
 
 <%--Printing slot sign up result--%>
 <c:if test="${not empty actionResult}">

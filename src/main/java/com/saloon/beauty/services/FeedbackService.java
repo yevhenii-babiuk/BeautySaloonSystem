@@ -32,44 +32,6 @@ public class FeedbackService extends Service {
         return checkAndCastObjectToLong(executionResult);
     }
 
-    public Optional<Feedback> getFeedbackById(long feedbackId) {
-
-        DaoManager daoManager = daoManagerFactory.createDaoManager();
-
-        Object executingResult = daoManager.executeAndClose(manager -> manager.getFeedbackDao().get(feedbackId));
-
-        return checkAndCastObjectToOptional(executingResult);
-    }
-
-    public Optional<Feedback> getFeedbackBySlot(long slotId) {
-        DaoManager daoManager = daoManagerFactory.createDaoManager();
-
-        Object executingResult = daoManager.executeAndClose(manager -> manager.getFeedbackDao().getFeedbackBySlot(slotId));
-
-        return checkAndCastObjectToOptional(executingResult);
-    }
-
-    public List<Feedback> findFeedback(long masterId, long procedureId,
-                                       int recordsQuantity, int previousRecordNumber) {
-        DaoManager daoManager = daoManagerFactory.createDaoManager();
-
-        Object executionResult = daoManager.executeAndClose(manager -> findFeedbackCommand(manager, masterId, procedureId,
-                recordsQuantity, previousRecordNumber));
-
-        return checkAndCastObjectToList(executionResult);
-    }
-
-
-    public long getFeedbackSearchResultCount(long masterId, long procedureId) {
-        DaoManager daoManager = daoManagerFactory.createDaoManager();
-
-        Object executionResult = daoManager.executeAndClose(manager ->
-                manager.getFeedbackDao().getFeedbackSearchResultCount(masterId, procedureId));
-
-        return checkAndCastObjectToLong(executionResult);
-    }
-
-
     //Commands which is needed to be executed in corresponding public service methods
     long addFeedbackToSlotCommand(DaoManager manager, Feedback feedback) throws SQLException {
 
@@ -100,15 +62,6 @@ public class FeedbackService extends Service {
         }
 
         return feedbackId;
-    }
-
-    List<Feedback> findFeedbackCommand(DaoManager manager, long masterId, long procedureId,
-                                       int recordsQuantity, int previousRecordNumber) throws SQLException {
-
-        List<Feedback> feedbackList = manager.getFeedbackDao().getAllFeedbackParameterized(masterId, procedureId,
-                recordsQuantity, previousRecordNumber);
-
-        return feedbackList;
     }
 
 }

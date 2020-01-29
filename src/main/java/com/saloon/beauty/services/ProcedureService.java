@@ -94,8 +94,7 @@ public class ProcedureService extends Service {
     public List<Procedure> getProcedureParametrized(int recordsQuantity, int previousRecordNumber){
         DaoManager daoManager = daoManagerFactory.createDaoManager();
 
-        Object executionResult = daoManager.executeAndClose(manager -> manager.getProcedureDao()
-                .getAllProcedureParametrized(recordsQuantity, previousRecordNumber));
+        Object executionResult = daoManager.executeAndClose(manager -> getProcedureParametrizedCommand(manager, recordsQuantity, previousRecordNumber));
         return checkAndCastObjectToList(executionResult);
     }
 
@@ -103,6 +102,11 @@ public class ProcedureService extends Service {
     //Commands which is needed to be executed in corresponding public service methods
     List<Procedure> getAllProcedureCommand(DaoManager manager) throws SQLException {
         return manager.getProcedureDao().getAll();
+    }
+
+    List<Procedure> getProcedureParametrizedCommand(DaoManager manager, int recordsQuantity, int previousRecordNumber) throws SQLException {
+        return manager.getProcedureDao()
+                .getAllProcedureParametrized(recordsQuantity, previousRecordNumber);
     }
 
     synchronized long addNewProcedureCommand(DaoManager manager, Procedure procedure) throws SQLException{

@@ -73,8 +73,9 @@ public class SlotUpdateForm extends ActionForm {
             errors.addError("date", "slot.error.date");
         }
 
-        if (startTime == null || startTime.isBefore(LocalTime.now())){
-            errors.addError("startTime", "slot.error.startTime");
+        if (startTime == null){
+            if(date.equals(LocalDate.now()) && startTime.isBefore(LocalTime.now()))
+                errors.addError("startTime", "slot.error.startTime");
         }
 
         if (endTime == null || endTime.isBefore(LocalTime.now())){
