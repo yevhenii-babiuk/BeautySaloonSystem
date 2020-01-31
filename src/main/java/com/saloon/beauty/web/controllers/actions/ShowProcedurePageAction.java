@@ -43,7 +43,6 @@ public class ShowProcedurePageAction extends Action {
     }
 
     void setRequestAttributes(HttpServletRequest request, List<Procedure> procedureList) {
-
         request.setAttribute("procedures", procedureList);
     }
 

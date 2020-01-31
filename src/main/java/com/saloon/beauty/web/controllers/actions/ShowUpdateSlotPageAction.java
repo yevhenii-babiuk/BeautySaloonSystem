@@ -50,7 +50,7 @@ public class ShowUpdateSlotPageAction extends Action {
         return resources.getForward("ShowSlotUpdatePage");
     }
 
-    private Optional<SlotDto> getSlotInformationById(HttpServletRequest request, ActionForm form) {
+    Optional<SlotDto> getSlotInformationById(HttpServletRequest request, ActionForm form) {
 
         long id = ((SlotIdForm)form).getSlotId();
 

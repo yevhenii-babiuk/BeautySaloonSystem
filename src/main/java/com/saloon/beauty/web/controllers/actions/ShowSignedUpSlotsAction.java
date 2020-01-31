@@ -44,7 +44,7 @@ public class ShowSignedUpSlotsAction extends Action {
     /**
      * Gives a {@code List} with paginated part of all slots
      */
-    private List<SlotDto> getUserSlots(long userId, HttpServletRequest request, SlotService slotService, PaginationHelper paginationHelper) {
+    List<SlotDto> getUserSlots(long userId, HttpServletRequest request, SlotService slotService, PaginationHelper paginationHelper) {
 
         int recordsPerPage = paginationHelper.getRecordsPerPage();
         int previousRecordNumber = paginationHelper.getPreviousRecordNumber(request, recordsPerPage);
@@ -57,7 +57,7 @@ public class ShowSignedUpSlotsAction extends Action {
     /**
      * Adds pagination to request
      */
-    private void addPaginationToRequest(long userId, HttpServletRequest request, PaginationHelper paginationHelper) {
+    void addPaginationToRequest(long userId, HttpServletRequest request, PaginationHelper paginationHelper) {
         long recordsQuantity = slotService.getSlotSearchResultCount(0L, Status.BOOKED, userId, 0L,
                 null, null, null, null);
         paginationHelper.addPaginationToRequest(request, recordsQuantity);

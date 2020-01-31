@@ -30,7 +30,7 @@ public class ShowUpdateProcedurePageAction extends Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, ActionForm form, ServletResources resources) {
 
-        Optional<Procedure> optionalProcedure = getProcedureById(request, form);
+        Optional<Procedure> optionalProcedure = getProcedureById(form);
 
         if (optionalProcedure.isPresent()){
             Procedure procedure = optionalProcedure.get();
@@ -43,7 +43,7 @@ public class ShowUpdateProcedurePageAction extends Action {
         return resources.getForward("ShowProcedureUpdatePage");
     }
 
-    private Optional<Procedure> getProcedureById(HttpServletRequest request, ActionForm form) {
+    Optional<Procedure> getProcedureById(ActionForm form) {
 
         long id = ((ProcedureIdForm)form).getProcedureId();
 

@@ -44,7 +44,7 @@ public class ShowMastersSlotsAction extends Action {
     /**
      * Gives a {@code List} with paginated part of all slots
      */
-    private List<SlotDto> getMasterSlots(long masterId, HttpServletRequest request, SlotService slotService, PaginationHelper paginationHelper) {
+    List<SlotDto> getMasterSlots(long masterId, HttpServletRequest request, SlotService slotService, PaginationHelper paginationHelper) {
 
         int recordsPerPage = paginationHelper.getRecordsPerPage();
         int previousRecordNumber = paginationHelper.getPreviousRecordNumber(request, recordsPerPage);
@@ -57,7 +57,7 @@ public class ShowMastersSlotsAction extends Action {
     /**
      * Adds pagination to request
      */
-    private void addPaginationToRequest(long masterId, HttpServletRequest request, PaginationHelper paginationHelper) {
+    void addPaginationToRequest(long masterId, HttpServletRequest request, PaginationHelper paginationHelper) {
         long recordsQuantity = slotService.getSlotSearchResultCount(masterId, null, 0L, 0L,
                 null, null, null, null);
         paginationHelper.addPaginationToRequest(request, recordsQuantity);

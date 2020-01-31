@@ -16,7 +16,7 @@
 </head>
 <body>
 
-<div><c:import url="header.jsp"/></div>
+<div><c:import url="adminControl.jsp"/></div>
 
 <c:if test="${not empty actionResult}">
     <div class="d-flex justify-content-center">
