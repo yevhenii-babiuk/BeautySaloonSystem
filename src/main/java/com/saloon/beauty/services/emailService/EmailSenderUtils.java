@@ -1,6 +1,5 @@
 package com.saloon.beauty.services.emailService;
 
-import com.saloon.beauty.repository.DaoException;
 import com.saloon.beauty.repository.entity.Slot;
 import com.saloon.beauty.services.ServiceFactory;
 import com.saloon.beauty.services.SlotService;
@@ -22,6 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+/**
+ * Contains util methods for service of sending email
+ */
 public class EmailSenderUtils {
 
     private static final Logger LOG = LogManager.getLogger(EmailSenderUtils.class);
@@ -61,6 +63,13 @@ public class EmailSenderUtils {
 
     }
 
+    /**
+     * Create an email message for sending
+     * @param session - session with login and password for email
+     * @param properties - properties with configuration for crating message
+     * @param email - target email to sending message
+     * @return a {@code Message} object to future sending
+     */
     private static synchronized Message prepareMessage(Session session, Properties properties, String email) {
 
         Message message = new MimeMessage(session);
@@ -87,6 +96,11 @@ public class EmailSenderUtils {
         return message;
     }
 
+
+    /**
+     * Read configure from properties file
+     * @return a {@code Properties} object with setting for sender from configure file
+     */
     private static Properties getEmailSetting() {
 
         Properties properties = new Properties();
@@ -118,6 +132,10 @@ public class EmailSenderUtils {
         slotService = (SlotService) new ServiceFactory().getService("com.saloon.beauty.services.SlotService");
     }
 
+    /**
+     * Search slots in which status of feedback request set as false
+     * @return a {@code List} of email of user, which is not received request to write feedback yet
+     */
     private static List<String> getUsersEmail() {
 
         List<String> emailList = new ArrayList<>();

@@ -37,7 +37,7 @@ public class UserService extends Service {
      * @param email     - the user's e-mail
      * @param phone     - the user's phone number
      * @param password  - the user's password
-     * @param role - the user's role
+     * @param role      - the user's role
      * @return an {@code Optional} with created user if saving
      * was successful or an empty {@code Optional} if it wasn't
      */
@@ -147,6 +147,10 @@ public class UserService extends Service {
         return checkAndCastExecutingResult(executionResult);
     }
 
+    /**
+     * Method that get all masters
+     * @return a list with {@code User} contains the target masters
+     */
     public List<User> getAllMasters(){
         DaoManager daoManager = daoManagerFactory.createDaoManager();
 
@@ -155,6 +159,18 @@ public class UserService extends Service {
         return checkAndCastObjectToList(executionResult);
     }
 
+    /**
+     * Finds all users which fits of the given combinations
+     * of criteria: name or surname, role, email, phone.
+     * Any of this parameters may present or may not.
+     * @param searchString - string that contains name or surname of searching user
+     * @param role - user`s role
+     * @param email - user`s email
+     * @param phone - user`s phone
+     * @param recordsQuantity - quantity of records per page
+     * @param previousRecordNumber - number of previous record
+     * @return a list with {@code User} contains target userss
+     */
     public List<User> getUsersByNameAndSurname(String searchString, Role role, String email, String phone,
                                                int recordsQuantity, int previousRecordNumber){
         DaoManager daoManager = daoManagerFactory.createDaoManager();
@@ -165,6 +181,14 @@ public class UserService extends Service {
         return checkAndCastObjectToList(executionResult);
     }
 
+    /**
+     * Counts all users in user search result
+     * @param searchString - string that contains name or surname of searching user
+     * @param role - user`s role
+     * @param email - user`s email
+     * @param phone - user`s phone
+     * @return quantity of all users in user search result
+     */
     public long getUserSearchResultCount(String searchString, Role role, String email, String phone){
         DaoManager daoManager = daoManagerFactory.createDaoManager();
 
@@ -173,8 +197,6 @@ public class UserService extends Service {
 
         return checkAndCastObjectToLong(executionResult);
     }
-
-
 
     //Commands which is needed to be executed in corresponding public service methods
     synchronized boolean updateUserDataCommand(DaoManager manager, User user, String newPass, String oldPass) throws SQLException {
@@ -216,7 +238,6 @@ public class UserService extends Service {
                                                int recordsQuantity, int previousRecordNumber) throws SQLException {
         return manager.getUserDao().getUserParameterized(searchString, role, email, phone, recordsQuantity, previousRecordNumber);
     }
-
 
     /**
      * Makes the hashed password for storing hash of the password instead

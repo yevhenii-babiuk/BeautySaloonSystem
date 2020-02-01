@@ -80,6 +80,17 @@ public class ProcedureService extends Service {
         return checkAndCastObjectToOptional(executingResult);
     }
 
+    /**
+     * Update required by identifier procedure
+     * @param nameUkr - new ukrainian name of procedure
+     * @param descriptionUkr - new ukrainian description of procedure
+     * @param nameEn - new english name of procedure
+     * @param descriptionEn - new english description of procedure
+     * @param nameRus - new russian name of procedure
+     * @param descriptionRus - new russian name of procedure
+     * @param price - new procedure`s price
+     * @return the boolean type of updating result
+     */
     public boolean updateProcedure(long procedureId,
                                    String nameUkr, String descriptionUkr,
                                    String nameEn, String descriptionEn,
@@ -104,6 +115,11 @@ public class ProcedureService extends Service {
         return checkAndCastExecutingResult(executionResult);
     }
 
+
+    /**
+     * Counts all procedures in search result
+     * @return quantity of all procedures in search result
+     */
     public long getProcedureSearchResultCount() {
         DaoManager daoManager = daoManagerFactory.createDaoManager();
 
@@ -113,6 +129,13 @@ public class ProcedureService extends Service {
         return checkAndCastObjectToLong(executionResult);
     }
 
+
+    /**
+     * Method that get all procedures
+     * @param recordsQuantity - quantity of records per page
+     * @param previousRecordNumber - number of previous record
+     * @return a list with {@code Procedure} contains the target procedures
+     */
     public List<Procedure> getProcedureParametrized(int recordsQuantity, int previousRecordNumber){
         DaoManager daoManager = daoManagerFactory.createDaoManager();
 

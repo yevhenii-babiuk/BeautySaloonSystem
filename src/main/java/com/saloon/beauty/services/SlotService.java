@@ -15,6 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service class which has methods bound with Slot operations
+ * and DAO
+ */
 public class SlotService extends Service {
 
     private DaoManagerFactory daoManagerFactory;
@@ -23,6 +27,17 @@ public class SlotService extends Service {
         this.daoManagerFactory = daoManagerFactory;
     }
 
+
+    /**
+     * Method adding new slot
+     * @param date - date of new slot
+     * @param startTime - start time of new slot
+     * @param endTime - end time of new slot
+     * @param masterId - long type of master`s identifier
+     * @param userId - long type of user`s identifier (can be 0L)
+     * @param procedureId - long type of procedure
+     * @return long type of identifier of new slot
+     */
     public long addNewSlot(LocalDate date,
                            LocalTime startTime,
                            LocalTime endTime,
@@ -47,6 +62,16 @@ public class SlotService extends Service {
         return checkAndCastObjectToLong(executionResult);
     }
 
+    /**
+     * Method for update target slot
+     * @param slotId - identifier of target slot
+     * @param date - date of updated slot
+     * @param startTime - start time of updated slot
+     * @param endTime - end time of updated slot
+     * @param masterId - long type of master`s identifier
+     * @param procedureId - long type of procedure
+     * @return boolean type result of updating slot
+     */
     public boolean updateSlot(long slotId,
                            long masterId,
                            long procedureId,
@@ -61,6 +86,14 @@ public class SlotService extends Service {
         return checkAndCastExecutingResult(executionResult);
     }
 
+    /**
+     * Method for update status target slot
+     * @param slotId - identifier of target slot
+     * @param userId - identifier of user, that want update status of slot
+     * @param isBooked  - boolean type of wanted action with target slot
+     *                  true for booking or false for quitting slot
+     * @return boolean type result of updating slot
+     */
     public boolean updateSlotStatus(long slotId, long userId, boolean isBooked) {
 
         Status status;
@@ -78,6 +111,23 @@ public class SlotService extends Service {
         return checkAndCastExecutingResult(executionResult);
     }
 
+
+    /**
+     * Finds all slots which fits of the given combinations
+     * of criteria: master, status, user, procedure, date and time.
+     * Any of this parameters may present or may not.
+     * @param masterId - master`s ID target slot
+     * @param status - status of target slot
+     * @param userId - users`s ID of target slot
+     * @param procedureId - procedure`s ID of target slot
+     * @param minDate - minimum limit of date for find slots
+     * @param maxDate - maximum limit of date for find slots
+     * @param minTime - minimum limit of time for find slots
+     * @param maxTime - maximum limit of time for find slots
+     * @param recordsQuantity - quantity of records per page
+     * @param previousRecordNumber - number of previous record
+     * @return a list with {@code SloDto} contains target slots
+     */
     public List<SlotDto> findSlots(long masterId, Status status, long userId, long procedureId,
                                    LocalDate minDate, LocalDate maxDate,
                                    LocalTime minTime, LocalTime maxTime,
@@ -90,6 +140,11 @@ public class SlotService extends Service {
         return checkAndCastObjectToList(executionResult);
     }
 
+    /**
+     * Method, that returns {@code SlotDto} if such exist by identifier
+     * @param slotId - identifier of required slot
+     * @return {@code Optional} of required slot
+     */
     public Optional<SlotDto> getSlotDtoById(long slotId) {
 
         DaoManager daoManager = daoManagerFactory.createDaoManager();
@@ -100,15 +155,16 @@ public class SlotService extends Service {
     }
 
     /**
-     * Counts all slots in search result
-     *
-     * @param masterId
-     * @param userId
-     * @param status
-     * @param minDate
-     * @param maxDate
-     * @param minTime
-     * @param maxTime
+     * Counts all slots in search result which fits to the given combinations
+     * of criteria:
+     * @param masterId - master`s ID target slot
+     * @param status - status of target slot
+     * @param userId - users`s ID of target slot
+     * @param procedureId - procedure`s ID of target slot
+     * @param minDate - minimum limit of date for find slots
+     * @param maxDate - maximum limit of date for find slots
+     * @param minTime - minimum limit of time for find slots
+     * @param maxTime - maximum limit of time for find slots
      * @return quantity of all slots in search result
      */
     public long getSlotSearchResultCount(long masterId, Status status, long userId, long procedureId,
@@ -123,7 +179,11 @@ public class SlotService extends Service {
         return checkAndCastObjectToLong(executionResult);
     }
 
-
+    /**
+     * Method, that returns {@code List} of {@code SlotDto} by status
+     * @param status - boolean type of slot`s status
+     * @return {@code List} of slots
+     */
     public List<Slot> getSlotByStatusFeedbackRequest(boolean status) {
         DaoManager daoManager = daoManagerFactory.createDaoManager();
 
@@ -132,6 +192,11 @@ public class SlotService extends Service {
         return checkAndCastObjectToList(executingResult);
     }
 
+    /**
+     * Update slot`s feedback request status to true
+     * @param slotId - an ID of target slot
+     * @return boolean type of updating result
+     */
     public boolean setFeedbackRequestStatusTrue(long slotId) {
         DaoManager daoManager = daoManagerFactory.createDaoManager();
 
@@ -218,7 +283,7 @@ public class SlotService extends Service {
 
     synchronized boolean setSlotFeedbackRequestStatusTrueCommand(DaoManager manager, long slotId, boolean status) throws SQLException {
         Optional<Slot> slotOptional = manager.getSlotDao().get(slotId);
-        Slot slot = null;
+        Slot slot;
         if (slotOptional.isEmpty()) {
             return EXECUTING_FAILED;
         } else {
@@ -262,6 +327,14 @@ public class SlotService extends Service {
 
     }
 
+
+    /**
+     * Creates a {@code SlotDto} (with Feedback, User and Master) from given slot.
+     * @param manager - {@code DaoManager} for accessing daos needed
+     * @param slot - slot from wich DTO is need to created
+     * @return the object with contains given slot and its feedback, user, and master
+     * @throws SQLException if manager can't give a Dao needed
+     */
     SlotDto createSlotDtoFromSlot(DaoManager manager, Slot slot) throws SQLException {
         SlotDtoDao slotDtoDao = manager.getSlotDtoDao();
 
