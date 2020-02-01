@@ -1,6 +1,5 @@
 package com.saloon.beauty.web.controllers.forms;
 
-import com.saloon.beauty.repository.entity.Status;
 import com.saloon.beauty.web.controllers.ActionErrors;
 import lombok.*;
 
@@ -9,7 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 /**
- * Class represents slot searching html-form
+ * Class represents feedback searching html-form
  */
 @EqualsAndHashCode(callSuper = false)
 @Data
@@ -25,6 +24,9 @@ public class FeedbackSearchForm extends ActionForm {
     private LocalTime maxStartTime;
     private long procedure;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void fill(HttpServletRequest request) {
         masterId = getLongPropertyFromRequest(request, "masterId");
@@ -35,6 +37,9 @@ public class FeedbackSearchForm extends ActionForm {
         procedure = getLongPropertyFromRequest(request, "procedureId");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ActionErrors validate() {
         return new ActionErrors();

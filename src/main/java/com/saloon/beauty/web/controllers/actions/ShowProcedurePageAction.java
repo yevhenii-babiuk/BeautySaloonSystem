@@ -27,7 +27,7 @@ public class ShowProcedurePageAction extends Action {
      * @param response  the response to user
      * @param form      - form need to be processed by this action
      * @param resources - servlet's resources
-     * @return path for forwarding to the slot search page
+     * @return path for forwarding to the procedures page
      * for showing the searching results
      */
     @Override

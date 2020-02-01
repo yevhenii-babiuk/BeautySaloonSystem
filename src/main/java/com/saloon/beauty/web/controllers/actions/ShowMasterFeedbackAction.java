@@ -15,19 +15,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Action for showing master`s slot
+ * Action for showing master`s slots with feedback
  */
 public class ShowMasterFeedbackAction extends Action {
 
     private SlotService slotService;
 
     /**
-     * Gets all slot of user and adds them to request
+     * Gets all slots with feedback of master and adds them to request
      * @param request the request need to be processed
      * @param response the response to user
      * @param form - form need to be processed by this action
      * @param resources - servlet's resources
-     * @return path to the signed up slots by user page
+     * @return path to the show master`s feedback page
      */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, ActionForm form, ServletResources resources) {

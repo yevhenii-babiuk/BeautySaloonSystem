@@ -21,10 +21,10 @@ public class CancelSignUpSlotAction extends Action {
      * Takes target slot's ID from {@code form} and cancel
      * a sign up to this slot by user stored in current
      * session
-     * @param request {@inheritDoc}
-     * @param response {@inheritDoc}
-     * @param form - {@inheritDoc}
-     * @param resources - {@inheritDoc}
+     * @param request the request need to be processed
+     * @param response the response to user
+     * @param form - form need to be processed by this action
+     * @param resources - servlet's resources
      * @return path for forwarding to the show slot page with
      * canceling result info
      */

@@ -5,6 +5,10 @@ import lombok.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Contains htm-form data with slot`s ID,
+ * which user wanted to sign up
+ */
 @EqualsAndHashCode(callSuper = false)
 @Data
 @NoArgsConstructor

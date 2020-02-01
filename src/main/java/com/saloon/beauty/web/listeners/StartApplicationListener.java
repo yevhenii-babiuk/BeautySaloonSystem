@@ -35,7 +35,6 @@ public class StartApplicationListener implements ServletContextListener{
         scheduler.scheduleAtFixedRate(new EmailSenderService(), 0, 30, TimeUnit.MINUTES);
     }
 
-
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         scheduler.shutdownNow();

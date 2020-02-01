@@ -21,7 +21,7 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
- * Action for searching slot for signing up
+ * Action for searching feedback
  */
 public class FeedbackSearchAction extends Action {
 
@@ -62,6 +62,7 @@ public class FeedbackSearchAction extends Action {
 
         return resources.getForward("ShowFeedbackSearchPage");
     }
+
 
     void setRequestAttributes(HttpServletRequest request, long masterId, long procedureId,
                               LocalDate minDate, LocalDate maxDate, LocalTime minTime, LocalTime maxTime,

@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 @Builder
 public class UserRegistrationForm extends ActionForm {
 
-    //Form fields
+
     private String firstName;
     private String lastName;
     private String email;

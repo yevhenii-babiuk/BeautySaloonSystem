@@ -20,15 +20,14 @@ public class AddSlotAction extends Action {
     private SlotService slotService;
 
     /**
-     * Finds paginated part of slots which fits to user's slot search
-     * parameters and sets {@code List} with searching
-     * results as session attribute
+     Stores adding slot by {@code SlotService} and sets result
+     * of this operation in a request
+     *
      * @param request the request need to be processed
      * @param response the response to user
      * @param form - form need to be processed by this action
      * @param resources - servlet's resources
-     * @return path for forwarding to the slot search page
-     * for showing the searching results
+     * @return path to the {@code ShowSlotSearchAdminPage}
      */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, ActionForm form, ServletResources resources) {

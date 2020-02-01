@@ -3,18 +3,23 @@ package com.saloon.beauty.repository.dao;
 import com.saloon.beauty.repository.entity.Procedure;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
+/**
+ * Dao for Procedure entity
+ */
 public interface ProcedureDao extends Dao<Procedure>{
 
-    Optional<Procedure> getProcedureByName(String name);
-
-    int getPriceByName(String name);
-
-    Map<String, String> getDescriptionByName(String name);
-
+    /**
+     * Counts amount of all procedures
+     * @return amount of all procedures
+     */
     long getProcedureSearchResultCount();
 
+    /**
+     * Finds all procedures in a DB
+     * @param limit the number of procedure
+     * @param offset the number of procedure
+     * @return - list with all procedures
+     */
     List<Procedure> getAllProcedureParametrized(int limit, int offset);
 }

@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementing of UserDao for working with a SQL server
+ */
 public class UserDaoImpl implements UserDao {
 
     private static final Logger LOG = LogManager.getLogger(UserDao.class);
@@ -50,6 +53,9 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<User> getUserByRole(Role role) {
         List<User> users = new ArrayList<>();
@@ -76,6 +82,9 @@ public class UserDaoImpl implements UserDao {
         return users;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<User> getUserParameterized(String searchString, Role role, String email, String phone, int limit, int offset) {
         List<User> users = new ArrayList<>();
@@ -100,6 +109,9 @@ public class UserDaoImpl implements UserDao {
         return users;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long getUserSearchResultCount(String searchString, Role role, String email, String phone) {
         try {
@@ -114,31 +126,6 @@ public class UserDaoImpl implements UserDao {
 
         } catch (SQLException e) {
             String errorText = "Can't get users count in search result. Cause: " + e.getMessage();
-            LOG.error(errorText, e);
-            throw new DaoException(errorText, e);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Optional<Role> getRoleByUserId(long id) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(DBQueries.GET_USER_ROLE_BY_USER_ID_QUERY);
-            statement.setLong(1, id);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-                return Optional.of(Role.valueOf(resultSet.getString("role")));
-            } else {
-                return Optional.empty();
-            }
-
-
-        } catch (SQLException e) {
-            String errorText = String.format("Can't get user role by id: %s. Cause: %s", id, e.getMessage());
             LOG.error(errorText, e);
             throw new DaoException(errorText, e);
         }
@@ -273,6 +260,22 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+    /**
+     * Gives {@code PreparedStatement} depending on data
+     * existence in every of methods argument
+     *
+     * @param searchString - string that contains name or surname of searching user
+     * @param role - user`s role
+     * @param email - user`s email
+     * @param phone - user`s phone
+     * @param limit        - the number of slots returned
+     * @param offset       - the number of slots returned
+     * @param needPagination - defines type of result {@code Statement}.
+     *                       If {@code needPagination} is {false} statement
+     *                       will return count of all target slots.
+     *                       It will return only limited count of slots otherwise.
+     * @return - statement for getting users information from DB
+     */
     private PreparedStatement getPreparedAllUserStatement(String searchString, Role role, String email, String phone,
                                                           int limit, int offset, boolean needPagination) throws SQLException {
         StringBuilder queryBuilder = new StringBuilder();

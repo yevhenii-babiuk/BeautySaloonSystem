@@ -1,8 +1,6 @@
 package com.saloon.beauty.web.controllers.forms;
 
 import com.saloon.beauty.repository.entity.Role;
-import com.saloon.beauty.services.ServiceFactory;
-import com.saloon.beauty.services.UserService;
 import com.saloon.beauty.web.controllers.ActionErrors;
 import lombok.*;
 
@@ -12,7 +10,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 /**
- * Class represents user registration html-form
+ * Class represents adding by administrator user html-form
  */
 @EqualsAndHashCode(callSuper = false)
 @Data
@@ -36,7 +34,7 @@ public class AddUserForm extends ActionForm {
     @Override
     public void fill(HttpServletRequest request) {
 
-        role = getPropertyFromRequest(request,"role") == "" ? null : Role.valueOf(getPropertyFromRequest(request,"role"));
+        role = getPropertyFromRequest(request,"role").equals("") ? null : Role.valueOf(getPropertyFromRequest(request,"role"));
         firstName = getPropertyFromRequest(request, "firstName");
         lastName = getPropertyFromRequest(request, "lastName");
         email = getPropertyFromRequest(request, "email");

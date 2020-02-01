@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 /**
- * Action for showing the slot search page
+ * Action for showing the slot updating page
  */
 public class ShowUpdateSlotPageAction extends Action {
 
@@ -24,7 +24,7 @@ public class ShowUpdateSlotPageAction extends Action {
 
     /**
      * Attaches to the session attributes with masters
-     * and procedures lists and shows the slot searching page
+     * and procedures lists and shows the updating page
      * @param request the request need to be processed
      * @param response the response to user
      * @param form - form need to be processed by this action
@@ -37,7 +37,7 @@ public class ShowUpdateSlotPageAction extends Action {
         setMastersAttribute(request);
         setProceduresAttribute(request);
 
-        Optional<SlotDto> slotOptional = getSlotInformationById(request, form);
+        Optional<SlotDto> slotOptional = getSlotInformationById(form);
 
         if (slotOptional.isPresent()){
             SlotDto slot = slotOptional.get();
@@ -50,7 +50,7 @@ public class ShowUpdateSlotPageAction extends Action {
         return resources.getForward("ShowSlotUpdatePage");
     }
 
-    Optional<SlotDto> getSlotInformationById(HttpServletRequest request, ActionForm form) {
+    Optional<SlotDto> getSlotInformationById(ActionForm form) {
 
         long id = ((SlotIdForm)form).getSlotId();
 

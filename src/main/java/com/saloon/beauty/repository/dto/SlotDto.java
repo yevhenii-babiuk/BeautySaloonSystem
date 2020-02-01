@@ -6,6 +6,9 @@ import com.saloon.beauty.repository.entity.User;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * DTO version of {@code Slot}
+ */
 @Data
 @Builder
 public class SlotDto {

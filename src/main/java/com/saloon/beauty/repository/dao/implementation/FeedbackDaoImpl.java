@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementing of FeedbackDao for working with a SQL server
+ */
 public class FeedbackDaoImpl implements FeedbackDao {
 
     private static final Logger LOG = LogManager.getLogger(FeedbackDao.class);
@@ -23,31 +26,6 @@ public class FeedbackDaoImpl implements FeedbackDao {
 
     public FeedbackDaoImpl(Connection connection) {
         this.connection = connection;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Optional<Feedback> getFeedbackBySlot(long id) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(DBQueries.GET_FEEDBACK_BY_SLOT_QUERY);
-            statement.setLong(1, id);
-
-            ResultSet rs = statement.executeQuery();
-
-            if (rs.next()) {
-                return Optional.of(getFeedbackFromResultRow(rs));
-            } else {
-                return Optional.empty();
-            }
-
-
-        } catch (SQLException e) {
-            String errorText = String.format("Can't get an feedback by slot: %s. Cause: %s.", id, e.getMessage());
-            LOG.error(errorText, e);
-            throw new DaoException(errorText, e);
-        }
     }
 
     /**
@@ -168,6 +146,86 @@ public class FeedbackDaoImpl implements FeedbackDao {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public List<Feedback> getAllFeedbackParameterized(long masterId, long procedureId,
+                                                      int limit, int offset){
+
+        List<Feedback> feedbackList = new ArrayList<>();
+
+        try {
+            PreparedStatement statement = getPreparedAllFeedbackStatement(masterId, procedureId, limit, offset, false);
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                feedbackList.add(getFeedbackFromResultRow(rs));
+            }
+
+            rs.close();
+
+        } catch (SQLException e) {
+            String errorText = "Can't get feedback list from DB. Cause: " + e.getMessage();
+            LOG.error(errorText, e);
+            throw new DaoException(errorText, e);
+        }
+
+        return feedbackList;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public long getFeedbackSearchResultCount(long masterId, long procedureId){
+        try {
+            PreparedStatement statement = getPreparedAllFeedbackStatement(masterId, procedureId, Integer.MAX_VALUE, 0, true);
+
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return rs.getLong(1);
+            } else {
+                return 0;
+            }
+
+        } catch (SQLException e) {
+            String errorText = "Can't get feedback count in search result. Cause: " + e.getMessage();
+            LOG.error(errorText, e);
+            throw new DaoException(errorText, e);
+        }
+    }
+
+    /**
+     * Creates an feedback from given {@code ResultSet}
+     *
+     * @param resultSet - {@code ResultSet} with feedback data
+     * @return - feedback was passed into
+     * @throws SQLException if the columnLabels is not valid;
+     *                      if a database access error occurs or result set is closed
+     */
+    Feedback getFeedbackFromResultRow(ResultSet resultSet) throws SQLException {
+        return Feedback.builder()
+                .id(resultSet.getLong("feedback_id"))
+                .slot(resultSet.getLong("slot"))
+                .text(resultSet.getString("text"))
+                .build();
+    }
+
+    /**
+     * Gives {@code PreparedStatement} depending on data
+     * existence in every of methods argument
+     * @param masterId - master`s ID
+     * @param procedureId - procedure`s ID
+     * @param limit the number of loans returned
+     * @param offset the number of loans returned
+     * @param rowsCounting defines type of result {@code Statement}.
+     *                     If {@code rowsCounting} is {true} statement
+     *                     will return count of all target books.
+     *                     It will return only limited count of books otherwise.
+     * @return - statement for getting books information from DB
+     * @throws SQLException if parameterIndex does not correspond to a parameter
+     * marker in the SQL statement; if a database access error occurs
+     */
     private PreparedStatement getPreparedAllFeedbackStatement(long masterId, long procedureId,
                                                               int limit, int offset, boolean rowsCounting) throws SQLException{
 
@@ -210,64 +268,5 @@ public class FeedbackDaoImpl implements FeedbackDao {
         }
 
         return statement;
-    }
-
-    public List<Feedback> getAllFeedbackParameterized(long masterId, long procedureId,
-                                                      int limit, int offset){
-
-        List<Feedback> feedbackList = new ArrayList<>();
-
-        try {
-            PreparedStatement statement = getPreparedAllFeedbackStatement(masterId, procedureId, limit, offset, false);
-
-            ResultSet rs = statement.executeQuery();
-
-            while (rs.next()) {
-                feedbackList.add(getFeedbackFromResultRow(rs));
-            }
-
-            rs.close();
-
-        } catch (SQLException e) {
-            String errorText = "Can't get feedback list from DB. Cause: " + e.getMessage();
-            LOG.error(errorText, e);
-            throw new DaoException(errorText, e);
-        }
-
-        return feedbackList;
-    }
-
-    public long getFeedbackSearchResultCount(long masterId, long procedureId){
-        try {
-            PreparedStatement statement = getPreparedAllFeedbackStatement(masterId, procedureId, Integer.MAX_VALUE, 0, true);
-
-            ResultSet rs = statement.executeQuery();
-            if (rs.next()) {
-                return rs.getLong(1);
-            } else {
-                return 0;
-            }
-
-        } catch (SQLException e) {
-            String errorText = "Can't get feedback count in search result. Cause: " + e.getMessage();
-            LOG.error(errorText, e);
-            throw new DaoException(errorText, e);
-        }
-    }
-
-    /**
-     * Creates an feedback from given {@code ResultSet}
-     *
-     * @param resultSet - {@code ResultSet} with feedback data
-     * @return - feedback was passed into
-     * @throws SQLException if the columnLabels is not valid;
-     *                      if a database access error occurs or result set is closed
-     */
-    Feedback getFeedbackFromResultRow(ResultSet resultSet) throws SQLException {
-        return Feedback.builder()
-                .id(resultSet.getLong("feedback_id"))
-                .slot(resultSet.getLong("slot"))
-                .text(resultSet.getString("text"))
-                .build();
     }
 }

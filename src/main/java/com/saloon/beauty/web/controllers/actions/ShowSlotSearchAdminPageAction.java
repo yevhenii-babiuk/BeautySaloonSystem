@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Action for showing the slot search page
+ * Action for showing the slot search for administrator page
  */
 public class ShowSlotSearchAdminPageAction extends Action {
 

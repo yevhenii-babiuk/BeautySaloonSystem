@@ -18,6 +18,7 @@ import java.time.LocalTime;
 @Builder
 public class SlotSearchForm extends ActionForm {
 
+
     private long masterId;
     private Status status;
     private LocalDate minDate;
@@ -26,6 +27,9 @@ public class SlotSearchForm extends ActionForm {
     private LocalTime maxStartTime;
     private long procedure;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void fill(HttpServletRequest request) {
         masterId = getLongPropertyFromRequest(request, "masterId");
@@ -37,6 +41,9 @@ public class SlotSearchForm extends ActionForm {
         procedure = getLongPropertyFromRequest(request, "procedureId");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ActionErrors validate() {
         return new ActionErrors();

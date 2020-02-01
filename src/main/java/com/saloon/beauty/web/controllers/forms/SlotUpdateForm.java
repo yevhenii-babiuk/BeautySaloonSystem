@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 /**
- * Class represents slot searching html-form
+ * Class represents slot updating html-form
  */
 @EqualsAndHashCode(callSuper = false)
 @Data
@@ -32,6 +32,9 @@ public class SlotUpdateForm extends ActionForm {
     private LocalTime endTime;
     private long procedure;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void fill(HttpServletRequest request) {
         slotId = getLongPropertyFromRequest(request, "slotId");
@@ -42,6 +45,9 @@ public class SlotUpdateForm extends ActionForm {
         procedure = getLongPropertyFromRequest(request, "procedureId");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ActionErrors validate() {
 

@@ -18,7 +18,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 /**
- * Action for searching slot for signing up
+ * Action for searching slot for administrator
  */
 public class SlotSearchAdminAction extends Action {
 

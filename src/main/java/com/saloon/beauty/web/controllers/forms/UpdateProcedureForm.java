@@ -6,7 +6,7 @@ import lombok.*;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Contains html-form data for adding procedure
+ * Contains html-form data for updating procedure
  */
 @EqualsAndHashCode(callSuper = false)
 @Data

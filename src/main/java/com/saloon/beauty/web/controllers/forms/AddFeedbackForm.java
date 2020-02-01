@@ -15,11 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 @Builder
 public class AddFeedbackForm extends ActionForm{
 
-    /**
-     * ID of slot for adding feedback
-     */
     private long slotId;
-
     private String feedbackText;
 
     /**

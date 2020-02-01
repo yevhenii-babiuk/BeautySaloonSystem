@@ -177,14 +177,8 @@
             <path>/user/addFeedback</path>
             <type>com.saloon.beauty.web.controllers.actions.ShowAddFeedbackPage</type>
             <form-name>AddFeedbackForm</form-name>
-            <validate>false</validate>
+            <validate>true</validate>
             <input>/WEB-INF/jsp/userSignedUpSlots.jsp</input>
-            <service-dependencies>
-                <dependency>
-                    <class>com.saloon.beauty.services.FeedbackService</class>
-                    <name>feedbackService</name>
-                </dependency>
-            </service-dependencies>
         </action>
         <action>
             <path>/user/addFeedback.do</path>

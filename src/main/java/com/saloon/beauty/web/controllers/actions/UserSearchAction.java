@@ -1,12 +1,8 @@
 package com.saloon.beauty.web.controllers.actions;
 
-import com.saloon.beauty.repository.dto.SlotDto;
 import com.saloon.beauty.repository.entity.Role;
-import com.saloon.beauty.repository.entity.Status;
 import com.saloon.beauty.repository.entity.User;
-import com.saloon.beauty.services.ProcedureService;
 import com.saloon.beauty.services.Service;
-import com.saloon.beauty.services.SlotService;
 import com.saloon.beauty.services.UserService;
 import com.saloon.beauty.web.controllers.PaginationHelper;
 import com.saloon.beauty.web.controllers.ServletResources;
@@ -15,8 +11,6 @@ import com.saloon.beauty.web.controllers.forms.UserSearchForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 /**

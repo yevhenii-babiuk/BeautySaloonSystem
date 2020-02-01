@@ -32,6 +32,9 @@ public class SlotForm extends ActionForm {
     private LocalTime endTime;
     private long procedure;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void fill(HttpServletRequest request) {
         masterId = getLongPropertyFromRequest(request, "masterId");
@@ -41,6 +44,9 @@ public class SlotForm extends ActionForm {
         procedure = getLongPropertyFromRequest(request, "procedureId");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ActionErrors validate() {
 

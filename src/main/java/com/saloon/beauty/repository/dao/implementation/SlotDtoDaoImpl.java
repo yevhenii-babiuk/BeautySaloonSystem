@@ -16,6 +16,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Optional;
 
+/**
+ * Implementing of SlotDtoDao for working with a SQL server
+ */
 public class SlotDtoDaoImpl implements SlotDtoDao {
 
     private static final Logger LOG = LogManager.getLogger(UserDao.class);
@@ -26,6 +29,9 @@ public class SlotDtoDaoImpl implements SlotDtoDao {
         this.connection = connection;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<SlotDto> getFullInformation(long id) {
         Optional<SlotDto> resultOptional = Optional.empty();

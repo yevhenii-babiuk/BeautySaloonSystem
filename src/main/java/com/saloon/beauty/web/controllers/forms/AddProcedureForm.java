@@ -4,8 +4,6 @@ import com.saloon.beauty.web.controllers.ActionErrors;
 import lombok.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Contains html-form data for adding procedure

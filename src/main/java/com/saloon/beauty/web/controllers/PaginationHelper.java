@@ -56,6 +56,10 @@ public class PaginationHelper {
         return (int) Math.ceil(recordsQuantity * 1.0 / recordsPerPage);
     }
 
+    /**
+     * Adds search parameters into next searching page
+     * @param request for adding parameters to next page
+     */
     public void addParameterToPagination(HttpServletRequest request) {
 
         String queryStr = "";

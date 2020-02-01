@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementing of SlotDao for working with a SQL server
+ */
 public class SlotDaoImpl implements SlotDao {
 
     private static final Logger LOG = LogManager.getLogger(UserDao.class);
@@ -26,6 +29,9 @@ public class SlotDaoImpl implements SlotDao {
         this.connection = connection;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long getSlotSearchResultCount(long masterId, Status status, long userId, long procedureId,
                                          LocalDate minDate, LocalDate maxDate,
@@ -48,6 +54,9 @@ public class SlotDaoImpl implements SlotDao {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Slot> getAllSlotParameterized(long masterId, Status status, long userId, long procedureId,
                                               LocalDate minDate, LocalDate maxDate,
@@ -77,6 +86,9 @@ public class SlotDaoImpl implements SlotDao {
         return slots;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Slot> getSlotByStatusFeedbackRequest(boolean status) {
 
@@ -103,6 +115,9 @@ public class SlotDaoImpl implements SlotDao {
         return slots;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updateSlotStatus(long id, Status status, long userId) {
         try {
@@ -124,6 +139,9 @@ public class SlotDaoImpl implements SlotDao {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updateFeedbackRequestStatus(long slotId, boolean status) {
         try {
@@ -141,6 +159,9 @@ public class SlotDaoImpl implements SlotDao {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<Slot> get(long id) {
         Optional<Slot> resultOptional = Optional.empty();
@@ -164,6 +185,9 @@ public class SlotDaoImpl implements SlotDao {
         return resultOptional;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Slot> getAll() {
         List<Slot> users = new ArrayList<>();
@@ -189,6 +213,9 @@ public class SlotDaoImpl implements SlotDao {
         return users;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long save(Slot slot) {
         try {
@@ -221,6 +248,9 @@ public class SlotDaoImpl implements SlotDao {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update(Slot slot) {
         try {
@@ -249,6 +279,9 @@ public class SlotDaoImpl implements SlotDao {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void delete(Slot slot) {
         try {
@@ -267,7 +300,7 @@ public class SlotDaoImpl implements SlotDao {
 
     /**
      * Gives {@code PreparedStatement} depending on data
-     * existence in every of three methods argument
+     * existence in every of methods argument
      *
      * @param masterId     - the master'd ID
      * @param status       - the slot status
