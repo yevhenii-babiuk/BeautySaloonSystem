@@ -81,7 +81,7 @@ public class ShowSignedUpSlotsActionTest {
     @Test
     public void addPaginationToRequestShouldProperlyAddPagination() {
         when(service.getSlotSearchResultCount(anyLong(), eq(Status.BOOKED), anyLong(), anyLong(), eq(null),
-                eq(null), eq(null), eq(null))).thenReturn(37L);
+                eq(null), eq(null), eq(null), eq(false))).thenReturn(37L);
         action.addPaginationToRequest(3L , request, helper);
         verify(helper).addPaginationToRequest(request, 37L);
     }

@@ -33,54 +33,62 @@
 
     <c:choose>
         <c:when test="${not empty slots}">
-            <div class="bg-semi-transparent mx-md-5 d-flex justify-content-center">
-                <table class="table table-hover table-md">
+            <div class="bg-semi-transparent">
+                <table class="table table-hover table-sm">
                     <tr>
                         <th class="text-center"><fmt:message key="slotSearch.result.canceling"/></th>
                         <th class="text-center"><fmt:message key="slotSearch.result.date"/></th>
                         <th class="text-center"><fmt:message key="slotSearch.result.time"/></th>
                         <th class="text-center"><fmt:message key="slotSearch.result.master"/></th>
                         <th class="text-center"><fmt:message key="slotSearch.result.procedure"/></th>
-                        <th class="text-center"><fmt:message key="slotSearch.result.action"/></th>
+                        <th class="text-center"><fmt:message key="slotSearch.result.feedback"/></th>
                     </tr>
 
 
-                    <c:forEach var="user" items="${slots}">
+                    <c:forEach var="slot" items="${slots}">
                         <tr>
-                            <th>
+                            <td>
                                 <form action="${contextPath}/user/cancelSignedUpSlot.do" method="post">
-                                    <input type="text" name="slotId" value="${user.slot.id}" hidden>
-                                    <button class="btn brown-button"><fmt:message key="slotSearch.result.canceling"/></button>
+                                    <input type="text" name="slotId" value="${slot.slot.id}" hidden>
+                                    <button class="btn brown-button"><fmt:message
+                                            key="slotSearch.result.canceling"/></button>
                                 </form>
-                            </th>
-                            <td>
-                                    ${user.slot.date}
                             </td>
                             <td>
-                                    ${user.slot.startTime} - ${user.slot.endTime}
+                                    ${slot.slot.date}
                             </td>
                             <td>
-                                    ${user.master.firstName} ${user.master.lastName}
+                                    ${slot.slot.startTime} - ${slot.slot.endTime}
+                            </td>
+                            <td>
+                                    ${slot.master.firstName} ${slot.master.lastName}
                             </td>
                             <td>
                                 <c:if test="${language eq 'en'}">
-                                    ${user.procedure.nameEn}
+                                    ${slot.procedure.nameEn}
                                 </c:if>
                                 <c:if test="${language eq 'ru'}">
-                                    ${user.procedure.nameRus}
+                                    ${slot.procedure.nameRus}
                                 </c:if>
                                 <c:if test="${language eq 'ua'}">
-                                    ${user.procedure.nameUkr}
+                                    ${slot.procedure.nameUkr}
                                 </c:if>
                             </td>
-                            <td>
-                                    <c:if test="${empty user.feedback.text}">
-                                        <form action="${contextPath}/user/addFeedback" method="post">
-                                            <input type="text" name="slotId" value="${user.slot.id}" hidden>
-                                            <button class="btn brown-button"><fmt:message key="slotSearch.result.addFeedback"/></button>
-                                        </form>
-                                    </c:if>
-                            </td>
+
+                            <c:if test="${not empty slot.feedback.text}">
+                                <td style="text-align: left">
+                                        ${slot.feedback.text}
+                                </td>
+                            </c:if>
+                            <c:if test="${empty slot.feedback.text}">
+                                <td>
+                                    <form action="${contextPath}/user/addFeedback" method="post">
+                                        <input type="text" name="slotId" value="${slot.slot.id}" hidden>
+                                        <button class="btn brown-button"><fmt:message
+                                                key="slotSearch.result.addFeedback"/></button>
+                                    </form>
+                                </td>
+                            </c:if>
                         </tr>
                     </c:forEach>
                 </table>

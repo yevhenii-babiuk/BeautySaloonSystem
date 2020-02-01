@@ -1,9 +1,6 @@
 package com.saloon.beauty.web.controllers.actions;
 
 import com.saloon.beauty.repository.dto.SlotDto;
-import com.saloon.beauty.repository.entity.Feedback;
-import com.saloon.beauty.repository.entity.Slot;
-import com.saloon.beauty.repository.entity.Status;
 import com.saloon.beauty.repository.entity.User;
 import com.saloon.beauty.services.SlotService;
 import com.saloon.beauty.web.controllers.PaginationHelper;
@@ -88,7 +85,7 @@ public class ShowMasterFeedbackActionTest {
     @Test
     public void addPaginationToRequestShouldProperlyAddPagination() {
         when(slotService.getSlotSearchResultCount(anyLong(), eq(null), anyLong(), anyLong(), eq(null),
-                eq(null), eq(null), eq(null))).thenReturn(37L);
+                eq(null), eq(null), eq(null), eq(true))).thenReturn(37L);
         action.addPaginationToRequest(3L , request, helper);
         verify(helper).addPaginationToRequest(request, 37L);
     }

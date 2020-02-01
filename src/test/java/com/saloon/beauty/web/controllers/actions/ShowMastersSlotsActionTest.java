@@ -88,7 +88,7 @@ public class ShowMastersSlotsActionTest {
     @Test
     public void addPaginationToRequestShouldProperlyAddPagination() {
         when(slotService.getSlotSearchResultCount(anyLong(), eq(null), anyLong(), anyLong(), eq(null),
-                eq(null), eq(null), eq(null))).thenReturn(37L);
+                eq(null), eq(null), eq(null), eq(false))).thenReturn(37L);
         action.addPaginationToRequest(3L , request, helper);
         verify(helper).addPaginationToRequest(request, 37L);
     }

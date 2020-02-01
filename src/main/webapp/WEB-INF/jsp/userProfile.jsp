@@ -29,20 +29,20 @@
         <table class="table table-borderless h5">
             <tbody>
                 <tr>
-                    <td><fmt:message key="firstName"/>:</td>
-                    <td>${user.firstName}</td>
+                    <td style="text-align: left"><fmt:message key="firstName"/>:</td>
+                    <td style="text-align: left">${user.firstName}</td>
                 </tr>
                 <tr>
-                    <td><fmt:message key="lastName"/>:</td>
-                    <td>${user.lastName}</td>
+                    <td style="text-align: left"><fmt:message key="lastName"/>:</td>
+                    <td style="text-align: left">${user.lastName}</td>
                 </tr>
                 <tr>
-                    <td><fmt:message key="email"/>:</td>
-                    <td>${user.email}</td>
+                    <td style="text-align: left"><fmt:message key="email"/>:</td>
+                    <td style="text-align: left">${user.email}</td>
                 </tr>
                 <tr>
-                    <td><fmt:message key="phone"/>:</td>
-                    <td>${user.phone}</td>
+                    <td style="text-align: left"><fmt:message key="phone"/>:</td>
+                    <td style="text-align: left">${user.phone}</td>
                 </tr>
             </tbody>
         </table>

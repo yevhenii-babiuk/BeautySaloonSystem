@@ -76,9 +76,7 @@ public class FeedbackSearchAction extends Action {
         request.setAttribute("maxDate", maxDate);
         request.setAttribute("minTime", minTime);
         request.setAttribute("maxTime", maxTime);
-        request.setAttribute("slots", slotDtoList.stream()
-                .filter(slotDto -> slotDto.getFeedback().getText()!=null)
-                .collect(Collectors.toList()));
+        request.setAttribute("slots", slotDtoList);
         paginationHelper.addParameterToPagination(request);
     }
 
@@ -97,7 +95,7 @@ public class FeedbackSearchAction extends Action {
         int previousRecordNumber = paginationHelper.getPreviousRecordNumber(request, recordsPerPage);
 
         return slotService.findSlots(masterId, status, 0L, procedureId, minDate, maxDate,
-                minTime, maxTime, recordsPerPage, previousRecordNumber);
+                minTime, maxTime, true, recordsPerPage, previousRecordNumber);
     }
 
     /**
@@ -106,7 +104,7 @@ public class FeedbackSearchAction extends Action {
     void addPaginationToRequest(HttpServletRequest request, SlotService slotService, long masterId, Status status, long procedureId,
                                 LocalDate minDate, LocalDate maxDate,
                                 LocalTime minTime, LocalTime maxTime, PaginationHelper paginationHelper) {
-        long recordsQuantity = slotService.getSlotSearchResultCount(masterId, status, 0L, procedureId, minDate, maxDate, minTime, maxTime);
+        long recordsQuantity = slotService.getSlotSearchResultCount(masterId, status, 0L, procedureId, minDate, maxDate, minTime, maxTime, true);
         paginationHelper.addPaginationToRequest(request, recordsQuantity);
     }
 

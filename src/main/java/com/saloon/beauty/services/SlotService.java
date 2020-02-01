@@ -124,6 +124,7 @@ public class SlotService extends Service {
      * @param maxDate - maximum limit of date for find slots
      * @param minTime - minimum limit of time for find slots
      * @param maxTime - maximum limit of time for find slots
+     * @param feedbackIsPresent - does need slots with feedback
      * @param recordsQuantity - quantity of records per page
      * @param previousRecordNumber - number of previous record
      * @return a list with {@code SloDto} contains target slots
@@ -131,11 +132,12 @@ public class SlotService extends Service {
     public List<SlotDto> findSlots(long masterId, Status status, long userId, long procedureId,
                                    LocalDate minDate, LocalDate maxDate,
                                    LocalTime minTime, LocalTime maxTime,
+                                   boolean feedbackIsPresent,
                                    int recordsQuantity, int previousRecordNumber) {
         DaoManager daoManager = daoManagerFactory.createDaoManager();
 
         Object executionResult = daoManager.executeAndClose(manager -> findSlotsCommand(manager, masterId, status, userId, procedureId, minDate, maxDate,
-                minTime, maxTime, recordsQuantity, previousRecordNumber));
+                minTime, maxTime, feedbackIsPresent, recordsQuantity, previousRecordNumber));
 
         return checkAndCastObjectToList(executionResult);
     }
@@ -165,16 +167,18 @@ public class SlotService extends Service {
      * @param maxDate - maximum limit of date for find slots
      * @param minTime - minimum limit of time for find slots
      * @param maxTime - maximum limit of time for find slots
+     * @param feedbackIsPresent - does need slots with feedback
      * @return quantity of all slots in search result
      */
     public long getSlotSearchResultCount(long masterId, Status status, long userId, long procedureId,
                                          LocalDate minDate, LocalDate maxDate,
-                                         LocalTime minTime, LocalTime maxTime) {
+                                         LocalTime minTime, LocalTime maxTime,
+                                         boolean feedbackIsPresent) {
         DaoManager daoManager = daoManagerFactory.createDaoManager();
 
         Object executionResult = daoManager.executeAndClose(manager ->
                 manager.getSlotDao().getSlotSearchResultCount(masterId, status, userId, procedureId, minDate, maxDate,
-                        minTime, maxTime));
+                        minTime, maxTime, feedbackIsPresent));
 
         return checkAndCastObjectToLong(executionResult);
     }
@@ -255,11 +259,12 @@ public class SlotService extends Service {
 
     List<SlotDto> findSlotsCommand(DaoManager manager, long masterId, Status status, long userId, long procedureId,
                                    LocalDate minDate, LocalDate maxDate, LocalTime minTime, LocalTime maxTime,
+                                   boolean feedbackIsPresent,
                                    int recordsQuantity, int previousRecordNumber) throws SQLException {
 
         SlotDao slotDao = manager.getSlotDao();
         List<Slot> slotList = slotDao.getAllSlotParameterized(masterId, status, userId, procedureId, minDate, maxDate,
-                minTime, maxTime, recordsQuantity, previousRecordNumber);
+                minTime, maxTime, feedbackIsPresent, recordsQuantity, previousRecordNumber);
 
 
         List<SlotDto> slotDtos = new ArrayList<>();
@@ -338,6 +343,6 @@ public class SlotService extends Service {
     SlotDto createSlotDtoFromSlot(DaoManager manager, Slot slot) throws SQLException {
         SlotDtoDao slotDtoDao = manager.getSlotDtoDao();
 
-        return slotDtoDao.getFullInformation(slot.getId()).orElse(null);
+        return slotDtoDao.getFullInformation(slot.getId()).get();
     }
 }

@@ -51,7 +51,7 @@ public class ShowSignedUpSlotsAction extends Action {
 
         return slotService
                 .findSlots(0L, Status.BOOKED, userId, 0L,
-                        null, null, null, null, recordsPerPage, previousRecordNumber);
+                        null, null, null, null,false, recordsPerPage, previousRecordNumber);
     }
 
     /**
@@ -59,7 +59,7 @@ public class ShowSignedUpSlotsAction extends Action {
      */
     void addPaginationToRequest(long userId, HttpServletRequest request, PaginationHelper paginationHelper) {
         long recordsQuantity = slotService.getSlotSearchResultCount(0L, Status.BOOKED, userId, 0L,
-                null, null, null, null);
+                null, null, null, null, false);
         paginationHelper.addPaginationToRequest(request, recordsQuantity);
     }
 

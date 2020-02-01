@@ -51,15 +51,15 @@
             <div class="col">
                 <select class="custom-select" id="procedureSelect" name="procedureId">
                     <option disabled selected value><fmt:message key="slotSearch.chooseProcedure"/></option>
-                    <c:forEach var="user" items="${procedures}">
+                    <c:forEach var="slot" items="${procedures}">
                         <c:if test="${language eq 'en'}">
-                            <option value="${user.id}">${user.nameEn}</option>
+                            <option value="${slot.id}">${slot.nameEn}</option>
                         </c:if>
                         <c:if test="${language eq 'ru'}">
-                            <option value="${user.id}">${user.nameRus}</option>
+                            <option value="${slot.id}">${slot.nameRus}</option>
                         </c:if>
                         <c:if test="${language eq 'ua'}">
-                            <option value="${user.id}">${user.nameUkr}</option>
+                            <option value="${slot.id}">${slot.nameUkr}</option>
                         </c:if>
                     </c:forEach>
                 </select>
@@ -153,55 +153,55 @@
                 <th class="text-center"><fmt:message key="slotSearch.result.description"/></th>
             </tr>
 
-            <c:forEach var="user" items="${slots}">
+            <c:forEach var="slot" items="${slots}">
                 <tr>
                     <c:if test="${loggedInUser.role != 'MASTER' && loggedInUser.role != 'ADMINISTRATOR'}">
                         <td>
                                 <%--Sign up to slot for ordinary user--%>
                             <form action="${contextPath}/user/signUpSlot.do" method="post">
-                                <input type="text" name="slotId" value="${user.slot.id}" hidden>
+                                <input type="text" name="slotId" value="${slot.slot.id}" hidden>
                                 <button class="btn brown-button"><fmt:message
                                         key="slotSearch.result.signUp"/></button>
                             </form>
                         </td>
                     </c:if>
                     <td>
-                        <c:if test="${user.slot.status eq 'BOOKED'}">
+                        <c:if test="${slot.slot.status eq 'BOOKED'}">
                             <fmt:message key="slotSearch.statusBooked"/>
                         </c:if>
-                        <c:if test="${user.slot.status eq 'FREE'}">
+                        <c:if test="${slot.slot.status eq 'FREE'}">
                             <fmt:message key="slotSearch.statusFree"/>
                         </c:if>
                     </td>
                     <td>
-                            ${user.master.firstName} ${user.master.lastName}
+                            ${slot.master.firstName} ${slot.master.lastName}
                     </td>
                     <td>
-                            ${user.slot.date}
+                            ${slot.slot.date}
                     </td>
                     <td>
-                            ${user.slot.startTime} - ${user.slot.endTime}
-                    </td>
-                    <td>
-                        <c:if test="${language eq 'en'}">
-                            ${user.procedure.nameEn}
-                        </c:if>
-                        <c:if test="${language eq 'ru'}">
-                            ${user.procedure.nameRus}
-                        </c:if>
-                        <c:if test="${language eq 'ua'}">
-                            ${user.procedure.nameUkr}
-                        </c:if>
+                            ${slot.slot.startTime} - ${slot.slot.endTime}
                     </td>
                     <td>
                         <c:if test="${language eq 'en'}">
-                            ${user.procedure.descriptionEn}
+                            ${slot.procedure.nameEn}
                         </c:if>
                         <c:if test="${language eq 'ru'}">
-                            ${user.procedure.descriptionRus}
+                            ${slot.procedure.nameRus}
                         </c:if>
                         <c:if test="${language eq 'ua'}">
-                            ${user.procedure.descriptionUkr}
+                            ${slot.procedure.nameUkr}
+                        </c:if>
+                    </td>
+                    <td style="text-align: left">
+                        <c:if test="${language eq 'en'}">
+                            ${slot.procedure.descriptionEn}
+                        </c:if>
+                        <c:if test="${language eq 'ru'}">
+                            ${slot.procedure.descriptionRus}
+                        </c:if>
+                        <c:if test="${language eq 'ua'}">
+                            ${slot.procedure.descriptionUkr}
                         </c:if>
                     </td>
                 </tr>

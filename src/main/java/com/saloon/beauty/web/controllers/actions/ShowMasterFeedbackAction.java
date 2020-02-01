@@ -37,9 +37,7 @@ public class ShowMasterFeedbackAction extends Action {
                 .getAttribute("loggedInUser"))
                 .getId();
         List<SlotDto> slots = getMasterSlots(masterId, request, slotService, paginationHelper);
-        request.setAttribute("slots", slots.stream()
-                .filter(slotDto -> slotDto.getFeedback().getText()!=null)
-                .collect(Collectors.toList()));
+        request.setAttribute("slots", slots);
         paginationHelper.addParameterToPagination(request);
 
         addPaginationToRequest(masterId, request, paginationHelper);
@@ -58,7 +56,7 @@ public class ShowMasterFeedbackAction extends Action {
 
         return slotService
                 .findSlots(masterId, null, 0L, 0L,
-                        null, null, null, null, recordsPerPage, previousRecordNumber);
+                        null, null, null, null, true, recordsPerPage, previousRecordNumber);
     }
 
     /**
@@ -66,7 +64,7 @@ public class ShowMasterFeedbackAction extends Action {
      */
     void addPaginationToRequest(long masterId, HttpServletRequest request, PaginationHelper paginationHelper) {
         long recordsQuantity = slotService.getSlotSearchResultCount(masterId, null, 0L, 0L,
-                null, null, null, null);
+                null, null, null, null, true);
         paginationHelper.addPaginationToRequest(request, recordsQuantity);
     }
 

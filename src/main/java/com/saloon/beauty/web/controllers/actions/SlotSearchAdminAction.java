@@ -94,7 +94,7 @@ public class SlotSearchAdminAction extends Action {
         int previousRecordNumber = paginationHelper.getPreviousRecordNumber(request, recordsPerPage);
 
         return slotService.findSlots(masterId, status, 0L, procedureId, minDate, maxDate,
-                minTime, maxTime, recordsPerPage, previousRecordNumber);
+                minTime, maxTime, false, recordsPerPage, previousRecordNumber);
     }
 
     /**
@@ -103,7 +103,7 @@ public class SlotSearchAdminAction extends Action {
     void addPaginationToRequest(HttpServletRequest request, SlotService slotService,long masterId, Status status, long procedureId,
                                 LocalDate minDate, LocalDate maxDate,
                                 LocalTime minTime, LocalTime maxTime, PaginationHelper paginationHelper) {
-        long recordsQuantity = slotService.getSlotSearchResultCount(masterId, status, 0L, procedureId, minDate, maxDate, minTime, maxTime);
+        long recordsQuantity = slotService.getSlotSearchResultCount(masterId, status, 0L, procedureId, minDate, maxDate, minTime, maxTime, false);
         paginationHelper.addPaginationToRequest(request, recordsQuantity);
     }
 

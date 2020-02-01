@@ -137,13 +137,13 @@ public class FeedbackSearchActionTest {
         action.getFeedbackList(request, TEST_MASTER_ID, Status.BOOKED, TEST_PROCEDURE_ID, TEST_MIN_DATE,
                 TEST_MAX_DATE, TEST_MIN_TIME, TEST_MAX_TIME, slotService, helper);
         verify(slotService).findSlots(TEST_MASTER_ID, Status.BOOKED, 0L, TEST_PROCEDURE_ID, TEST_MIN_DATE,
-                TEST_MAX_DATE, TEST_MIN_TIME, TEST_MAX_TIME, 10, 20);
+                TEST_MAX_DATE, TEST_MIN_TIME, TEST_MAX_TIME, true, 10, 20);
     }
 
     @Test
     public void addPaginationToRequestShouldProperlyAddPagination() {
         when(slotService.getSlotSearchResultCount(TEST_MASTER_ID, Status.BOOKED, 0L, TEST_PROCEDURE_ID, TEST_MIN_DATE,
-                TEST_MAX_DATE, TEST_MIN_TIME, TEST_MAX_TIME)).thenReturn(43L);
+                TEST_MAX_DATE, TEST_MIN_TIME, TEST_MAX_TIME, true)).thenReturn(43L);
         action.addPaginationToRequest(request, slotService, TEST_MASTER_ID, Status.BOOKED, TEST_PROCEDURE_ID, TEST_MIN_DATE,
                 TEST_MAX_DATE, TEST_MIN_TIME, TEST_MAX_TIME, helper);
         verify(helper).addPaginationToRequest(request, 43L);

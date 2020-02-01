@@ -78,15 +78,15 @@
                                 <select class="custom-select is-invalid" name="procedureId">
                                     <option disabled selected value><fmt:message
                                             key="editSlot.chooseProcedure"/></option>
-                                    <c:forEach var="user" items="${procedures}">
+                                    <c:forEach var="slot" items="${procedures}">
                                         <c:if test="${language eq 'en'}">
-                                            <option value="${user.id}">${user.nameEn}</option>
+                                            <option value="${slot.id}">${slot.nameEn}</option>
                                         </c:if>
                                         <c:if test="${language eq 'ru'}">
-                                            <option value="${user.id}">${user.nameRus}</option>
+                                            <option value="${slot.id}">${slot.nameRus}</option>
                                         </c:if>
                                         <c:if test="${language eq 'ua'}">
-                                            <option value="${user.id}">${user.nameUkr}</option>
+                                            <option value="${slot.id}">${slot.nameUkr}</option>
                                         </c:if>
                                     </c:forEach>
                                 </select>
@@ -98,15 +98,15 @@
                                 <select class="custom-select is-valid" name="procedureId">
                                     <option disabled selected value><fmt:message
                                             key="editSlot.chooseProcedure"/></option>
-                                    <c:forEach var="user" items="${procedures}">
+                                    <c:forEach var="slot" items="${procedures}">
                                         <c:if test="${language eq 'en'}">
-                                            <option value="${user.id}">${user.nameEn}</option>
+                                            <option value="${slot.id}">${slot.nameEn}</option>
                                         </c:if>
                                         <c:if test="${language eq 'ru'}">
-                                            <option value="${user.id}">${user.nameRus}</option>
+                                            <option value="${slot.id}">${slot.nameRus}</option>
                                         </c:if>
                                         <c:if test="${language eq 'ua'}">
-                                            <option value="${user.id}">${user.nameUkr}</option>
+                                            <option value="${slot.id}">${slot.nameUkr}</option>
                                         </c:if>
                                     </c:forEach>
                                 </select>
@@ -228,15 +228,15 @@
                             <c:if test="${language eq 'ua'}">
                                 <option selected value="${slot.slot.procedure}">${slot.procedure.nameUkr}</option>
                             </c:if>
-                            <c:forEach var="user" items="${procedures}">
+                            <c:forEach var="slot" items="${procedures}">
                                 <c:if test="${language eq 'en'}">
-                                    <option value="${user.id}">${user.nameEn}</option>
+                                    <option value="${slot.id}">${slot.nameEn}</option>
                                 </c:if>
                                 <c:if test="${language eq 'ru'}">
-                                    <option value="${user.id}">${user.nameRus}</option>
+                                    <option value="${slot.id}">${slot.nameRus}</option>
                                 </c:if>
                                 <c:if test="${language eq 'ua'}">
-                                    <option value="${user.id}">${user.nameUkr}</option>
+                                    <option value="${slot.id}">${slot.nameUkr}</option>
                                 </c:if>
                             </c:forEach>
                         </select>

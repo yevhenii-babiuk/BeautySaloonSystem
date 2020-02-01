@@ -51,15 +51,15 @@
             <div class="col">
                 <select class="custom-select" id="procedureSelect" name="procedureId">
                     <option disabled selected value><fmt:message key="slotSearch.chooseProcedure"/></option>
-                    <c:forEach var="user" items="${procedures}">
+                    <c:forEach var="slot" items="${procedures}">
                         <c:if test="${language eq 'en'}">
-                            <option value="${user.id}">${user.nameEn}</option>
+                            <option value="${slot.id}">${slot.nameEn}</option>
                         </c:if>
                         <c:if test="${language eq 'ru'}">
-                            <option value="${user.id}">${user.nameRus}</option>
+                            <option value="${slot.id}">${slot.nameRus}</option>
                         </c:if>
                         <c:if test="${language eq 'ua'}">
-                            <option value="${user.id}">${user.nameUkr}</option>
+                            <option value="${slot.id}">${slot.nameUkr}</option>
                         </c:if>
                     </c:forEach>
                 </select>
@@ -122,7 +122,7 @@
     <div class="d-flex justify-content-center">
         <h3><fmt:message key="slotSearch.searchResult"/>:</h3>
     </div>
-    <div class="bg-semi-transparent">
+    <div class="bg-semi-transparent mx-md-5 d-flex justify-content-center"">
         <table class="table table-hover table-sm">
 
             <tr>
@@ -134,33 +134,33 @@
                 <th class="text-center"><fmt:message key="slotSearch.result.feedback"/></th>
             </tr>
 
-            <c:forEach var="user" items="${slots}">
+            <c:forEach var="slot" items="${slots}">
                 <tr>
                     <td>
-                            ${user.master.firstName} ${user.master.lastName}
+                            ${slot.master.firstName} ${slot.master.lastName}
                     </td>
                     <td>
-                            ${user.slot.date}
+                            ${slot.slot.date}
                     </td>
                     <td>
-                            ${user.slot.startTime} - ${user.slot.endTime}
+                            ${slot.slot.startTime} - ${slot.slot.endTime}
                     </td>
                     <td>
-                            ${user.client.firstName} ${user.client.lastName}
+                            ${slot.client.firstName} ${slot.client.lastName}
                     </td>
                     <td>
                         <c:if test="${language eq 'en'}">
-                            ${user.procedure.nameEn}
+                            ${slot.procedure.nameEn}
                         </c:if>
                         <c:if test="${language eq 'ru'}">
-                            ${user.procedure.nameRus}
+                            ${slot.procedure.nameRus}
                         </c:if>
                         <c:if test="${language eq 'ua'}">
-                            ${user.procedure.nameUkr}
+                            ${slot.procedure.nameUkr}
                         </c:if>
                     </td>
-                    <td>
-                            ${user.feedback.text}
+                    <td style="text-align: left">
+                            ${slot.feedback.text}
                     </td>
                 </tr>
             </c:forEach>

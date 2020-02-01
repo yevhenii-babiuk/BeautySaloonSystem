@@ -58,15 +58,15 @@
             <div class="col">
                 <select class="custom-select" id="procedureSelect" name="procedureId">
                     <option disabled selected value><fmt:message key="slotSearch.chooseProcedure"/></option>
-                    <c:forEach var="user" items="${procedures}">
+                    <c:forEach var="slot" items="${procedures}">
                         <c:if test="${language eq 'en'}">
-                            <option value="${user.id}">${user.nameEn}</option>
+                            <option value="${slot.id}">${slot.nameEn}</option>
                         </c:if>
                         <c:if test="${language eq 'ru'}">
-                            <option value="${user.id}">${user.nameRus}</option>
+                            <option value="${slot.id}">${slot.nameRus}</option>
                         </c:if>
                         <c:if test="${language eq 'ua'}">
-                            <option value="${user.id}">${user.nameUkr}</option>
+                            <option value="${slot.id}">${slot.nameUkr}</option>
                         </c:if>
                     </c:forEach>
                 </select>
@@ -158,44 +158,44 @@
                 <th class="text-center"><fmt:message key="slotSearch.result.procedure"/></th>
             </tr>
 
-            <c:forEach var="user" items="${slots}">
+            <c:forEach var="slot" items="${slots}">
                 <tr>
                     <td>
                         <form action="${contextPath}/admin/slotManagement/updateSlot" method="post">
-                            <input type="text" name="slotId" value="${user.slot.id}" hidden>
+                            <input type="text" name="slotId" value="${slot.slot.id}" hidden>
                             <button class="btn brown-button"><fmt:message
                                     key="slotSearch.result.update"/></button>
                         </form>
                     </td>
                     <td>
-                        <c:if test="${user.slot.status eq 'BOOKED'}">
+                        <c:if test="${slot.slot.status eq 'BOOKED'}">
                             <fmt:message key="slotSearch.statusBooked"/>
                         </c:if>
-                        <c:if test="${user.slot.status eq 'FREE'}">
+                        <c:if test="${slot.slot.status eq 'FREE'}">
                             <fmt:message key="slotSearch.statusFree"/>
                         </c:if>
                     </td>
                     <td>
-                            ${user.master.firstName} ${user.master.lastName}
+                            ${slot.master.firstName} ${slot.master.lastName}
                     </td>
                     <td>
-                            ${user.client.firstName} ${user.client.lastName}
+                            ${slot.client.firstName} ${slot.client.lastName}
                     </td>
                     <td>
-                            ${user.slot.date}
+                            ${slot.slot.date}
                     </td>
                     <td>
-                            ${user.slot.startTime} - ${user.slot.endTime}
+                            ${slot.slot.startTime} - ${slot.slot.endTime}
                     </td>
                     <td>
                         <c:if test="${language eq 'en'}">
-                            ${user.procedure.nameEn}
+                            ${slot.procedure.nameEn}
                         </c:if>
                         <c:if test="${language eq 'ru'}">
-                            ${user.procedure.nameRus}
+                            ${slot.procedure.nameRus}
                         </c:if>
                         <c:if test="${language eq 'ua'}">
-                            ${user.procedure.nameUkr}
+                            ${slot.procedure.nameUkr}
                         </c:if>
                     </td>
                 </tr>

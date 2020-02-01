@@ -35,10 +35,11 @@ public class SlotDaoImpl implements SlotDao {
     @Override
     public long getSlotSearchResultCount(long masterId, Status status, long userId, long procedureId,
                                          LocalDate minDate, LocalDate maxDate,
-                                         LocalTime minTime, LocalTime maxTime) {
+                                         LocalTime minTime, LocalTime maxTime,
+                                         boolean feedbackIsPresent) {
         try {
             PreparedStatement statement = getPreparedAllSlotStatement(masterId, status, userId, procedureId, minDate, maxDate,
-                    minTime, maxTime, Integer.MAX_VALUE, 0, true);
+                    minTime, maxTime, feedbackIsPresent, Integer.MAX_VALUE, 0, true);
 
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
@@ -61,13 +62,14 @@ public class SlotDaoImpl implements SlotDao {
     public List<Slot> getAllSlotParameterized(long masterId, Status status, long userId, long procedureId,
                                               LocalDate minDate, LocalDate maxDate,
                                               LocalTime minTime, LocalTime maxTime,
+                                              boolean feedbackIsPresent,
                                               int limit, int offset) {
 
         List<Slot> slots = new ArrayList<>();
 
         try {
             PreparedStatement statement = getPreparedAllSlotStatement(masterId, status, userId, procedureId, minDate, maxDate,
-                    minTime, maxTime, limit, offset, false);
+                    minTime, maxTime, feedbackIsPresent, limit, offset, false);
 
             ResultSet rs = statement.executeQuery();
 
@@ -308,6 +310,7 @@ public class SlotDaoImpl implements SlotDao {
      * @param maxDate      - maximum boundary of searching by date
      * @param minTime      - minimum boundary of searching by time
      * @param maxTime      - maximum boundary of searching by time
+     * @param feedbackIsPresent - does slot has feedback
      * @param limit        - the number of slots returned
      * @param offset       - the number of slots returned
      * @param rowsCounting - defines type of result {@code Statement}.
@@ -319,6 +322,7 @@ public class SlotDaoImpl implements SlotDao {
     private PreparedStatement getPreparedAllSlotStatement(long masterId, Status status, long userId, long procedureId,
                                                           LocalDate minDate, LocalDate maxDate,
                                                           LocalTime minTime, LocalTime maxTime,
+                                                          boolean feedbackIsPresent,
                                                           int limit, int offset, boolean rowsCounting) throws SQLException {
 
         StringBuilder queryBuilder = new StringBuilder();
@@ -328,6 +332,10 @@ public class SlotDaoImpl implements SlotDao {
             queryBuilder.append(DBQueries.ALL_SLOTS_COUNT_QUERY_HEAD_PART);
         } else {
             queryBuilder.append(DBQueries.ALL_SLOTS_QUERY_HEAD_PART);
+        }
+
+        if (feedbackIsPresent){
+            queryBuilder.append(" ").append(DBQueries.ALL_SLOTS_QUERY_FEEDBACK_PART);
         }
 
         if (masterId > 0 || status != null || userId > 0 || procedureId > 0 || minDate != null ||

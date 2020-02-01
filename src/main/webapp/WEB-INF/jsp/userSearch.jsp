@@ -101,30 +101,30 @@
                 <th class="text-center"><fmt:message key="userManagement.findUser.result.phone"/></th>
             </tr>
 
-            <c:forEach var="user" items="${users}">
+            <c:forEach var="slot" items="${users}">
                 <tr>
                     <td>
-                        ${user.id}
+                        ${slot.id}
                     </td>
                     <td>
-                        <c:if test="${user.role eq 'ADMINISTRATOR'}">
+                        <c:if test="${slot.role eq 'ADMINISTRATOR'}">
                             <fmt:message key="userManagement.findUser.role.admin"/>
                         </c:if>
-                        <c:if test="${user.role eq 'MASTER'}">
+                        <c:if test="${slot.role eq 'MASTER'}">
                             <fmt:message key="userManagement.findUser.role.master"/>
                         </c:if>
-                        <c:if test="${user.role eq 'USER'}">
+                        <c:if test="${slot.role eq 'USER'}">
                             <fmt:message key="userManagement.findUser.role.user"/>
                         </c:if>
                     </td>
                     <td>
-                            ${user.firstName} ${user.lastName}
+                            ${slot.firstName} ${slot.lastName}
                     </td>
                     <td>
-                            ${user.email}
+                            ${slot.email}
                     </td>
                     <td>
-                            ${user.phone}
+                            ${slot.phone}
                     </td>
                 </tr>
             </c:forEach>

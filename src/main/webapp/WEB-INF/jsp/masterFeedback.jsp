@@ -42,24 +42,24 @@
                     </tr>
 
 
-                    <c:forEach var="user" items="${slots}">
+                    <c:forEach var="slot" items="${slots}">
                         <tr>
                             <td>
-                                    ${user.slot.date}
+                                    ${slot.slot.date}
                             </td>
                             <td>
                                 <c:if test="${language eq 'en'}">
-                                    ${user.procedure.nameEn}
+                                    ${slot.procedure.nameEn}
                                 </c:if>
                                 <c:if test="${language eq 'ru'}">
-                                    ${user.procedure.nameRus}
+                                    ${slot.procedure.nameRus}
                                 </c:if>
                                 <c:if test="${language eq 'ua'}">
-                                    ${user.procedure.nameUkr}
+                                    ${slot.procedure.nameUkr}
                                 </c:if>
                             </td>
-                            <td>
-                                ${user.feedback.text}
+                            <td style="text-align: left">
+                                ${slot.feedback.text}
                             </td>
                         </tr>
                     </c:forEach>

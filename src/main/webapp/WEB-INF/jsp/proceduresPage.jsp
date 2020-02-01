@@ -41,38 +41,38 @@
                 <th class="text-center"><fmt:message key="procedureManagement.result.description"/></th>
             </tr>
 
-            <c:forEach var="user" items="${procedures}">
+            <c:forEach var="slot" items="${procedures}">
                 <tr>
                         <td>
                             <form action="${contextPath}/admin/procedureManagement/updateProcedure" method="post">
-                                <input type="text" name="procedureId" value="${user.id}" hidden>
+                                <input type="text" name="procedureId" value="${slot.id}" hidden>
                                 <button class="btn brown-button"><fmt:message
                                         key="procedureManagement.result.update"/></button>
                             </form>
                         </td>
                     <td>
                         <c:if test="${language eq 'en'}">
-                            ${user.nameEn}
+                            ${slot.nameEn}
                         </c:if>
                         <c:if test="${language eq 'ru'}">
-                            ${user.nameRus}
+                            ${slot.nameRus}
                         </c:if>
                         <c:if test="${language eq 'ua'}">
-                            ${user.nameUkr}
+                            ${slot.nameUkr}
                         </c:if>
                     </td>
                     <td>
-                            ${user.price}
+                            ${slot.price}
                     </td>
-                    <td>
+                    <td style="text-align: left">
                         <c:if test="${language eq 'en'}">
-                            ${user.descriptionEn}
+                            ${slot.descriptionEn}
                         </c:if>
                         <c:if test="${language eq 'ru'}">
-                            ${user.descriptionRus}
+                            ${slot.descriptionRus}
                         </c:if>
                         <c:if test="${language eq 'ua'}">
-                            ${user.descriptionUkr}
+                            ${slot.descriptionUkr}
                         </c:if>
                     </td>
                 </tr>

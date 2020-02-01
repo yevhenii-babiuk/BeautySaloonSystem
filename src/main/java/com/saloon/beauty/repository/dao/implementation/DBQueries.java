@@ -86,6 +86,7 @@ public class DBQueries {
 
     static final String ALL_SLOTS_COUNT_QUERY_HEAD_PART = "SELECT COUNT(*) FROM `beauty_saloon_system`.`slot` ";
     static final String ALL_SLOTS_QUERY_HEAD_PART = "SELECT * FROM `beauty_saloon_system`.`slot` ";
+    static final String ALL_SLOTS_QUERY_FEEDBACK_PART = "INNER JOIN `beauty_saloon_system`.`feedback`  ON `slot_id`=`feedback`.`slot`";
     static final String ALL_SLOTS_QUERY_MASTER_PART = "`master` = ?";
     static final String ALL_SLOTS_QUERY_STATUS_PART = "`status` = ?";
     static final String ALL_SLOTS_QUERY_PROCEDURE_PART = "`procedure` = ?";
