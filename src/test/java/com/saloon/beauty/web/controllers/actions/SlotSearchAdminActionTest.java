@@ -61,12 +61,12 @@ public class SlotSearchAdminActionTest {
     private SlotSearchAdminAction action;
     private SlotSearchForm form;
 
-    private long TEST_MASTER_ID = 7L;
-    private long TEST_PROCEDURE_ID = 3L;
-    private LocalDate TEST_MIN_DATE = LocalDate.now().minusDays(3);
-    private LocalDate TEST_MAX_DATE = LocalDate.now().plusDays(3);
-    private LocalTime TEST_MIN_TIME = LocalTime.of(10, 30);
-    private LocalTime TEST_MAX_TIME = LocalTime.of(14, 50);
+    private final long TEST_MASTER_ID = 7L;
+    private final long TEST_PROCEDURE_ID = 3L;
+    private final LocalDate TEST_MIN_DATE = LocalDate.now().minusDays(3);
+    private final LocalDate TEST_MAX_DATE = LocalDate.now().plusDays(3);
+    private final LocalTime TEST_MIN_TIME = LocalTime.of(10, 30);
+    private final LocalTime TEST_MAX_TIME = LocalTime.of(14, 50);
 
     @Before
     public void init() {

@@ -5,7 +5,6 @@ import com.saloon.beauty.repository.DaoManagerFactory;
 import com.saloon.beauty.repository.dao.SlotDao;
 import com.saloon.beauty.repository.dao.SlotDtoDao;
 import com.saloon.beauty.repository.dto.SlotDto;
-import com.saloon.beauty.repository.entity.Feedback;
 import com.saloon.beauty.repository.entity.Slot;
 import com.saloon.beauty.repository.entity.Status;
 import org.junit.Before;

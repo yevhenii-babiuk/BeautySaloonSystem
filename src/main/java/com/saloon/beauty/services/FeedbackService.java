@@ -7,9 +7,12 @@ import com.saloon.beauty.repository.entity.*;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service class which has methods bound with Feedback operations
+ * and DAO
+ */
 public class FeedbackService extends Service {
 
     private DaoManagerFactory daoManagerFactory;
@@ -18,6 +21,12 @@ public class FeedbackService extends Service {
         this.daoManagerFactory = daoManagerFactory;
     }
 
+    /**
+     * Adds a feedback to such slot
+     * @param slotId - identifier of slot to adding feedback
+     * @param feedbackText - text of user`s feedback
+     * @return identifier of feedback, that user added
+     */
     public long addFeedbackToSlot(long slotId, String feedbackText) {
 
         DaoManager daoManager = daoManagerFactory.createDaoManager();
@@ -36,7 +45,7 @@ public class FeedbackService extends Service {
     long addFeedbackToSlotCommand(DaoManager manager, Feedback feedback) throws SQLException {
 
         Optional<Slot> slotOptional = manager.getSlotDao().get(feedback.getSlot());
-        Slot slot = null;
+        Slot slot;
 
         if (slotOptional.isPresent()) {
             slot = slotOptional.get();

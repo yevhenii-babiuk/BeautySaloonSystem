@@ -5,7 +5,6 @@ import com.saloon.beauty.repository.entity.User;
 import com.saloon.beauty.services.UserService;
 import com.saloon.beauty.web.controllers.ServletResources;
 import com.saloon.beauty.web.controllers.forms.AddUserForm;
-import com.saloon.beauty.web.controllers.forms.UserRegistrationForm;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +13,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import java.util.Optional;
 

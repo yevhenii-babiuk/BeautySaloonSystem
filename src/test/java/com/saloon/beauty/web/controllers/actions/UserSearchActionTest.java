@@ -51,9 +51,9 @@ public class UserSearchActionTest {
     private UserSearchForm form;
     private UserSearchAction action;
 
-    private String TEST_STRING = "test name";
-    private String TEST_EMAIL = "test email";
-    private String TEST_PHONE = "+38094446862";
+    private final String TEST_STRING = "test name";
+    private final String TEST_EMAIL = "test email";
+    private final String TEST_PHONE = "+38094446862";
 
     @Before
     public void init() {

@@ -1,10 +1,8 @@
 package com.saloon.beauty.web.controllers.actions;
 
-import com.saloon.beauty.repository.entity.Status;
 import com.saloon.beauty.repository.entity.User;
 import com.saloon.beauty.services.SlotService;
 import com.saloon.beauty.web.controllers.ServletResources;
-import com.saloon.beauty.web.controllers.forms.ProcedureIdForm;
 import com.saloon.beauty.web.controllers.forms.SignUpSlotForm;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import java.time.LocalDate;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;

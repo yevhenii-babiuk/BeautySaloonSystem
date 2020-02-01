@@ -30,9 +30,6 @@ public class ErrorLoggingActionTest {
     ServletResources resources;
 
     @Mock
-    Logger log;
-
-    @Mock
     ActionForm form;
 
     private ErrorLoggingAction action;

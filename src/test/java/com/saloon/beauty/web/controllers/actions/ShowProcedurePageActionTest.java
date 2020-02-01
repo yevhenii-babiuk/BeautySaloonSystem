@@ -1,6 +1,5 @@
 package com.saloon.beauty.web.controllers.actions;
 
-import com.saloon.beauty.repository.entity.User;
 import com.saloon.beauty.services.ProcedureService;
 import com.saloon.beauty.web.controllers.PaginationHelper;
 import com.saloon.beauty.web.controllers.ServletResources;
@@ -13,12 +12,10 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import java.util.Collections;
 
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)

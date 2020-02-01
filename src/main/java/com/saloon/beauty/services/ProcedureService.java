@@ -4,14 +4,15 @@ import com.saloon.beauty.repository.DaoManager;
 import com.saloon.beauty.repository.DaoManagerFactory;
 import com.saloon.beauty.repository.dao.ProcedureDao;
 import com.saloon.beauty.repository.entity.Procedure;
-import com.saloon.beauty.repository.entity.Status;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service class which has methods bound with Procedure operations
+ * and DAO
+ */
 public class ProcedureService extends Service {
 
     private DaoManagerFactory daoManagerFactory;
@@ -20,6 +21,17 @@ public class ProcedureService extends Service {
         this.daoManagerFactory = daoManagerFactory;
     }
 
+    /**
+     * Adds new procedure
+     * @param nameUkr - ukrainian name of procedure
+     * @param descriptionUkr - ukrainian description of procedure
+     * @param nameEn - english name of procedure
+     * @param descriptionEn - english description of procedure
+     * @param nameRus - russian name of procedure
+     * @param descriptionRus - russian name of procedure
+     * @param price - procedure`s price
+     * @return identifier of new added procedure
+     */
     public long addNewProcedure(String nameUkr, String descriptionUkr,
                                 String nameEn, String descriptionEn,
                                 String nameRus, String descriptionRus,
@@ -42,6 +54,10 @@ public class ProcedureService extends Service {
         return checkAndCastObjectToLong(executionResult);
     };
 
+    /**
+     * Method that return list of all procedure
+     * @return {@code List} of all procedures
+     */
     public List<Procedure> getAllProcedure(){
         DaoManager daoManager = daoManagerFactory.createDaoManager();
 
@@ -50,6 +66,12 @@ public class ProcedureService extends Service {
         return checkAndCastObjectToList(executionResult);
     }
 
+
+     /**
+     * Method, that returns procedure if such exist by identifier
+     * @param procedureId - identifier of required procedure
+     * @return {@code Optional} of required procedure
+     */
     public Optional<Procedure> getProcedureById(long procedureId){
         DaoManager daoManager = daoManagerFactory.createDaoManager();
 
