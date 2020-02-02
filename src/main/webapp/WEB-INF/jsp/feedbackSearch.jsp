@@ -122,7 +122,7 @@
     <div class="d-flex justify-content-center">
         <h3><fmt:message key="slotSearch.searchResult"/>:</h3>
     </div>
-    <div class="bg-semi-transparent mx-md-5 d-flex justify-content-center"">
+    <div class="bg-semi-transparent mx-md-5 d-flex justify-content-center">
         <table class="table table-hover table-sm">
 
             <tr>
@@ -227,7 +227,7 @@
         </ul>
     </nav>
 </c:if>
-<c:if test="${not empty slots}">
+<c:if test="${empty slots}">
     <div class="d-flex justify-content-center">
         <h3><fmt:message key="noData"/></h3>
     </div>
