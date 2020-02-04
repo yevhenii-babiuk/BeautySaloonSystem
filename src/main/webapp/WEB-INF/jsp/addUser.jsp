@@ -275,7 +275,7 @@
                         </label>
                     </div>
                     <div class="col">
-                        <select class="form-control" id="roleInput" name="role" type="text" value="${form.role}" required>
+                        <select class="custom-select" id="roleInput" name="role" type="text" value="${form.role}" required>
                             <option disabled selected><fmt:message key="userManagement.findUser.chooseRole"/></option>
                             <option value="ADMINISTRATOR"><fmt:message
                                     key="userManagement.findUser.role.admin"/></option>
