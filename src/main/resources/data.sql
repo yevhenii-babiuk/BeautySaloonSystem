@@ -3,11 +3,11 @@ INSERT INTO `beauty_saloon_system`.`user` VALUES
 (1, 'admin_account@gmail.com', '\r�+�R��Y��+�%\06̔K��Z��)�\Z���2ZC���ɵ�c69͊�+��@�d@	oD��9�', '+380501112233', 'Artem', 'Khomchanovskii', 'ADMINISTRATOR'),/*administrator*/
 (2, 'yevhen.shevchenko@gmail.com', 'MƗ�ʵ{�M�pӠ�Sŏ�VȢt{{�f�\"`-��<��!NK�p:��9�\"�P|B�ե', '+380981231234', 'Yevhen', 'Shevchenko', 'MASTER'),/*yevhenMaster*/
 (3, 'yulia_nesterova@gmail.com', '��������8�?�3����v����_�%x�a�X�Z����F�Vʘ�^�n���gОk���ް', '+380985587974', 'Yulia', 'Nesterova', 'MASTER'),/*yulichkaMaestro*/
-(4, 'makarenko.olga@ukr.net', 'Ԛ3ʉ3��+�\nz\'G�hjWa�tNF�i;��T�۝��t���!�3�k��J����������', '+380989874561', 'Olga', 'Makarenko', 'MASTER'), /*password "olichkaPrincess"*/
-(5, 'chudomargo@ukr.net', '��\rAٓ<}�]s|�N��˕MF\'��t;���}5�\'�>��8�u�[��)~�%z�9d�\r>�', '+380635026902', 'Margaryta', 'Chudniv', 'USER'), /*password "sweetpassword"*/
+(4, 'makarenko.olga@ukr.net', 'Ԛ3ʉ3��+�\nz\'G�hjWa�tNF�i;��T�۝��t���!�3�k��J����������', '+380989874561', 'Olga', 'Makarenko', 'MASTER'), /*olichkaPrincess*/
+(5, 'chudomargo@ukr.net', '��\rAٓ<}�]s|�N��˕MF\'��t;���}5�\'�>��8�u�[��)~�%z�9d�\r>�', '+380635026902', 'Margaryta', 'Chudniv', 'USER'), /*sweetpassword*/
 (6, 'Khmarka@ukr.net', ']�3�1�q�9��z��9��=��0�\r����}\\1���c��[`�\\ ��`،W����=��t', '+380994485123', 'Roksolana', 'Khmara', 'USER');/*khmarka*/
 
-INSERT INTO `beauty_saloon_system`.`procedure` VALUE
+INSERT INTO `beauty_saloon_system`.`procedure` VALUES
 (1, 'Manicure', 
 'Manicure is a cosmetic treatment of the hands involving shaping and often painting of the nails, removal of the cuticles, and softening of the skin.', 
 'Манікюр','Манікюр — косметична обробка рук, яка включає в себе ( містить в собі) формування і часте фарбування нігтів, видалення кутикули та пом’якшення шкіри.',
